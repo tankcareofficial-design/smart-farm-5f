@@ -7,6 +7,7 @@
 | ESP32 firmware | `esp32/SmartFarm_ESP32_5F/SmartFarm_ESP32_5F.ino` | `0.8.0-5f-r8.13-rebase-3` |
 | Flutter app | `flutter/` | `0.8.13+136` |
 | Handoff / บริบทโครงการ | `docs/handoff/` | R8.13 Rebase 3 |
+| Roadmap / แผนงาน | `docs/ROADMAP.md` | — |
 
 > Baseline แรกของ repo นี้ = **R8.13 Rebase 3** (import จาก ZIP: ESP32 SHA256 `9e1141e4…18fd9`, Flutter SHA256 `35e0def3…be0e`)
 > เปลี่ยนเพียงอย่างเดียวตอน import: ย้ายโฟลเดอร์ sketch และเปลี่ยนชื่อ `.ino` เป็น `SmartFarm_ESP32_5F` (Arduino ต้องให้ชื่อโฟลเดอร์ตรงกับชื่อ `.ino`) เพื่อไม่ต้องเปลี่ยนชื่อทุกรุ่น
