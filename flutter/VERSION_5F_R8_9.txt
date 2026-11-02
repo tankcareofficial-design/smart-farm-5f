@@ -1,0 +1,3 @@
+Smart Farm Flutter 5F R8.9
+version: 0.8.9+80
+Clock independence + real sensor rule wizard

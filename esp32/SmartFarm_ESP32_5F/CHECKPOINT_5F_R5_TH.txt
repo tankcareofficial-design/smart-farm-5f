@@ -1,0 +1,7 @@
+Smart Farm ESP32 5F R5
+
+- Firmware 0.6.5-5f-r5-provisioning-dashboard
+- /api/device เพิ่ม provisioningConfigured และ provisioningState
+- /api/wifi/connect คืน stationIp และ stationSsid อย่างชัดเจน
+- SoftAP ยังคงเปิดเพื่อให้ตั้งค่าเครือข่ายใหม่ได้
+- Emergency stop/release API คงเดิมและเป็น fail-safe

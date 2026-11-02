@@ -1,0 +1,6 @@
+SmartFarm ESP32 Checkpoint 5F Revision 3
+
+- เวอร์ชันเฟิร์มแวร์: 0.6.3-5f-r3-provisioning-emergency-stop
+- คงระบบปิดฉุกเฉินแบบล็อกถาวรจาก Revision 2
+- คงระบบตั้งค่า Wi-Fi แบบ AP + STA และสแกนเครือข่ายจาก ESP32
+- Revision นี้จับคู่กับ Flutter Checkpoint 5F Revision 3

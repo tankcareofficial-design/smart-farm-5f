@@ -1,0 +1,1995 @@
+{
+  "release": "R8.12 Foundation Sync",
+  "component": "flutter",
+  "fileCount": 331,
+  "totalLines": 25550,
+  "compileStatus": "toolchain unavailable; lexical/source contract checks passed",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 748,
+      "lines": 46,
+      "sha256": "1e725ca8cb4e6c2a19dc889d0cebb497d954f091aba3b08d53df20edd0a98cdb"
+    },
+    {
+      "path": ".metadata",
+      "bytes": 1706,
+      "lines": 46,
+      "sha256": "a57be0833af1b8ce556e945553ca9dfd692e59aa4905575d134214c1f9ae7fcc"
+    },
+    {
+      "path": "ARCHITECTURE_IMPACT_5F_R8_1.md",
+      "bytes": 1167,
+      "lines": 26,
+      "sha256": "f704eb187e8558b9ad72beb568fab24628f5c2a977952180c5f1c73ebfd9dc1f"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 751,
+      "lines": 18,
+      "sha256": "f0ed7f88273a4df852ee89ae4056f41d760fe1fc95e58eae985a60c990219876"
+    },
+    {
+      "path": "CHANGELOG_0.7.4.md",
+      "bytes": 508,
+      "lines": 12,
+      "sha256": "57402c533b2cebaa44339f32eb176df620aa1fe5ce4929319a94879ddf24c93d"
+    },
+    {
+      "path": "CHANGELOG_5E_R1.md",
+      "bytes": 730,
+      "lines": 24,
+      "sha256": "cc0535eeae7b85510cb14db8ea649cdce0c5c8c6a49ece1cb28ab74354d6766b"
+    },
+    {
+      "path": "CHANGELOG_5F.md",
+      "bytes": 716,
+      "lines": 21,
+      "sha256": "95806baa99a06e0464fce94cfe736ad4141991254437eb6959f0084188eea1e1"
+    },
+    {
+      "path": "CHANGELOG_5F_R1.md",
+      "bytes": 714,
+      "lines": 16,
+      "sha256": "6156720f018ce871de036567e8d0a1b4de0bc76c1a7566c9e163c77ef3a90e5c"
+    },
+    {
+      "path": "CHANGELOG_5F_R2.md",
+      "bytes": 903,
+      "lines": 18,
+      "sha256": "6bdabd3610bccaac012d01e2303d5ee10a45ec56430d4720b4e6ab298c7a2b7f"
+    },
+    {
+      "path": "CHANGELOG_5F_R3.md",
+      "bytes": 761,
+      "lines": 17,
+      "sha256": "d9cdae81fd34b0ea4ab94bd3db6583e8ec9fd7471a8a782860537853881047e6"
+    },
+    {
+      "path": "CHANGELOG_5F_R4.md",
+      "bytes": 1525,
+      "lines": 23,
+      "sha256": "4bac8e04ba6cacaf13bd4a8418ad2dd955e1119ec1e3c117e8c95c7522b1ca7e"
+    },
+    {
+      "path": "CHANGELOG_5F_R5.md",
+      "bytes": 1009,
+      "lines": 10,
+      "sha256": "38a83c6d76bb1067ff7f4326199745c5e5b5a4d800f22240239934effd84b11c"
+    },
+    {
+      "path": "CHANGELOG_5F_R6.md",
+      "bytes": 772,
+      "lines": 10,
+      "sha256": "47e97601bce178eafe3757ccd2382ec3bf8ee259a35b32786f1ff01be08fb2ea"
+    },
+    {
+      "path": "CHANGELOG_5F_R7.md",
+      "bytes": 1092,
+      "lines": 18,
+      "sha256": "6cc080dcf0882a504667c18f80be9c68edc5598f6ebaf7de89f626cac1114312"
+    },
+    {
+      "path": "CHANGELOG_5F_R7_HOTFIX_1.md",
+      "bytes": 851,
+      "lines": 11,
+      "sha256": "471fa8f9b05866fe1950193df6ecb330d3f260282f4adb892f9258a454262cd5"
+    },
+    {
+      "path": "CHANGELOG_5F_R8.md",
+      "bytes": 1946,
+      "lines": 27,
+      "sha256": "3646edc909883a25b2b8699ca4e0354382081deb0aa6a143d2724e9e74a34948"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_1.md",
+      "bytes": 1839,
+      "lines": 50,
+      "sha256": "9c474daeb824cf7af963df0db6b7e9b1cdf74185f0b3b4ab41bf2b7da361c6be"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_10_ARCHITECTURE_UPGRADE.md",
+      "bytes": 586,
+      "lines": 11,
+      "sha256": "b0df5607f68a0555c3f608f3d1a9dd078acf3269600b52dced9901223f8216eb"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_10_GLOBAL_CLOCK_HOTFIX.md",
+      "bytes": 605,
+      "lines": 11,
+      "sha256": "2d24abafb21affc47e04560c9b58dfb620fdad74997621950cc6a4c8f86989e2"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_10_GLOBAL_CLOCK_HOTFIX_2.md",
+      "bytes": 270,
+      "lines": 8,
+      "sha256": "e92834bcf5644566f6007f2741452f63b496289a629117c73baccbcfca22e302"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_10_HOTFIX_1.md",
+      "bytes": 312,
+      "lines": 8,
+      "sha256": "c88122d6e62c3106a35f40af0aee64855f36fb788b3fa890d404b0ceb3b01336"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_11_CORE_RECOVERY.md",
+      "bytes": 563,
+      "lines": 10,
+      "sha256": "7c04e52d51ca08e45297e2d43a5fbfab1154f16696250c0cce9f0dd410888e03"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_11_STABILIZATION_1.md",
+      "bytes": 578,
+      "lines": 12,
+      "sha256": "688ea0a5d059aea7bc269a4e75c747ce58dd15fc98b533c9ccb5a4e06437a53b"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_12.md",
+      "bytes": 377,
+      "lines": 9,
+      "sha256": "b87aa0dd6278ece21ed20b2e9446aaa1843d2397274930f27cd12c058d99ba91"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_1_HOTFIX_2.md",
+      "bytes": 563,
+      "lines": 13,
+      "sha256": "51c84df8e05c5ff80672e4b1eab7ba3453f7d466b69a170985c8b47f58de541b"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_2.md",
+      "bytes": 1841,
+      "lines": 37,
+      "sha256": "6a7a94541a4bab023353783b1d1b2ce8448fc8d3debea243fd21f4c881c7a932"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_2_HOTFIX_1.md",
+      "bytes": 1713,
+      "lines": 33,
+      "sha256": "be20b72c28878740c4c9dc71fd1152b7fe39030b4a0dabc040aef5567f3d90da"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_2_HOTFIX_2.md",
+      "bytes": 508,
+      "lines": 10,
+      "sha256": "aea6ec0e1433ce9439115a55e1c90c173790c2a65a03ef85c086ab34ea71fcb4"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_2_HOTFIX_3.md",
+      "bytes": 478,
+      "lines": 10,
+      "sha256": "a84e530120c393b73e87ceaff487df6f2e816c01d442e21337c08d9e23975cd3"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_2_HOTFIX_5.md",
+      "bytes": 453,
+      "lines": 7,
+      "sha256": "0e9de6dcaf7dd929cc744629b2f9e99819a71871f536c3ef6d0e99c1286dc27d"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_3.md",
+      "bytes": 1122,
+      "lines": 19,
+      "sha256": "8342bebc9f122eafbcaadee605f84c53f23a5c2be915d218a5c6faaaedef16ca"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_4.md",
+      "bytes": 494,
+      "lines": 9,
+      "sha256": "9e3564c42fb952dd6043cb3b27ec0d7911c7a9f48ad8a0027cdfd620234038a4"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_5.md",
+      "bytes": 298,
+      "lines": 7,
+      "sha256": "d2a787b28d2b3c57a730d0f811b30563ce2381950391b1cf3e09bc0f0a4aa757"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_6.md",
+      "bytes": 621,
+      "lines": 9,
+      "sha256": "f310aaa1df6e81e36a3436d6a4cf31961c6376c7a6cf1e71345808506fc22316"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_6_HOTFIX_1.md",
+      "bytes": 417,
+      "lines": 11,
+      "sha256": "90b6e0c3868b03477732e5b4992542710ed77d627d9308b4a503bab331ea6c58"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_7.md",
+      "bytes": 617,
+      "lines": 10,
+      "sha256": "628846a04cb562ed0b521e44639aac13119e5799eb0c83b5ced1a66724bfe5f4"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_7_1_ADVANCED.md",
+      "bytes": 438,
+      "lines": 8,
+      "sha256": "709db6ccf262e601462d10cdcd91137a1a614d104f15c87be663a1c647fe978e"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_7_UI_HARDENING_HOTFIX.md",
+      "bytes": 1326,
+      "lines": 25,
+      "sha256": "5376a552ae604474861b19af2036b095b385a3f2f7a509d6d91260671c93c375"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_8.md",
+      "bytes": 586,
+      "lines": 11,
+      "sha256": "66af0ca7ae49d04fbaa88639ec4e2afb6460f36f9c0d2cbb9d41a68c4543c06d"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_8_HOTFIX_1.md",
+      "bytes": 352,
+      "lines": 11,
+      "sha256": "083fecc0e5660efa488e2aa726cd850a52104cd8b2bb539a14d29a3050fd4bb4"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_8_HOTFIX_2.md",
+      "bytes": 855,
+      "lines": 12,
+      "sha256": "6270080a54fa2308b6a40adee99ef18d5f1e19c25389a7b12a90aecb3763ca5e"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_8_HOTFIX_3.md",
+      "bytes": 507,
+      "lines": 9,
+      "sha256": "bb814217402afc7f3ba796a8aa51884d0849fa3703b7fa39131b2226b4cfc4bc"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_9.md",
+      "bytes": 416,
+      "lines": 10,
+      "sha256": "5ff18c7d6cf78fd7d32cd634b9d2b7507b57041751327bccae22e2b4375d8ce9"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_9_HOTFIX_1.md",
+      "bytes": 571,
+      "lines": 13,
+      "sha256": "def6b0042193cab94204c9378fe95cd640044f0c652734c176ad0d3fe1e16fd2"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_9_HOTFIX_2.md",
+      "bytes": 878,
+      "lines": 17,
+      "sha256": "602cbc0595833714b812bc97d0d75aed4a40c44fbd0c48b7dfb7e27958b379d2"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_9_HOTFIX_3.md",
+      "bytes": 416,
+      "lines": 9,
+      "sha256": "01aeeacb0c7153ecb279921aba1acb8237640170589978d94c79c2f1c9582be6"
+    },
+    {
+      "path": "CHANGELOG_5F_R8_HOTFIX_1.md",
+      "bytes": 567,
+      "lines": 17,
+      "sha256": "2addd6eea74fb18876c84ac05fcc38a928457ef4ec5177e205b46923a4b6c219"
+    },
+    {
+      "path": "CHECKPOINT_5E_FINAL_TH.txt",
+      "bytes": 1546,
+      "lines": 19,
+      "sha256": "ba134378a33d486fe1dc494cc2cf203eb4edeb8c7b3dbc2e25d9963ddceb52a0"
+    },
+    {
+      "path": "CHECKPOINT_5F_R4_TEST_TH.txt",
+      "bytes": 1410,
+      "lines": 21,
+      "sha256": "4865d371e4bbe72472a5960bbffe52d34a193c8721a28bafe03b84b3c9ea727d"
+    },
+    {
+      "path": "CHECKPOINT_5F_R5_TEST_TH.txt",
+      "bytes": 1473,
+      "lines": 13,
+      "sha256": "3e278df771bbc12fb00c34c83bbdf0ec7f14484648606adaa00794876327eb9f"
+    },
+    {
+      "path": "CHECKPOINT_5F_R6_TEST_TH.txt",
+      "bytes": 724,
+      "lines": 17,
+      "sha256": "c95e0133969f70bc790b0238b4aa517180f61547b4735d837fb438d48b932a2f"
+    },
+    {
+      "path": "CHECKPOINT_5F_R7_TEST_TH.txt",
+      "bytes": 798,
+      "lines": 15,
+      "sha256": "b14870815d338e4ea934084b3a07ef96abe72d005271549ede272c318dc11ea6"
+    },
+    {
+      "path": "CHECKPOINT_5F_R8_TEST_TH.txt",
+      "bytes": 1078,
+      "lines": 14,
+      "sha256": "a9dd0460abbba4026fd377ea911e7c5c9499471e3cacfa8a6233d47d6703eb16"
+    },
+    {
+      "path": "DASHBOARD_UI_MIGRATION_5F_R8_2.md",
+      "bytes": 1005,
+      "lines": 26,
+      "sha256": "1cddec740408ae6eb16192f8e2d377485dba977d4093fbdaa768ad762cf61278"
+    },
+    {
+      "path": "INSTALL_5F_R1_TH.txt",
+      "bytes": 607,
+      "lines": 16,
+      "sha256": "d28f9c64ec6ad030a6ac2681733459f803260131526d9c14b37a1ea5eea28bb5"
+    },
+    {
+      "path": "README.md",
+      "bytes": 649,
+      "lines": 18,
+      "sha256": "f0f2d8831f04f0ccd94b365a232b78261523c4c86a6798c0ee7a5b4250f37352"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 787,
+      "lines": 22,
+      "sha256": "d70fc691d681870f7b67c3fa54be5b07436c0c2f5fc9cb5b325c001f2e17abc7"
+    },
+    {
+      "path": "README_0.7.6_FIX_SERIAL_TH.txt",
+      "bytes": 1459,
+      "lines": 35,
+      "sha256": "03f5893b21e6009a63a92e60c230aebefb2d43931ae6c0ac96d218e1fd9452bc"
+    },
+    {
+      "path": "RELEASE_0.7.5.md",
+      "bytes": 395,
+      "lines": 14,
+      "sha256": "cfa7ad036807f1946b8d8484760655a779e4bc5e3aa63f295e8a527736b25742"
+    },
+    {
+      "path": "RELEASE_0.7.6.md",
+      "bytes": 725,
+      "lines": 10,
+      "sha256": "c71ea7acc43b6ef8b5f05391ceeb880745815852ebfe2810e704d15da29bdbdd"
+    },
+    {
+      "path": "RELEASE_0.8.0.md",
+      "bytes": 2879,
+      "lines": 61,
+      "sha256": "741963939ad63437589fa352d0b808a32b244377b3d604aa6629bb3df9d27503"
+    },
+    {
+      "path": "SOURCE_AUDIT_R8_11.json",
+      "bytes": 1072,
+      "lines": 47,
+      "sha256": "574e7045d99c81ec9694b93248c89072cc6d8448233bef61ac1ae32bfa8dce8e"
+    },
+    {
+      "path": "SOURCE_AUDIT_R8_11_STABILIZATION_1.json",
+      "bytes": 2501,
+      "lines": 141,
+      "sha256": "0cacd24c760699b484c13f25133a9453b7eb796ed4778ee4fa67d6ee9025f1ca"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_1.md",
+      "bytes": 1324,
+      "lines": 36,
+      "sha256": "f94054d5e12541b3905ceda14fe3e0e57beddcfc6f973e7c3e90a8470a335bd2"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_10.md",
+      "bytes": 365,
+      "lines": 12,
+      "sha256": "f9e8aee8b57e641837e956b9bf00501e84819251f6347de6921ab56f4bf198d1"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_11.md",
+      "bytes": 367,
+      "lines": 10,
+      "sha256": "b0818710d002cf4ebc91f9a89ae4cf1c8be268ff199552c1baa2f63e8c10d53b"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_11_STABILIZATION_1.md",
+      "bytes": 585,
+      "lines": 11,
+      "sha256": "7266e9c7b72bf3b04fe0fa70f829bd8334c13d815a6c4296b535ebbbdc1966ef"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_12.md",
+      "bytes": 618,
+      "lines": 10,
+      "sha256": "fba29f80c896a26c4e981ec8b23ecbd48b33fd9be07bb740ee6add4d79661af3"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_1_HOTFIX_2.md",
+      "bytes": 566,
+      "lines": 12,
+      "sha256": "d8bd566108d4c5f6138b81a29c6775de0c5131432a83159b7e0d3979b02a9db9"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_2.md",
+      "bytes": 1433,
+      "lines": 41,
+      "sha256": "2839ad510bf843bb6ac8016c3d3044e71658f5a4f604444fcac9643810a84c9c"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_1.md",
+      "bytes": 1480,
+      "lines": 32,
+      "sha256": "5f8b2ddb8ed19abca62127444020ea7aec47f98f7eeadaff919409acabf17020"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_2.md",
+      "bytes": 646,
+      "lines": 12,
+      "sha256": "67372c7e14eeab338448e547dcce21fcacf4a50abd1122bf32c2d09d99fca8ed"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_3.md",
+      "bytes": 541,
+      "lines": 11,
+      "sha256": "4ddae43d0f9150c424518b35b3ecba8bed9836fdf08d5fa50d0bdeef0ec307fd"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_3.md",
+      "bytes": 625,
+      "lines": 12,
+      "sha256": "49e33af8151659987687c9b7833c242e8c7735ad75c30e07664031f341bab5bd"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_6.md",
+      "bytes": 716,
+      "lines": 13,
+      "sha256": "4212f4bd25aae4f8553583c899fc87ac17cbb1b39d40417f708ddd98ebbc516d"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_6_HOTFIX_1.md",
+      "bytes": 535,
+      "lines": 24,
+      "sha256": "37ef726306511d4054fa88ec4babbaf02aa6ceb2b3c28b63d868d4346cad11fb"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_7.md",
+      "bytes": 649,
+      "lines": 13,
+      "sha256": "3aa817c5f14d71865425c72cc5d8ff49bc0458adafff6d6f60553648e0a6ce4f"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_7_1_ADVANCED.md",
+      "bytes": 375,
+      "lines": 9,
+      "sha256": "3605793affcddbb3b681f86f3262e6a7a7f7ee2cffc306eb2572393009616614"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_7_UI_HARDENING_HOTFIX.md",
+      "bytes": 1101,
+      "lines": 30,
+      "sha256": "316c7e3f2590d1197df945a8be5c0532142c39277155ca1d5b51c2228defc00f"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_8.md",
+      "bytes": 593,
+      "lines": 14,
+      "sha256": "c92ccfa73830134e67f714bafcf19fb2009af93c209da949e6d9b737a1be7bf8"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_8_HOTFIX_1.md",
+      "bytes": 452,
+      "lines": 19,
+      "sha256": "8a76ef145ce7b65137435bac03f94221eea5001cbe9ff467913d34198588f9b4"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_8_HOTFIX_2.md",
+      "bytes": 855,
+      "lines": 14,
+      "sha256": "ae09284675f48f9c5bc00f4c1da688ec1056748f8e726de9848f040ffa0b6dd0"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_9.md",
+      "bytes": 450,
+      "lines": 9,
+      "sha256": "fe59307cbf6d85ed0e19671770fc18c2aaacb9b0964c31e26f4bbe21cf460cae"
+    },
+    {
+      "path": "TEST_CHECKLIST_5F_R8_HOTFIX_1.md",
+      "bytes": 643,
+      "lines": 12,
+      "sha256": "54fec43d6a1030f3f3a52c4466797949f28ad2c7ca5699410dc861cc47f2c594"
+    },
+    {
+      "path": "V0.8_CHECKLIST.md",
+      "bytes": 2837,
+      "lines": 63,
+      "sha256": "e65e6911a8a4c5da61bb56027371736cbaa14428744634fa981117421828ecc8"
+    },
+    {
+      "path": "VERSION_5F_R8_1.txt",
+      "bytes": 185,
+      "lines": 8,
+      "sha256": "7791e1d187d5f550d7a553087f6216ce2e646a545f7d493b8a86d954817635f5"
+    },
+    {
+      "path": "VERSION_5F_R8_11.txt",
+      "bytes": 115,
+      "lines": 4,
+      "sha256": "42224bb35d206856f6a34bb3b166d1dbc863fa484906943d3e21b1d0393955c8"
+    },
+    {
+      "path": "VERSION_5F_R8_12.txt",
+      "bytes": 50,
+      "lines": 3,
+      "sha256": "db95297e36c918705433ec1b7bc6978c563f0cde92dc2c8fc31beb96d6c7f4ab"
+    },
+    {
+      "path": "VERSION_5F_R8_1_HOTFIX_2.txt",
+      "bytes": 65,
+      "lines": 5,
+      "sha256": "c73d4754449f5e8abaa271a2d12d13a8672c414a92aa26d0d637b7ea83227e72"
+    },
+    {
+      "path": "VERSION_5F_R8_2.txt",
+      "bytes": 160,
+      "lines": 7,
+      "sha256": "0568a00809edf3f4cdd1673f550ac3221ab8d652e0a1b1e89b401d9500baf26f"
+    },
+    {
+      "path": "VERSION_5F_R8_2_HOTFIX_1.txt",
+      "bytes": 203,
+      "lines": 7,
+      "sha256": "09b063ddb8f6c255271a05c633a83642cb4e1d2b3f30d158b95abf64099444ea"
+    },
+    {
+      "path": "VERSION_5F_R8_2_HOTFIX_2.txt",
+      "bytes": 165,
+      "lines": 8,
+      "sha256": "6db2a24e29d6d2fc3d6c774db3ce3482dbf8d7104d82d12eed5166e76f477100"
+    },
+    {
+      "path": "VERSION_5F_R8_2_HOTFIX_3.txt",
+      "bytes": 100,
+      "lines": 5,
+      "sha256": "dbb62952db478d942dccb6deb964bb57b996f80eb9abcede63665bdd67a3be38"
+    },
+    {
+      "path": "VERSION_5F_R8_2_HOTFIX_5.txt",
+      "bytes": 116,
+      "lines": 5,
+      "sha256": "d35efb5f0d6bd6a830edcc90992ff199ab04817a4f8fac1c1d042a8ea93b5aae"
+    },
+    {
+      "path": "VERSION_5F_R8_3.txt",
+      "bytes": 151,
+      "lines": 7,
+      "sha256": "f652e6e47a2229aa9ac1267fd2ebf3e2de870b4da36f7f6a825966bd72e27f97"
+    },
+    {
+      "path": "VERSION_5F_R8_4.txt",
+      "bytes": 112,
+      "lines": 5,
+      "sha256": "d7092964989765cd8a17e61f97218e7451b9dac954bc760cfe9c69d3c9c7921f"
+    },
+    {
+      "path": "VERSION_5F_R8_6.txt",
+      "bytes": 525,
+      "lines": 8,
+      "sha256": "3280f42b85477623b8ce4372cf445931b19cf44344ced45529926a4871e2dd68"
+    },
+    {
+      "path": "VERSION_5F_R8_6_HOTFIX_1.txt",
+      "bytes": 343,
+      "lines": 11,
+      "sha256": "80d6fcb59cca2056b0f3355d016609416e07a572dc29fc09362a7085274d0d91"
+    },
+    {
+      "path": "VERSION_5F_R8_7.txt",
+      "bytes": 66,
+      "lines": 3,
+      "sha256": "ab394c11acadc5fff7b793cb72f2876ca9ed0cd5c79a67bf00e429a95a946d33"
+    },
+    {
+      "path": "VERSION_5F_R8_7_1_ADVANCED.txt",
+      "bytes": 116,
+      "lines": 4,
+      "sha256": "8690ca04feda0b5a5310bacd3f97cc3ce6b7d9591a81a6ab710eec93ff792ade"
+    },
+    {
+      "path": "VERSION_5F_R8_7_UI_HARDENING_HOTFIX.txt",
+      "bytes": 123,
+      "lines": 6,
+      "sha256": "593f889d74d42c6105093d08400de46b9343604e0a17e2e79f8788267d324c18"
+    },
+    {
+      "path": "VERSION_5F_R8_8.txt",
+      "bytes": 78,
+      "lines": 4,
+      "sha256": "63a2b405b5efdd82019de8fb5ea2371c7e7175d7f1115e3132f33ee5b506bcea"
+    },
+    {
+      "path": "VERSION_5F_R8_8_HOTFIX_1.txt",
+      "bytes": 92,
+      "lines": 4,
+      "sha256": "adf95eb683afba6e36f959e04cb64df8543ccb0854c934f59d33d1d50bc2bbc7"
+    },
+    {
+      "path": "VERSION_5F_R8_8_HOTFIX_2.txt",
+      "bytes": 62,
+      "lines": 3,
+      "sha256": "222ea1669d8b19bd11d83f57097b8be60828aac196ab711f7dfc6bfb6f2a1f11"
+    },
+    {
+      "path": "VERSION_5F_R8_8_HOTFIX_3.txt",
+      "bytes": 52,
+      "lines": 3,
+      "sha256": "7a2dac8e63a80588339de3214c2462aa9dc2dcbb7ac8cd57a1859652b61b2648"
+    },
+    {
+      "path": "VERSION_5F_R8_9.txt",
+      "bytes": 90,
+      "lines": 4,
+      "sha256": "5d97475752ee46ce1ba3edce569d8239e8100ad8f49bd1202753a816871818d9"
+    },
+    {
+      "path": "VERSION_5F_R8_9_HOTFIX_1.txt",
+      "bytes": 70,
+      "lines": 3,
+      "sha256": "c64d82c4f6abfddcfe1cb192f8bef6fed336689efbde1378ac881fc2980fa311"
+    },
+    {
+      "path": "VERSION_5F_R8_9_HOTFIX_2.txt",
+      "bytes": 373,
+      "lines": 9,
+      "sha256": "0616ea2fe20bb692b704361f20becffadb02f5c1ea8f7aa43bfff37489291c36"
+    },
+    {
+      "path": "VERSION_5F_R8_HOTFIX_1.txt",
+      "bytes": 89,
+      "lines": 5,
+      "sha256": "cecfc254c2cb58416a806a1750e63369dbb9db68299e41e200f609833955a0bc"
+    },
+    {
+      "path": "analysis_options.yaml",
+      "bytes": 1448,
+      "lines": 29,
+      "sha256": "b63207cf529949ec4727b68c23dbb38ce255b6f6f4ae1effcb5c1dcf2852d238"
+    },
+    {
+      "path": "android/.gitignore",
+      "bytes": 267,
+      "lines": 15,
+      "sha256": "c9af75dbc2c8aa867476a09426c80b178c4aeed8b9393ae48503eedfa3273d71"
+    },
+    {
+      "path": "android/app/build.gradle.kts",
+      "bytes": 1376,
+      "lines": 46,
+      "sha256": "0f5d5cedbbf3423ef1f05480f8b07db3ea1dd33de87f00db357d3c96046c7fbc"
+    },
+    {
+      "path": "android/app/src/debug/AndroidManifest.xml",
+      "bytes": 385,
+      "lines": 8,
+      "sha256": "b01a4541a8144c15bc617bab7eb267c99fa1476368fbbda5a12cdbf4e316a34c"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "bytes": 2391,
+      "lines": 49,
+      "sha256": "6fc8af8a33365191f7a72ce2e5c01eb7a0ba2485a70b7f19a1ba7485f81e1631"
+    },
+    {
+      "path": "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java",
+      "bytes": 804,
+      "lines": 25,
+      "sha256": "ac951e151f6be1ffef2ab1800ecd1e5b9a288a2aa95242aa0c9ddd0821a00a72"
+    },
+    {
+      "path": "android/app/src/main/kotlin/com/example/smart_farm/MainActivity.kt",
+      "bytes": 129,
+      "lines": 6,
+      "sha256": "4708da23c58416e591ea138b8e5ed52bc66144f0622c6f1dc0f85d0b1ea28f32"
+    },
+    {
+      "path": "android/app/src/main/res/drawable/launch_background.xml",
+      "bytes": 446,
+      "lines": 13,
+      "sha256": "2df60e2cfbee873ce2858088cf003e6b93498f2f568476da437610467ea1a9d7"
+    },
+    {
+      "path": "android/app/src/main/res/drawable-v21/launch_background.xml",
+      "bytes": 450,
+      "lines": 13,
+      "sha256": "dca312ec77de83e43ef70a825c299b51451247286c29167d62f19165750b8793"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "bytes": 544,
+      "lines": 4,
+      "sha256": "6a7c8f0d703e3682108f9662f813302236240d3f8f638bb391e32bfb96055fef"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-hdpi/launcher_icon.png",
+      "bytes": 7009,
+      "lines": 38,
+      "sha256": "e07363ddfc3b06b36751a393bd3f1fd775e44911e627e7843aecfa9aac393625"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "bytes": 442,
+      "lines": 4,
+      "sha256": "c7c0c0189145e4e32a401c61c9bdc615754b0264e7afae24e834bb81049eaf81"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-mdpi/launcher_icon.png",
+      "bytes": 3820,
+      "lines": 14,
+      "sha256": "3dbb8a95661071f1491437cf7ced05143686ee75819c8017deb185d03ebb0ee3"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "bytes": 721,
+      "lines": 4,
+      "sha256": "e14aa40904929bf313fded22cf7e7ffcbf1d1aac4263b5ef1be8bfce650397aa"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xhdpi/launcher_icon.png",
+      "bytes": 12478,
+      "lines": 42,
+      "sha256": "db96b2a8ec1dfefabb6dbe33872d2ac689d783b1d76f04a8209e6970c7006427"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "bytes": 1031,
+      "lines": 7,
+      "sha256": "4d470bf22d5c17d84edc5f82516d1ba8a1c09559cd761cefb792f86d9f52b540"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png",
+      "bytes": 21736,
+      "lines": 86,
+      "sha256": "ca3c1a02347e2c0fd0588bb86d35bbe04498891ca474d3cf0bf01ed6c1aab87c"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "bytes": 1443,
+      "lines": 11,
+      "sha256": "3c34e1f298d0c9ea3455d46db6b7759c8211a49e9ec6e44b635fc5c87dfb4180"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png",
+      "bytes": 35927,
+      "lines": 126,
+      "sha256": "0059ed870375879b86e3eb8cab013c270863bf80b59e7c3699a4a4c5006f612b"
+    },
+    {
+      "path": "android/app/src/main/res/values/styles.xml",
+      "bytes": 1014,
+      "lines": 19,
+      "sha256": "cca15a99b59380a548bf6a890f7ca5380ee509b1f9bbb2f5f9ec3589fa25c2f7"
+    },
+    {
+      "path": "android/app/src/main/res/values-night/styles.xml",
+      "bytes": 1013,
+      "lines": 19,
+      "sha256": "ea763597dc1a84c8034251caee98d7753e0fbf57340ffc94677427de4b537516"
+    },
+    {
+      "path": "android/app/src/profile/AndroidManifest.xml",
+      "bytes": 385,
+      "lines": 8,
+      "sha256": "b01a4541a8144c15bc617bab7eb267c99fa1476368fbbda5a12cdbf4e316a34c"
+    },
+    {
+      "path": "android/build.gradle.kts",
+      "bytes": 561,
+      "lines": 25,
+      "sha256": "218f400e3fff31c9c986a2535dfb974560e1b4d33cc27b7c1fee96a2b7e44454"
+    },
+    {
+      "path": "android/gradle/wrapper/gradle-wrapper.jar",
+      "bytes": 53636,
+      "lines": 360,
+      "sha256": "16caeaf66d57a0d1d2087fef6a97efa62de8da69afa5b908f40db35afc4342da"
+    },
+    {
+      "path": "android/gradle/wrapper/gradle-wrapper.properties",
+      "bytes": 207,
+      "lines": 6,
+      "sha256": "670071e5c2e25f86f82bc9db52f5d8d7c8f7b1788686a9d4c967753c69d9a2b4"
+    },
+    {
+      "path": "android/gradle.properties",
+      "bytes": 306,
+      "lines": 7,
+      "sha256": "7714698de712a7872e371f0dbae626c255fc83ac1c15e52e7cd9fcaa241b5092"
+    },
+    {
+      "path": "android/gradlew",
+      "bytes": 4971,
+      "lines": 161,
+      "sha256": "ec56c02543666d92d9ac5ae7fcc48f88ce4de0deb8b7f9b39928ca46f68c1b2b"
+    },
+    {
+      "path": "android/gradlew.bat",
+      "bytes": 2404,
+      "lines": 91,
+      "sha256": "c13c6e91b9a517783976de213d46398c661ea9e17651376d7301e839eaedcc62"
+    },
+    {
+      "path": "android/local.properties",
+      "bytes": 157,
+      "lines": 5,
+      "sha256": "d81096268199cea8b606e5760a98cc65909115998cb5dd629149592a9ce9deb6"
+    },
+    {
+      "path": "android/settings.gradle.kts",
+      "bytes": 797,
+      "lines": 27,
+      "sha256": "d6b16579d5f6a6066cc22323c4e34adb82020f7b75378bffed7f0358bc949ce3"
+    },
+    {
+      "path": "android/smart_farm_android.iml",
+      "bytes": 1630,
+      "lines": 30,
+      "sha256": "c8e0091edeca4e766e9dcf948e59c86a0427381fb5e31768ae396eedde5f1dfc"
+    },
+    {
+      "path": "assets/icon/app_icon.png",
+      "bytes": 347829,
+      "lines": 878,
+      "sha256": "140130641e0a872d09807681951fd04f51901ffa00d0f37c4f2e0a87445c373a"
+    },
+    {
+      "path": "ios/.gitignore",
+      "bytes": 603,
+      "lines": 35,
+      "sha256": "e85b4db8ba6ed14708e5f7d3c60336e5a3067ce11329b84aa8ba5d98603ee253"
+    },
+    {
+      "path": "ios/Flutter/AppFrameworkInfo.plist",
+      "bytes": 744,
+      "lines": 25,
+      "sha256": "e51cfa76fca1ae586244b43bf97423577315d2906394c1e7768ef43b8d23e161"
+    },
+    {
+      "path": "ios/Flutter/Debug.xcconfig",
+      "bytes": 31,
+      "lines": 2,
+      "sha256": "c0d1da54718e75f2028962b689258ecc741abf7cdaed50483aa5225264d0a7d7"
+    },
+    {
+      "path": "ios/Flutter/Generated.xcconfig",
+      "bytes": 612,
+      "lines": 16,
+      "sha256": "36511595981845a243d730495ca674c3ac8c275a07e919fe4521409ce8ec8132"
+    },
+    {
+      "path": "ios/Flutter/Release.xcconfig",
+      "bytes": 31,
+      "lines": 2,
+      "sha256": "c0d1da54718e75f2028962b689258ecc741abf7cdaed50483aa5225264d0a7d7"
+    },
+    {
+      "path": "ios/Flutter/flutter_export_environment.sh",
+      "bytes": 651,
+      "lines": 15,
+      "sha256": "2a183d590080cb068e11eba40a5d0d0a1f1854b7541a8a1eefab51f02549124d"
+    },
+    {
+      "path": "ios/Runner/AppDelegate.swift",
+      "bytes": 555,
+      "lines": 17,
+      "sha256": "54a5e98d6c3e8a79413ad50607b83aac8ded8828bc913eda1fe86bb33a66cd5d"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "bytes": 2097,
+      "lines": 1,
+      "sha256": "59aee64f32dab46ad775da6ea2f3fc4efe6e8a78289a9185cd0d2d7e055845dd"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "bytes": 400632,
+      "lines": 1599,
+      "sha256": "41c0e08717edc82bb908b0399bb41259e9705ae76ba9cc5ac605d549fd6377b4"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "bytes": 907,
+      "lines": 4,
+      "sha256": "562f461295a1508697fa7b64349442ef2a0623c6c92ee54a3de6a41b17565bc1"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "bytes": 2556,
+      "lines": 21,
+      "sha256": "b9d5640a5033b5703206ec2ecb98ce8f46acc9b4b96395f5fa6ecce3be509cb4"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "bytes": 4785,
+      "lines": 22,
+      "sha256": "e6db535a9eb20977b885c6a948ce2d02ae2a438c2c69fca9005ed458f62a903b"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "bytes": 1541,
+      "lines": 7,
+      "sha256": "f647f6de9934c25461448e91c4ee6ee9baefb434cad1049b85e329bbd30b347a"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "bytes": 4484,
+      "lines": 14,
+      "sha256": "eb54361acf07bbcc1ed5b1d709f3166adfe616abbb6ccf051530a05f50dd6ea3"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "bytes": 8599,
+      "lines": 32,
+      "sha256": "39a6e9930250b421d6cf77f41c90890d08add2765735414c7c0b731af9522ce6"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "bytes": 2556,
+      "lines": 21,
+      "sha256": "b9d5640a5033b5703206ec2ecb98ce8f46acc9b4b96395f5fa6ecce3be509cb4"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "bytes": 7524,
+      "lines": 39,
+      "sha256": "c871a5a9f23123a79fecdda89d9404357f897051ead695132c1bd7c77912443d"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "bytes": 14427,
+      "lines": 71,
+      "sha256": "6fe1340689fadda9a6847ce2d50aa1a7eb96ca3467f4ee1aca401e061f745b10"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png",
+      "bytes": 3586,
+      "lines": 14,
+      "sha256": "6bd073b39118086fd144f5cb7d6ca52e8fb25fdeb4bbfda572c1e7a045704a65"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png",
+      "bytes": 10695,
+      "lines": 47,
+      "sha256": "9ad0033df36ce76916cba5ce1e14139c1c9d891bb6328ebef468a45644ad4a72"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png",
+      "bytes": 4432,
+      "lines": 13,
+      "sha256": "31ef48a0d50f25595bbe1432e584bf3e29c5c10ff4e4ac523c69b86a761be532"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png",
+      "bytes": 13206,
+      "lines": 70,
+      "sha256": "2c5dcf914a7bdb911579e94408adf28f665891e2c3cb24cef6e43a2e2916a3ef"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "bytes": 14427,
+      "lines": 71,
+      "sha256": "6fe1340689fadda9a6847ce2d50aa1a7eb96ca3467f4ee1aca401e061f745b10"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "bytes": 28623,
+      "lines": 119,
+      "sha256": "e2438a2020ba89c18232b034efc1b434f2fb1bfdb389b0df82f5d7cdaa34dfc5"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png",
+      "bytes": 6360,
+      "lines": 24,
+      "sha256": "0312b68d830d3f9b17f5829d739ba5fc1c0aad046184a099de03a96337a8af99"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png",
+      "bytes": 19493,
+      "lines": 69,
+      "sha256": "ec40c5667ae69b31bf0a71400652a28e81eb882f9faf2f3a95c37d4bf122999c"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "bytes": 6907,
+      "lines": 28,
+      "sha256": "22e54ddf42b24d98526027b66fb2a94a70e23724101c8b00f84bef129dc5098a"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "bytes": 21454,
+      "lines": 69,
+      "sha256": "f5ef80aedc4ee9fc6166cf6a8261f799f863b3dc0d3c28cd8f05ea21faf49408"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "bytes": 25095,
+      "lines": 99,
+      "sha256": "58c6932ea11b0a86645f7c0b20128612ee5caf61411230f79e58bc74b4073cbd"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+      "bytes": 414,
+      "lines": 24,
+      "sha256": "fbd112a9f3b541a1d811f71ac8e4fe68b6176687d973a5f4d99b7aa4a722e94e"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+      "bytes": 68,
+      "lines": 3,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+      "bytes": 68,
+      "lines": 3,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+      "bytes": 68,
+      "lines": 3,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+      "bytes": 340,
+      "lines": 5,
+      "sha256": "853ac958e2416fe2540f6f61165283a3618b71a7ba5f85f65ac41c2158dfcd21"
+    },
+    {
+      "path": "ios/Runner/Base.lproj/LaunchScreen.storyboard",
+      "bytes": 2414,
+      "lines": 38,
+      "sha256": "bc3644fbb251ff1e18de25a4932c927850ae1a025be3dd1447940429633fe4b2"
+    },
+    {
+      "path": "ios/Runner/Base.lproj/Main.storyboard",
+      "bytes": 1631,
+      "lines": 27,
+      "sha256": "dcea4686c02065e56217fd19fcfb73d7509b41872e7486126149d47a18559363"
+    },
+    {
+      "path": "ios/Runner/GeneratedPluginRegistrant.h",
+      "bytes": 378,
+      "lines": 20,
+      "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+    },
+    {
+      "path": "ios/Runner/GeneratedPluginRegistrant.m",
+      "bytes": 529,
+      "lines": 22,
+      "sha256": "dd6f3d4015210b4a1112cd3a1e798b2ce3c1d4e260336edb8bd0ec2a24368244"
+    },
+    {
+      "path": "ios/Runner/Info.plist",
+      "bytes": 2288,
+      "lines": 71,
+      "sha256": "93ef83910a9c1d6e75184b469b5e1ded0f55e695d2bc1457606be9610736850e"
+    },
+    {
+      "path": "ios/Runner/Runner-Bridging-Header.h",
+      "bytes": 39,
+      "lines": 2,
+      "sha256": "efe657d8b27f7f8595a0d416bffb33fe7d93bd2869d81f7353b556c439d7a1a7"
+    },
+    {
+      "path": "ios/Runner/SceneDelegate.swift",
+      "bytes": 82,
+      "lines": 7,
+      "sha256": "edce811c671ca0a6ccb14753e14e16deb0d89a0adf4f1b685e362d87d8f4c366"
+    },
+    {
+      "path": "ios/Runner.xcodeproj/project.pbxproj",
+      "bytes": 25622,
+      "lines": 645,
+      "sha256": "0c569504a2e81536e0dbf0ca9950cd211cb3d3ce80bd688c8ac048289369700f"
+    },
+    {
+      "path": "ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "bytes": 142,
+      "lines": 8,
+      "sha256": "ac28b35c2b940210bec0fff8e424b07fd0efe9112ab178a10533583f251a386c"
+    },
+    {
+      "path": "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 246,
+      "lines": 9,
+      "sha256": "d557c2c32fc6258ec28981fa45dc847b76c9968beb90a2e26d13ef9c4ea45c30"
+    },
+    {
+      "path": "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "bytes": 234,
+      "lines": 9,
+      "sha256": "dd64c0308ab2971c456871b990b24a008bdc3ece09833e8dbe9675e33a496e74"
+    },
+    {
+      "path": "ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "bytes": 4836,
+      "lines": 120,
+      "sha256": "a46c0d064503db8bf9f452b492c61fdf76f9febb8894005fe30b2facec21e550"
+    },
+    {
+      "path": "ios/Runner.xcworkspace/contents.xcworkspacedata",
+      "bytes": 159,
+      "lines": 8,
+      "sha256": "706a4c812f2a1e220e6785c27580020d58048e2ae4d30d1280f3c43344ce6b38"
+    },
+    {
+      "path": "ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 246,
+      "lines": 9,
+      "sha256": "d557c2c32fc6258ec28981fa45dc847b76c9968beb90a2e26d13ef9c4ea45c30"
+    },
+    {
+      "path": "ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "bytes": 234,
+      "lines": 9,
+      "sha256": "dd64c0308ab2971c456871b990b24a008bdc3ece09833e8dbe9675e33a496e74"
+    },
+    {
+      "path": "ios/RunnerTests/RunnerTests.swift",
+      "bytes": 297,
+      "lines": 13,
+      "sha256": "c0e04141287eb7f9c9f3d31cf5be8cb626a9ea71351206c9121578e8b8f480c3"
+    },
+    {
+      "path": "lib/controllers/farm_controller.dart",
+      "bytes": 2302,
+      "lines": 88,
+      "sha256": "c0422ae31272a5686c1b9e74bddef950002b526dcb3820ca9e8c4262609306fb"
+    },
+    {
+      "path": "lib/controllers/smart_farm_controller.dart",
+      "bytes": 26879,
+      "lines": 874,
+      "sha256": "7032af2e10f40ebe2d92717d0d76fc3c1ee3ef8ef6f64c31324c788d819a4251"
+    },
+    {
+      "path": "lib/core/app_info.dart",
+      "bytes": 295,
+      "lines": 10,
+      "sha256": "4cc441800cfe671d803a77a7b540a2a355fc6e9b2c74333de458d46d4bd3fe88"
+    },
+    {
+      "path": "lib/core/localization/app_localizations.dart",
+      "bytes": 1190,
+      "lines": 44,
+      "sha256": "59b62d095d436e5cd56861243561490c9a3a8897c79bb1160f487de2548fabb1"
+    },
+    {
+      "path": "lib/core/theme/sf_animation.dart",
+      "bytes": 540,
+      "lines": 15,
+      "sha256": "ecc154c770562aaa72e548c92bc97e3c6eacf3f9143dfbaba636c63a17c7f8ae"
+    },
+    {
+      "path": "lib/core/theme/sf_colors.dart",
+      "bytes": 1148,
+      "lines": 34,
+      "sha256": "38d8c0dc12c13b93c2ffaac3386c87613700bb795f39a59ea0a3489fc0927d4d"
+    },
+    {
+      "path": "lib/core/theme/sf_radius.dart",
+      "bytes": 793,
+      "lines": 30,
+      "sha256": "1d30c6ad333c6e21ba86429dea92716b7ec24e87047e4af41eeec2491f5d522e"
+    },
+    {
+      "path": "lib/core/theme/sf_spacing.dart",
+      "bytes": 1175,
+      "lines": 33,
+      "sha256": "396a394373cc898280902e2b0059923645cce47e52a7643d561e580997891a02"
+    },
+    {
+      "path": "lib/core/theme/sf_text_styles.dart",
+      "bytes": 1072,
+      "lines": 54,
+      "sha256": "2b69153f30bd91a0ec433e85e7b60fb6bd6c8da2e8302cee0ae9ec27edb74aa4"
+    },
+    {
+      "path": "lib/core/theme/sf_theme.dart",
+      "bytes": 8780,
+      "lines": 259,
+      "sha256": "c343bdc30f08afa0d7464ba0ea3b48071ade669237f84b026730d8dcf5cd64df"
+    },
+    {
+      "path": "lib/core/widgets/sf_card.dart",
+      "bytes": 1532,
+      "lines": 61,
+      "sha256": "18b78ba0c319502101ee52460dea88d433961e30e9af51dadbddd8a9421cd24f"
+    },
+    {
+      "path": "lib/core/widgets/sf_primary_button.dart",
+      "bytes": 904,
+      "lines": 41,
+      "sha256": "04d4664c6f570646f154cfc87ba11ca1c3dcde0e54823aff0a367eae2439e239"
+    },
+    {
+      "path": "lib/core/widgets/sf_status_badge.dart",
+      "bytes": 2123,
+      "lines": 78,
+      "sha256": "d8e41949b477a0517d12a4030ac51e7ff3b795a2967a79f0dba7c9f63a4ce202"
+    },
+    {
+      "path": "lib/data/esp32_data_source.dart",
+      "bytes": 1,
+      "lines": 2,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "lib/data/simulation_data_source.dart",
+      "bytes": 1082,
+      "lines": 46,
+      "sha256": "7def27e22a9a751216ddc75b6378fe9c7eef4c187e6f176efa4fe2794d286ce0"
+    },
+    {
+      "path": "lib/data/system_data_source.dart",
+      "bytes": 251,
+      "lines": 12,
+      "sha256": "6f868c9e3e12e1a2ba0617de7ddc8cf166cce77c545a0fb4f2c519a132115660"
+    },
+    {
+      "path": "lib/main.dart",
+      "bytes": 1690,
+      "lines": 55,
+      "sha256": "ecc3f18f0849eaa2e25fdf0621e4f93b6c1fdb8756417eea93cacee0959042b5"
+    },
+    {
+      "path": "lib/models/accessory_manifest.dart",
+      "bytes": 3481,
+      "lines": 121,
+      "sha256": "b79bc48e41d35e46d16560bbfbb10404bb732572bd8c1ccbd0aef0e3af4270a3"
+    },
+    {
+      "path": "lib/models/app_settings.dart",
+      "bytes": 2746,
+      "lines": 83,
+      "sha256": "3290e6451c199b40e423590417e7114d408dbc01c7215490cf27a9dca79b414b"
+    },
+    {
+      "path": "lib/models/automation_rule.dart",
+      "bytes": 6019,
+      "lines": 192,
+      "sha256": "568d61b68773c71a302a3a7959c8dd8247851dc4e7820d82a6c840a83443d80d"
+    },
+    {
+      "path": "lib/models/controller_candidate.dart",
+      "bytes": 935,
+      "lines": 40,
+      "sha256": "e1292c351b06925089dfcf78790fdd528aa7cccb6d199b15b8b41190d6f22735"
+    },
+    {
+      "path": "lib/models/controller_identity.dart",
+      "bytes": 1542,
+      "lines": 48,
+      "sha256": "07898cfc7431558166e84b7fb533916cc63ee4ce7b686def7a0b9f3c2a57323c"
+    },
+    {
+      "path": "lib/models/controller_snapshot.dart",
+      "bytes": 1726,
+      "lines": 54,
+      "sha256": "d039cd90047e0edab328bb2cfb6a5965bf291d56c94dfd9fb868b2e34546fd93"
+    },
+    {
+      "path": "lib/models/device_runtime_state.dart",
+      "bytes": 1365,
+      "lines": 40,
+      "sha256": "38605f2e45a74bfd14b206ce1a23b42c00104567884c25266f555aad6dfc44f9"
+    },
+    {
+      "path": "lib/models/farm_event.dart",
+      "bytes": 312,
+      "lines": 16,
+      "sha256": "7d1d4f878f94cb7a6f1660807d8adf2f26de67a2900328f288051ac893e65c00"
+    },
+    {
+      "path": "lib/models/farm_state.dart",
+      "bytes": 11651,
+      "lines": 359,
+      "sha256": "a75031f0878993292883550690fdebba7e015189d8f7d370e0eb11d66ad5ae68"
+    },
+    {
+      "path": "lib/models/output_device.dart",
+      "bytes": 8409,
+      "lines": 256,
+      "sha256": "2b40b97213d992ca964321f3e3ada01e795ca7f9366ec94281146365bd935c18"
+    },
+    {
+      "path": "lib/models/relay_device.dart",
+      "bytes": 816,
+      "lines": 39,
+      "sha256": "2838b5ee765c2ef45a8c2196f3837efba1a960f549c75aea6d278598bcd2eef4"
+    },
+    {
+      "path": "lib/models/sensor_config.dart",
+      "bytes": 4674,
+      "lines": 149,
+      "sha256": "53a0008bbb18536eb4c290086484a1760893ef76e26e65f12b174e28be7a3f75"
+    },
+    {
+      "path": "lib/models/sensor_data.dart",
+      "bytes": 1062,
+      "lines": 40,
+      "sha256": "2f39547afd8f7b8e43d02b8340b0fca2c640b91c3364bf45fd723935b46ae3c5"
+    },
+    {
+      "path": "lib/models/sensor_model.dart",
+      "bytes": 907,
+      "lines": 46,
+      "sha256": "be75c9b9519c603698f7f335c4c9c45e7d5842dc4c1bc2fc90a56e8adcd7d61c"
+    },
+    {
+      "path": "lib/models/sensor_reading.dart",
+      "bytes": 1262,
+      "lines": 58,
+      "sha256": "76d10a3215c099bf1ab4dbab36a87a1a50645b7f945b4b99b0a3b4ced9ee7029"
+    },
+    {
+      "path": "lib/models/system_clock_state.dart",
+      "bytes": 2242,
+      "lines": 72,
+      "sha256": "dc41e9390f7e3620570da2c3c99f43f98ff9585c47e167a83d1ad77f9fc86070"
+    },
+    {
+      "path": "lib/models/system_health_state.dart",
+      "bytes": 1676,
+      "lines": 58,
+      "sha256": "b0f77426349af659c921c6a31208682bc3ee2af5e8ee47e3e6b2973a1af3bccd"
+    },
+    {
+      "path": "lib/models/wifi_network.dart",
+      "bytes": 446,
+      "lines": 20,
+      "sha256": "a669400ca43f78085b90cd65e6e0c43581024045e577d06419a9e303770953d9"
+    },
+    {
+      "path": "lib/pages/esp32_controller_page.dart",
+      "bytes": 25008,
+      "lines": 674,
+      "sha256": "1ec8b3e68daf372a04713351ec7ad0895379a08c27a4146318e55aef5cb44289"
+    },
+    {
+      "path": "lib/screens/automation_screen.dart",
+      "bytes": 19385,
+      "lines": 555,
+      "sha256": "a06570a4c0e89f1888e81f5eed9231a405a3e97a2336b8f3ff75a7abe1f42eb6"
+    },
+    {
+      "path": "lib/screens/dashboard_screen.dart",
+      "bytes": 10729,
+      "lines": 289,
+      "sha256": "686ad9cb65f416e136c2238e9e803510e045edc80e6c6a33392f91eea2177e43"
+    },
+    {
+      "path": "lib/screens/devices_screen.dart",
+      "bytes": 15351,
+      "lines": 425,
+      "sha256": "844e2538950a8b69e0112e072243fcde1eb2e63c27be5d6e40211cf175af0959"
+    },
+    {
+      "path": "lib/screens/main_screen.dart",
+      "bytes": 3327,
+      "lines": 107,
+      "sha256": "efc4859239fc8f1a3382be26e01f4261fc454e0f971447ce54fc0a4634f00355"
+    },
+    {
+      "path": "lib/screens/pair_controller_screen.dart",
+      "bytes": 16088,
+      "lines": 485,
+      "sha256": "5a6411e2481c2ad0c5e3bee467c06cdcd52121808670481834623c42dbbacf8c"
+    },
+    {
+      "path": "lib/screens/sensor_screen.dart",
+      "bytes": 12944,
+      "lines": 285,
+      "sha256": "c53de927b9302cdba3108cb92c82f4c5cd2d9f077cb19bd9aeafa079e9f29025"
+    },
+    {
+      "path": "lib/screens/sensors_screen.dart",
+      "bytes": 3359,
+      "lines": 90,
+      "sha256": "a1834ed2e91c78a1310975a09c5a8a669d9568ba80fb49527bd9f142174c833e"
+    },
+    {
+      "path": "lib/screens/settings_screen.dart",
+      "bytes": 23860,
+      "lines": 670,
+      "sha256": "f001b90e147b0971f09850fe1da1ed946138d6e8bb20abf5eea36f751283e386"
+    },
+    {
+      "path": "lib/screens/splash_screen.dart",
+      "bytes": 5251,
+      "lines": 164,
+      "sha256": "6cb0447061886710b3cd6d31fd04114887de74e5c8dc72447b7c437054763116"
+    },
+    {
+      "path": "lib/services/device_repository.dart",
+      "bytes": 1484,
+      "lines": 46,
+      "sha256": "758922d18fbb51ca8ff2a4ccefaec41915184f1c657e4d06caff4cbd4adea6b7"
+    },
+    {
+      "path": "lib/services/esp32_http_service.dart",
+      "bytes": 7361,
+      "lines": 268,
+      "sha256": "f6a271d90559dc35f07ca9add2fc1052056ce8537f6964ea03e528608c9a176e"
+    },
+    {
+      "path": "lib/services/farm_health_engine.dart",
+      "bytes": 7904,
+      "lines": 265,
+      "sha256": "aa50095354b70e261475d3108799821423b04e9e26f1e5c922477eacd267b095"
+    },
+    {
+      "path": "lib/services/sensor_repository.dart",
+      "bytes": 963,
+      "lines": 33,
+      "sha256": "be44b0ae5f4d4919681f87c5f573cb8b142809d21e373ed9a0dad9fea37e7327"
+    },
+    {
+      "path": "lib/services/settings_repository.dart",
+      "bytes": 3746,
+      "lines": 91,
+      "sha256": "e678ea70796e1c791da12c00fec272d0a7110f05884c14fc45d2af701ffb2992"
+    },
+    {
+      "path": "lib/services/simulation_service.dart",
+      "bytes": 1427,
+      "lines": 57,
+      "sha256": "ade7de05107adf79449ef5272c57f634782d80da1a45b6c710d58833d62f99bf"
+    },
+    {
+      "path": "lib/services/snapshot_cache_service.dart",
+      "bytes": 712,
+      "lines": 25,
+      "sha256": "1d4ced36a35d6e732602cedb2e153d97e1d7669a8f29b00fe45b2e75a3f64a49"
+    },
+    {
+      "path": "lib/stores/device_store.dart",
+      "bytes": 15359,
+      "lines": 446,
+      "sha256": "05378cc53330ddb47c175c888d0d508ae0448255ee8f2fe5f54c5cf13b19072e"
+    },
+    {
+      "path": "lib/stores/pairing_store.dart",
+      "bytes": 6739,
+      "lines": 209,
+      "sha256": "cf5506666ab05c7564476fddbe326ebb1eaf5868c6e50e0314cd4d7937f6b4d4"
+    },
+    {
+      "path": "lib/stores/sensor_store.dart",
+      "bytes": 3154,
+      "lines": 101,
+      "sha256": "f3a1e656c0dd0714635d210119cb9ca5ef0058974d8b1232e7257d369f663f03"
+    },
+    {
+      "path": "lib/stores/settings_store.dart",
+      "bytes": 3759,
+      "lines": 121,
+      "sha256": "ad5357fb75778a8eed7333d8c59da4baa605119a3ecd5dd10b26dd8b4c814963"
+    },
+    {
+      "path": "lib/theme/app_theme.dart",
+      "bytes": 400,
+      "lines": 16,
+      "sha256": "3d04e7b1edfbce3b4656b1fe84e2c398136fff72386c6658fac8c18457b52be7"
+    },
+    {
+      "path": "lib/widgets/dashboard/dashboard_data_widgets.dart",
+      "bytes": 28183,
+      "lines": 862,
+      "sha256": "161ce86fdda4165c7e8705418fcc96d9d940cdb3eaaaac6463dadc2ddb03cb88"
+    },
+    {
+      "path": "lib/widgets/dashboard/dashboard_overview_widgets.dart",
+      "bytes": 23317,
+      "lines": 699,
+      "sha256": "b410727b6b07362fb228888ada0eba2d013a5ec95f4e8a174253f03479fa1b4e"
+    },
+    {
+      "path": "lib/widgets/dashboard/farm_health_card.dart",
+      "bytes": 8142,
+      "lines": 267,
+      "sha256": "564976559d174c58f33b620014bf84ff84f41dbee48c3042b010d657a5ec7b70"
+    },
+    {
+      "path": "lib/widgets/dashboard/live_datetime_header.dart",
+      "bytes": 5920,
+      "lines": 214,
+      "sha256": "6f680ca4490a755d36317abeddaa16e4163333dd606f8b35e6d4f19e15bf222b"
+    },
+    {
+      "path": "lib/widgets/dashboard/quick_actions_card.dart",
+      "bytes": 6851,
+      "lines": 203,
+      "sha256": "601817e550633f82bd48c46d7dc1e50c2abd5a4c0e74b92445decda8f568d2f5"
+    },
+    {
+      "path": "lib/widgets/output_device_card.dart",
+      "bytes": 10530,
+      "lines": 278,
+      "sha256": "f36b9fbddd98cd30955d743ce84f95d13b97259bc9f2d3f6ebebe91007b456a0"
+    },
+    {
+      "path": "lib/widgets/output_device_dialog.dart",
+      "bytes": 44141,
+      "lines": 1296,
+      "sha256": "64833817cf1a27e768ddd84a3f5ebdffb94a22652d0993a8390d20b3fa8e0941"
+    },
+    {
+      "path": "lib/widgets/pair_step_header.dart",
+      "bytes": 1426,
+      "lines": 55,
+      "sha256": "1581432ea47b2b9b02557f33e725fac42a38c4fa0dd1046fafbc48f959a600e5"
+    },
+    {
+      "path": "lib/widgets/relay_card.dart",
+      "bytes": 2424,
+      "lines": 83,
+      "sha256": "daac5dbe6296eb5e163fbbf9c2b7f14944f51459696e4748c8e23806038ee9c2"
+    },
+    {
+      "path": "lib/widgets/sensor_card.dart",
+      "bytes": 4791,
+      "lines": 154,
+      "sha256": "41b9f3d70f6491689b01aafb4fd149cadb2f549c032aa6e30e3a4c9f8b649c57"
+    },
+    {
+      "path": "lib/widgets/sensor_setup_dialog.dart",
+      "bytes": 9535,
+      "lines": 267,
+      "sha256": "8f54ef6753b4baa65a9cc03d8c1cec35f4f8822eb9cd17c5196411f802e49202"
+    },
+    {
+      "path": "lib/widgets/settings_tile.dart",
+      "bytes": 2411,
+      "lines": 81,
+      "sha256": "6b84c1d7bf8c0f154682b24ee5252ad6d0ab83b8bf217c65a5841b195bb5ad0a"
+    },
+    {
+      "path": "linux/.gitignore",
+      "bytes": 19,
+      "lines": 2,
+      "sha256": "d7bbeac6ba86e2d94d8ccc63a1a2fbbac5ee7467f52f75c168165412d6ac3b60"
+    },
+    {
+      "path": "linux/CMakeLists.txt",
+      "bytes": 4887,
+      "lines": 129,
+      "sha256": "1d445f8f2bdb813d9b7c8273363618f9f0015907f3f3a611b45b80b69f3917e8"
+    },
+    {
+      "path": "linux/flutter/CMakeLists.txt",
+      "bytes": 2903,
+      "lines": 89,
+      "sha256": "4eb17836308c1cd53f6b2bb8edb3b7b30610bff3b1d9df7fecc9317f9109700c"
+    },
+    {
+      "path": "linux/flutter/generated_plugin_registrant.cc",
+      "bytes": 161,
+      "lines": 12,
+      "sha256": "7861b227b10a10cc1d7643f82a246b7db35b503f2d9ff1d3c906136e6c260dce"
+    },
+    {
+      "path": "linux/flutter/generated_plugin_registrant.h",
+      "bytes": 303,
+      "lines": 16,
+      "sha256": "00f93bb5b1faefdede8f6065df327522900fb0b8efee86bacf424fd947ed14bb"
+    },
+    {
+      "path": "linux/flutter/generated_plugins.cmake",
+      "bytes": 739,
+      "lines": 24,
+      "sha256": "d5aaa52ef8594d3128b35b6619c6a353e1be5f3c5a63a9c29c0a32b424e91952"
+    },
+    {
+      "path": "linux/runner/CMakeLists.txt",
+      "bytes": 1000,
+      "lines": 27,
+      "sha256": "81ecf2604c50f480c23d460b2ddf653ecd39df29cc5b2fe4913f1a59f008a5a7"
+    },
+    {
+      "path": "linux/runner/main.cc",
+      "bytes": 186,
+      "lines": 7,
+      "sha256": "905b4dfa4eab584c1eb6244899b7d5ef56d0bceaf3bffb5ea335ed7e0ba3c549"
+    },
+    {
+      "path": "linux/runner/my_application.cc",
+      "bytes": 5607,
+      "lines": 149,
+      "sha256": "5d61c2dc91e784fe846db4140b6424d65fb98fd65fdcb27a5422b62545d279e1"
+    },
+    {
+      "path": "linux/runner/my_application.h",
+      "bytes": 472,
+      "lines": 22,
+      "sha256": "880393cb82d7feaaa95d9acd6c2317749afae0e17ea5f5ee44b456bc081b5987"
+    },
+    {
+      "path": "macos/.gitignore",
+      "bytes": 96,
+      "lines": 8,
+      "sha256": "236a523a43625a2d63af3cd0f2ce8600a3668846f8cb278c1c7c5cbfd4aa4088"
+    },
+    {
+      "path": "macos/Flutter/Flutter-Debug.xcconfig",
+      "bytes": 49,
+      "lines": 2,
+      "sha256": "7e9b3ee3961b7d7718b418ceaed812a5f06a4e4cec894aae712a78e159c32ab0"
+    },
+    {
+      "path": "macos/Flutter/Flutter-Release.xcconfig",
+      "bytes": 49,
+      "lines": 2,
+      "sha256": "7e9b3ee3961b7d7718b418ceaed812a5f06a4e4cec894aae712a78e159c32ab0"
+    },
+    {
+      "path": "macos/Flutter/GeneratedPluginRegistrant.swift",
+      "bytes": 283,
+      "lines": 13,
+      "sha256": "95b0a078d21a1709aa51def9a10d848d861026575344309f6361c835f58325d9"
+    },
+    {
+      "path": "macos/Runner/AppDelegate.swift",
+      "bytes": 324,
+      "lines": 14,
+      "sha256": "5b9cbdcb563ad8578a99b7c283958490e4af537322e9092fe1efbb3c29ab3e1b"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "bytes": 1359,
+      "lines": 69,
+      "sha256": "992ba63d183dfb8f8e3af38ac203d834d23c004da1417c438b4c5a3d7d1d7103"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_1024.png",
+      "bytes": 102994,
+      "lines": 279,
+      "sha256": "6232e5815af17e25e0268b2fec7aea9e068cc92ec709e9605c2b31df4ff2a313"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png",
+      "bytes": 5680,
+      "lines": 24,
+      "sha256": "15591f03f31313af6fd644ed0512106cc04365130b8b73244f1cfa6dddfb4400"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_16.png",
+      "bytes": 520,
+      "lines": 5,
+      "sha256": "cc6928b5adfc00dbf526192e2705dd9af641cdf20ab4c6c7ca7cd4936dca59f0"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_256.png",
+      "bytes": 14142,
+      "lines": 51,
+      "sha256": "416efd77cde932d42ef34168da24dd428a495b1f4f34bbbd125a18d2add186a2"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_32.png",
+      "bytes": 1066,
+      "lines": 6,
+      "sha256": "ae8c4458e41f1e28b1e851ed87d3268d4a0351ceea427fa2a84cc94ddfb6d4c5"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_512.png",
+      "bytes": 36406,
+      "lines": 108,
+      "sha256": "0a91c6c1bf242e54ee179e34629e9ef3e8a6d286c0fce01e302280a8be9277e6"
+    },
+    {
+      "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png",
+      "bytes": 2218,
+      "lines": 9,
+      "sha256": "6ad229623498e5f1277800db3ab7cb11faf85eb2569e1213f7d8e55003c07b42"
+    },
+    {
+      "path": "macos/Runner/Base.lproj/MainMenu.xib",
+      "bytes": 24072,
+      "lines": 344,
+      "sha256": "776c35481f6581f14148b90071558b25f6ce6262e771988985e9fe8d3e70a472"
+    },
+    {
+      "path": "macos/Runner/Configs/AppInfo.xcconfig",
+      "bytes": 620,
+      "lines": 15,
+      "sha256": "f3a988e2f10002119b45efc19082ab2b85179597de37625c91364e79d5fa5c03"
+    },
+    {
+      "path": "macos/Runner/Configs/Debug.xcconfig",
+      "bytes": 79,
+      "lines": 3,
+      "sha256": "86be603022e2a385dd7884fce4cc29255676c3dda579d3d4a56c958bf1e57de0"
+    },
+    {
+      "path": "macos/Runner/Configs/Release.xcconfig",
+      "bytes": 81,
+      "lines": 3,
+      "sha256": "d1bf3f0349aadd5c58ee9d46c0ce4ce45467127c438936e9bb481d861d296565"
+    },
+    {
+      "path": "macos/Runner/Configs/Warnings.xcconfig",
+      "bytes": 593,
+      "lines": 14,
+      "sha256": "aa8ded4c14068cb05f51f5446509fe56805cf1e29961ad6d5a97233bb0632bc1"
+    },
+    {
+      "path": "macos/Runner/DebugProfile.entitlements",
+      "bytes": 360,
+      "lines": 13,
+      "sha256": "b2aa41d03e18907d360b721b7bb3edb302897c8a3de98ec47b6665033fea0b0e"
+    },
+    {
+      "path": "macos/Runner/Info.plist",
+      "bytes": 1092,
+      "lines": 33,
+      "sha256": "047f9cb0f1122c04589483beaedbbe23492fdc8946b94e09bb13080736af4f93"
+    },
+    {
+      "path": "macos/Runner/MainFlutterWindow.swift",
+      "bytes": 403,
+      "lines": 16,
+      "sha256": "8178ad756f958f986f794a8bb06e321a6630ceaaf8f235b3b4ae3936e415dc7c"
+    },
+    {
+      "path": "macos/Runner/Release.entitlements",
+      "bytes": 248,
+      "lines": 9,
+      "sha256": "c3b881c72aa4cca9cf50da6654c4d675dec929056692af46a6fbecd00aef5990"
+    },
+    {
+      "path": "macos/Runner.xcodeproj/project.pbxproj",
+      "bytes": 28609,
+      "lines": 730,
+      "sha256": "04fe50dc64eab3a7aec88d658c0a65e5a7d1281ab20b3826abb5bffd8ab71040"
+    },
+    {
+      "path": "macos/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 246,
+      "lines": 9,
+      "sha256": "d557c2c32fc6258ec28981fa45dc847b76c9968beb90a2e26d13ef9c4ea45c30"
+    },
+    {
+      "path": "macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "bytes": 4697,
+      "lines": 118,
+      "sha256": "c4913dbfbd618a1f4f7bd19349cb6e4ffac7ac9ca103a26b7088b684a6317a6f"
+    },
+    {
+      "path": "macos/Runner.xcworkspace/contents.xcworkspacedata",
+      "bytes": 159,
+      "lines": 8,
+      "sha256": "706a4c812f2a1e220e6785c27580020d58048e2ae4d30d1280f3c43344ce6b38"
+    },
+    {
+      "path": "macos/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "bytes": 246,
+      "lines": 9,
+      "sha256": "d557c2c32fc6258ec28981fa45dc847b76c9968beb90a2e26d13ef9c4ea45c30"
+    },
+    {
+      "path": "macos/RunnerTests/RunnerTests.swift",
+      "bytes": 302,
+      "lines": 13,
+      "sha256": "8a0ff977c64ceac0750fffa48087988b7b4125d1b1c49019221e7fffb574423e"
+    },
+    {
+      "path": "pubspec.lock",
+      "bytes": 13710,
+      "lines": 472,
+      "sha256": "22f6161cda8cc93943f4ce4ebcb612ed148293b9f6e4748b63c181082403500d"
+    },
+    {
+      "path": "pubspec.yaml",
+      "bytes": 3678,
+      "lines": 97,
+      "sha256": "208445f1388c6b0ca13e8846198f58a09a221dfc1585624da05fdd143d0af34c"
+    },
+    {
+      "path": "pubspec_icon_snippet.yaml",
+      "bytes": 237,
+      "lines": 12,
+      "sha256": "f07eca345e17de00b20d76592e527527af7f3c7a29b68c3381878cc7af97899b"
+    },
+    {
+      "path": "smart_farm.iml",
+      "bytes": 859,
+      "lines": 18,
+      "sha256": "d2052ef022de364483e3823043cb6a5be1c3f33217cae65c1a40b48b17669199"
+    },
+    {
+      "path": "test/models/farm_state_test.dart",
+      "bytes": 3087,
+      "lines": 95,
+      "sha256": "f81b001d760e7ee2db433c789b6195a6c2f640d3cccf07a2b7419efd5f21c3ae"
+    },
+    {
+      "path": "test/services/farm_health_engine_test.dart",
+      "bytes": 2232,
+      "lines": 73,
+      "sha256": "cb184560605cff73ad4a6db1ed6e8625f60d4a88e254d974598631ba1d359f48"
+    },
+    {
+      "path": "test/widget_test.dart",
+      "bytes": 414,
+      "lines": 15,
+      "sha256": "23480131f417cf075cdc551be8dfbffbc97faa3d1a2910b7e7361d6ba90268e2"
+    },
+    {
+      "path": "test/widgets/dashboard/dashboard_r82_widgets_test.dart",
+      "bytes": 1379,
+      "lines": 41,
+      "sha256": "7b0e0baae0476c571c8fc86a9e576130ea9d83cc6b97d57bb64fae7cb7aa3729"
+    },
+    {
+      "path": "web/favicon.png",
+      "bytes": 917,
+      "lines": 14,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "web/icons/Icon-192.png",
+      "bytes": 5292,
+      "lines": 20,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "web/icons/Icon-512.png",
+      "bytes": 8252,
+      "lines": 17,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "web/icons/Icon-maskable-192.png",
+      "bytes": 5594,
+      "lines": 27,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "web/icons/Icon-maskable-512.png",
+      "bytes": 20998,
+      "lines": 33,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "web/index.html",
+      "bytes": 1571,
+      "lines": 47,
+      "sha256": "bf8acfb65d80ad25acf37fbca63b7f62d75f00354cdb1541787e68f950573c3f"
+    },
+    {
+      "path": "web/manifest.json",
+      "bytes": 951,
+      "lines": 36,
+      "sha256": "0fc6a115e026b9cec00d70a9113302d7e46366291c2ec76d84cafe6d877f129f"
+    },
+    {
+      "path": "windows/.gitignore",
+      "bytes": 308,
+      "lines": 18,
+      "sha256": "955e3110cb16494ee76e1cd5df47e2c212309eb94a49a123fe87f718de413cb8"
+    },
+    {
+      "path": "windows/CMakeLists.txt",
+      "bytes": 4264,
+      "lines": 109,
+      "sha256": "e6929e9f0f12f55131960afcf6b8661f32bba9581eed7151617676824b64f417"
+    },
+    {
+      "path": "windows/flutter/CMakeLists.txt",
+      "bytes": 3851,
+      "lines": 110,
+      "sha256": "bd05e3268b2f246bcbafdb778165fe67a7bafdba04eb73599502563a67b8ae7e"
+    },
+    {
+      "path": "windows/flutter/generated_plugin_registrant.cc",
+      "bytes": 164,
+      "lines": 12,
+      "sha256": "82e02567f2faf5e732dc92a2fb0d01104f7ba8c48973f8cfd41a860b4fac3f3b"
+    },
+    {
+      "path": "windows/flutter/generated_plugin_registrant.h",
+      "bytes": 302,
+      "lines": 16,
+      "sha256": "dbc11635d7b1ba1887adf40df5b83d634e9c3ab0bee34510c71528bb4d73602a"
+    },
+    {
+      "path": "windows/flutter/generated_plugins.cmake",
+      "bytes": 743,
+      "lines": 24,
+      "sha256": "286346b0d5303dc6b41072f9582d4c52bca35255b85b27b310f858e264dfdc56"
+    },
+    {
+      "path": "windows/runner/CMakeLists.txt",
+      "bytes": 1836,
+      "lines": 41,
+      "sha256": "d765fdd05f63ad099e585a2cced0cbff13ec3229b7de68c8681b2107db850089"
+    },
+    {
+      "path": "windows/runner/Runner.rc",
+      "bytes": 3158,
+      "lines": 122,
+      "sha256": "a22c9a762699857af9006fdd485d8e8ef82fe91a64d79ce9f18f1fdbaa91a842"
+    },
+    {
+      "path": "windows/runner/flutter_window.cpp",
+      "bytes": 2193,
+      "lines": 72,
+      "sha256": "d615eedc06ae37321e59c2c00c7687d1887dcd97904eb7225fafd8dcb5b83da6"
+    },
+    {
+      "path": "windows/runner/flutter_window.h",
+      "bytes": 961,
+      "lines": 34,
+      "sha256": "0252b804f5da380c7709cbe1daff2b8d18daf6c49d7e6dd43e5af3c99c19f56c"
+    },
+    {
+      "path": "windows/runner/main.cpp",
+      "bytes": 1306,
+      "lines": 44,
+      "sha256": "4ae35b8dbf323c64194d60e63a1781e8b7d1c018b6b82ea97333593e31cc6f8b"
+    },
+    {
+      "path": "windows/runner/resource.h",
+      "bytes": 448,
+      "lines": 17,
+      "sha256": "d0e8bf7835468b4b6b1f8f0747f2e8f25c19841f2df2ac60aaa584ddae3aa7c6"
+    },
+    {
+      "path": "windows/runner/resources/app_icon.ico",
+      "bytes": 33772,
+      "lines": 90,
+      "sha256": "c098d3fc85cacff98b8e69811b48e9f0d852fcee278132d794411d978869cbf8"
+    },
+    {
+      "path": "windows/runner/runner.exe.manifest",
+      "bytes": 616,
+      "lines": 15,
+      "sha256": "639a56233fcd8cbcb8bbefcd93e4680ec2664f32d9acfb3d2ec1d8726a96e090"
+    },
+    {
+      "path": "windows/runner/utils.cpp",
+      "bytes": 2237,
+      "lines": 70,
+      "sha256": "a128b67b9f3c2579e2ecef5b0dde2c33f222a097cdfe5da2a3067c73d1485b39"
+    },
+    {
+      "path": "windows/runner/utils.h",
+      "bytes": 691,
+      "lines": 20,
+      "sha256": "832e246b6758253f89016fb0374b30791242e97ad950d27fc678b3d9feacfdc4"
+    },
+    {
+      "path": "windows/runner/win32_window.cpp",
+      "bytes": 8822,
+      "lines": 289,
+      "sha256": "4e4f4dcf8e86ea6e097562cb3476039e693449bd8045367538afee579c017511"
+    },
+    {
+      "path": "windows/runner/win32_window.h",
+      "bytes": 3624,
+      "lines": 103,
+      "sha256": "d154cf89ba85f820631a9b5bedacbe64fc5815e428fe6bc5da579ce649f69841"
+    }
+  ]
+}

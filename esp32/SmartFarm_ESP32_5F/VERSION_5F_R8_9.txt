@@ -1,0 +1,2 @@
+Smart Farm ESP32 5F R8.9
+firmware: 0.8.0-5f-r8.9-clock-sensor-rules

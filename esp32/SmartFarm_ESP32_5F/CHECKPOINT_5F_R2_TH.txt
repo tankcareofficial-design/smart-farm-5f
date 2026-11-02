@@ -1,0 +1,10 @@
+SmartFarm ESP32 Checkpoint 5F Revision 2
+
+- เพิ่ม AP+STA provisioning แบบอุปกรณ์ Standalone
+- GET /api/wifi/scan
+- POST /api/wifi/connect
+- บันทึก SSID/Password ใน Preferences และเชื่อมใหม่อัตโนมัติ
+- AP SmartFarm-xxxxxx ยังคงเปิดเพื่อเข้าตั้งค่าและควบคุมที่ 192.168.4.1
+- POST /api/emergency-stop ปิดทุกรีเลย์พร้อมล็อก Automation
+- POST /api/emergency-release ยกเลิกล็อกฉุกเฉิน
+- Emergency latch บันทึกใน NVS และยังทำงานหลังรีสตาร์ต

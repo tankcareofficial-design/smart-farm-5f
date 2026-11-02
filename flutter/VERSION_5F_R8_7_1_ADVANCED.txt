@@ -1,0 +1,3 @@
+Smart Farm 5F Flutter R8.7.1 Advanced Runtime Client
+Compatible snapshot schema: 1-2
+ESP32 remains source of truth.

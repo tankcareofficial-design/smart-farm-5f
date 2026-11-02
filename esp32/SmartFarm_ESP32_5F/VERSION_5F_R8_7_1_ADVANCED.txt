@@ -1,0 +1,4 @@
+Smart Farm 5F ESP32 R8.7.1 Advanced Runtime Foundation
+Firmware: 0.8.0-5f-r8.7.1-advanced
+Snapshot schema: 2
+API: v3

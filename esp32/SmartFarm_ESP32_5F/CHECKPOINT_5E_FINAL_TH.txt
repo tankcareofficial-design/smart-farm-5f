@@ -1,0 +1,10 @@
+SMART FARM ESP32 CHECKPOINT 5E FINAL
+
+- SoftAP: SmartFarm-xxxxxx
+- Password: smartfarm123
+- IP: http://192.168.4.1
+- GET /api/device
+- GET /api/state
+- POST /api/relay (เตรียมไว้สำหรับ Checkpoint ถัดไป)
+- คงลำดับ WiFi.mode(WIFI_AP), WiFi.setSleep(false), WiFi.softAP(...)
+- Relay GPIO ยังเป็น -1 (virtual) เพื่อป้องกันการสั่งฮาร์ดแวร์ผิดขาใน 5E

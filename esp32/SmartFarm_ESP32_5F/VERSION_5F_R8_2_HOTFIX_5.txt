@@ -1,0 +1,7 @@
+Smart Farm 5F R8.2 HOTFIX 5
+Firmware: 0.6.13-5f-r8.2-hotfix5
+Protocol: 1
+API: 2
+Relay channels: 8
+Soil input: disabled until a real sensor is installed
+User mode: Plug & Play terminology

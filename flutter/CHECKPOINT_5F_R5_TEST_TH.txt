@@ -1,0 +1,12 @@
+Smart Farm+ 5F R5 - รายการทดสอบ
+
+1) เปิด Settings > Controller
+2) กดตั้งค่า Controller และ Wi-Fi แล้วเชื่อมมือถือกับ SmartFarm-xxxxxx
+3) ตรวจว่าสแกน Wi-Fi บ้าน/ฟาร์มได้ เลือกเครือข่ายและส่งรหัสผ่านได้
+4) เมื่อสำเร็จ ต้องเห็น Station IP และคำแนะนำให้มือถือกลับไป Wi-Fi บ้าน/ฟาร์ม
+5) กลับหน้า Controller ตรวจว่าเมนูตั้งค่า Controller และ Wi-Fi ยังอยู่ แม้กดเชื่อมต่อแล้ว
+6) ตรวจ Dashboard: วันเวลา สุขภาพฟาร์ม ปุ่ม Emergency Stop และ Sensor cards
+7) เพิ่ม Sensor แล้วต้องมีการ์ดขึ้น แต่แสดง "ไม่มีข้อมูล" จน ESP32 ส่งค่าจริง
+8) ทดสอบ Emergency Stop: รีเลย์ทุกช่องต้อง OFF และ emergencyLatched=true
+9) ทดสอบ Release: latch=false และรีเลย์ต้องไม่เปิดกลับเอง
+10) รัน flutter analyze และส่งผลกลับ พร้อม Serial log หากมีปัญหา

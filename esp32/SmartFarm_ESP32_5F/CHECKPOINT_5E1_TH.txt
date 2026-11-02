@@ -1,0 +1,7 @@
+Smart Farm ESP32 Checkpoint 5E.1
+
+- คงลำดับ SoftAP ที่ผ่านการทดสอบกับ ESP32-S3 N16R8
+- API จริง: GET /api/device และ GET /api/state
+- ไม่มีข้อมูล Controller จำลองใน Flutter
+- Firmware marker: 0.5.2-5e1-real-controller
+- ยังไม่เปิดใช้งาน GPIO รีเลย์จริงใน Checkpoint นี้

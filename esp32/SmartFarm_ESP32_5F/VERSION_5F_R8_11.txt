@@ -1,0 +1,3 @@
+Smart Farm ESP32 5F R8.11 Core Recovery
+Firmware: 0.8.0-5f-r8.11-core-recovery
+Build: relay GPIO + stable schedule window

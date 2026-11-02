@@ -1,0 +1,3 @@
+Smart Farm Flutter 5F R8.11 Core Recovery
+Version: 0.8.11+101
+Build: schedule validation + stable controller clock

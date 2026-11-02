@@ -1,0 +1,24 @@
+Smart Farm+ V0.4.2 HTTP API — วิธีทดสอบมือถือ
+
+1) อัปโหลดเฟิร์มแวร์ลง ESP32-S3
+2) เปิด Serial Monitor 115200
+3) เชื่อมโทรศัพท์กับ Wi-Fi ที่ขึ้นต้น SmartFarm-
+   รหัสผ่าน: smartfarm123
+4) โทรศัพท์อาจแจ้งว่าไม่มีอินเทอร์เน็ต ให้เลือกใช้งานเครือข่ายนี้ต่อ
+5) เปิด Browser บนโทรศัพท์แล้วเข้า:
+   http://192.168.4.1/api/device
+   http://192.168.4.1/api/state
+6) ถ้าเห็น JSON แปลว่า ESP32 HTTP API พร้อมแล้ว
+7) เปิดแอป Smart Farm+ V0.8.2 แอปจะดึง /api/state ทุก 2 วินาที
+
+API:
+GET  /api/device
+GET  /api/state
+POST /api/relay
+Body ตัวอย่าง: {"channel":0,"on":true,"overrideSeconds":300}
+
+หมายเหตุ:
+- ความชื้นดินใช้ GPIO 4 ตาม Config.h
+- อุณหภูมิใช้ DS3231 ถ้าพบ ไม่เช่นนั้นใช้ temperatureRead() ของ ESP32
+- ความชื้นอากาศยังเป็น null จนกว่าจะต่อ SHT31/BME280/DHT
+- RELAY_PINS ยังเป็น -1 จึงเป็นรีเลย์เสมือนจนกว่าจะกำหนด GPIO จริง

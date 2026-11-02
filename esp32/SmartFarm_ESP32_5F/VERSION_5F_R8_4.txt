@@ -1,0 +1,4 @@
+Smart Farm 5F R8.4
+Firmware: 0.7.1-5f-r8.4
+Accessory Schema: 2
+Hardware Profile: smart_farm_8ch_v1

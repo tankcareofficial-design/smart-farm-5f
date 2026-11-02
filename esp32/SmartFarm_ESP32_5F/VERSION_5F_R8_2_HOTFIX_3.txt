@@ -1,0 +1,6 @@
+ESP32 Smart Farm 5F R8.2 HOTFIX 3
+Firmware 0.6.11-5f-r8.2-hotfix3
+Protocol 1
+API 2
+Relay channels 8
+SHT31 0x44 GPIO8/GPIO9

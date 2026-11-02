@@ -1,0 +1,20 @@
+SMART FARM+ CHECKPOINT 5F R4 - แผนทดสอบ
+
+1) รัน flutter pub get
+2) รัน flutter analyze ต้องได้ No issues found
+3) เปิดแอปและไป Settings > Controller
+4) ก่อนเชื่อมต่อ ต้องไม่เห็น URL, API หรือ Event Log
+5) เชื่อมมือถือกับ SmartFarm-xxxxxx รหัส smartfarm123
+6) กดเชื่อมต่อ ต้องเห็น Device ID, Firmware, IP, Relay และ Response
+7) หลังเชื่อมต่อจึงต้องเห็นเมนู Advanced
+8) เปิด Advanced ตรวจ Base URL, API, Diagnostics และ Event/HTTP Log
+9) Dashboard ต้องไม่มีตัวเลขเซ็นเซอร์จำลอง
+10) หน้า Sensors:
+   - ไม่มีรายการ: แสดง "ยังไม่ได้เพิ่มเซ็นเซอร์"
+   - เพิ่มรายการแล้วแต่ยังไม่มีค่าจริง: แสดง "ยังไม่มีข้อมูลเซ็นเซอร์จริง"
+
+กรุณาส่งกลับ:
+- ผล flutter analyze
+- ภาพหน้า Controller ก่อนและหลังเชื่อมต่อ
+- ภาพ Dashboard และ Sensors
+- Log flutter run หากมี error

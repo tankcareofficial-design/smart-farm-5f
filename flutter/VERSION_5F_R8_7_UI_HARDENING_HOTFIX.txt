@@ -1,0 +1,5 @@
+Smart Farm+ Flutter
+Release: 5F R8.7 UI HARDENING HOTFIX
+App version: 0.8.41+61
+Scope: Flutter only
+Source of truth: ESP32

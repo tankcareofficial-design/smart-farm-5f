@@ -1,0 +1,617 @@
+{
+  "release": "R8.12 V3 Stability",
+  "scope": "source files only",
+  "flutter": {
+    "files_read": 92,
+    "lines_read": 14433,
+    "errors": [],
+    "files": [
+      {
+        "path": "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java",
+        "lines": 24,
+        "sha256": "ac951e151f6be1ffef2ab1800ecd1e5b9a288a2aa95242aa0c9ddd0821a00a72"
+      },
+      {
+        "path": "android/app/src/main/kotlin/com/example/smart_farm/MainActivity.kt",
+        "lines": 5,
+        "sha256": "4e565f71aed493cc9a79f90699c67771fd0b21fc4b2097f88ce9c9b495af52e8"
+      },
+      {
+        "path": "ios/Runner/GeneratedPluginRegistrant.h",
+        "lines": 19,
+        "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+      },
+      {
+        "path": "ios/Runner/Runner-Bridging-Header.h",
+        "lines": 1,
+        "sha256": "1a8d11d01d1cc92c650c9c9ed35299240052d4683a15a719a2315ef44185e074"
+      },
+      {
+        "path": "lib/controllers/farm_controller.dart",
+        "lines": 87,
+        "sha256": "c0422ae31272a5686c1b9e74bddef950002b526dcb3820ca9e8c4262609306fb"
+      },
+      {
+        "path": "lib/controllers/smart_farm_controller.dart",
+        "lines": 873,
+        "sha256": "7032af2e10f40ebe2d92717d0d76fc3c1ee3ef8ef6f64c31324c788d819a4251"
+      },
+      {
+        "path": "lib/core/app_info.dart",
+        "lines": 9,
+        "sha256": "4cc441800cfe671d803a77a7b540a2a355fc6e9b2c74333de458d46d4bd3fe88"
+      },
+      {
+        "path": "lib/core/localization/app_localizations.dart",
+        "lines": 43,
+        "sha256": "59b62d095d436e5cd56861243561490c9a3a8897c79bb1160f487de2548fabb1"
+      },
+      {
+        "path": "lib/core/theme/sf_animation.dart",
+        "lines": 14,
+        "sha256": "a71c595a5cfd6fa032bc2aeb6669d4a959baecbe502212f835e042bc3fecff6e"
+      },
+      {
+        "path": "lib/core/theme/sf_colors.dart",
+        "lines": 33,
+        "sha256": "d4c37db2f94038d86ffe19b7136d724af11dab0e4f24b2a9a3f3c6e937e5fcec"
+      },
+      {
+        "path": "lib/core/theme/sf_radius.dart",
+        "lines": 29,
+        "sha256": "61e290f78ffd1e8014dd056783236d14293b60df38cb379d422decfd33dace03"
+      },
+      {
+        "path": "lib/core/theme/sf_spacing.dart",
+        "lines": 32,
+        "sha256": "6a7ebcd9113ba8539cad64eea78f78fd12fc488ac1a55c4862e9c328f709c644"
+      },
+      {
+        "path": "lib/core/theme/sf_text_styles.dart",
+        "lines": 53,
+        "sha256": "2b69153f30bd91a0ec433e85e7b60fb6bd6c8da2e8302cee0ae9ec27edb74aa4"
+      },
+      {
+        "path": "lib/core/theme/sf_theme.dart",
+        "lines": 258,
+        "sha256": "c343bdc30f08afa0d7464ba0ea3b48071ade669237f84b026730d8dcf5cd64df"
+      },
+      {
+        "path": "lib/core/widgets/sf_card.dart",
+        "lines": 60,
+        "sha256": "18b78ba0c319502101ee52460dea88d433961e30e9af51dadbddd8a9421cd24f"
+      },
+      {
+        "path": "lib/core/widgets/sf_primary_button.dart",
+        "lines": 40,
+        "sha256": "2afb9ea905730155d102649baa2af1755e91644e878b597a7aba835e51fff31a"
+      },
+      {
+        "path": "lib/core/widgets/sf_status_badge.dart",
+        "lines": 77,
+        "sha256": "d8e41949b477a0517d12a4030ac51e7ff3b795a2967a79f0dba7c9f63a4ce202"
+      },
+      {
+        "path": "lib/data/esp32_data_source.dart",
+        "lines": 1,
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "lib/data/simulation_data_source.dart",
+        "lines": 45,
+        "sha256": "7def27e22a9a751216ddc75b6378fe9c7eef4c187e6f176efa4fe2794d286ce0"
+      },
+      {
+        "path": "lib/data/system_data_source.dart",
+        "lines": 11,
+        "sha256": "6f868c9e3e12e1a2ba0617de7ddc8cf166cce77c545a0fb4f2c519a132115660"
+      },
+      {
+        "path": "lib/main.dart",
+        "lines": 54,
+        "sha256": "ecc3f18f0849eaa2e25fdf0621e4f93b6c1fdb8756417eea93cacee0959042b5"
+      },
+      {
+        "path": "lib/models/accessory_manifest.dart",
+        "lines": 120,
+        "sha256": "b79bc48e41d35e46d16560bbfbb10404bb732572bd8c1ccbd0aef0e3af4270a3"
+      },
+      {
+        "path": "lib/models/app_settings.dart",
+        "lines": 82,
+        "sha256": "3290e6451c199b40e423590417e7114d408dbc01c7215490cf27a9dca79b414b"
+      },
+      {
+        "path": "lib/models/automation_rule.dart",
+        "lines": 191,
+        "sha256": "568d61b68773c71a302a3a7959c8dd8247851dc4e7820d82a6c840a83443d80d"
+      },
+      {
+        "path": "lib/models/controller_candidate.dart",
+        "lines": 39,
+        "sha256": "e1292c351b06925089dfcf78790fdd528aa7cccb6d199b15b8b41190d6f22735"
+      },
+      {
+        "path": "lib/models/controller_identity.dart",
+        "lines": 47,
+        "sha256": "07898cfc7431558166e84b7fb533916cc63ee4ce7b686def7a0b9f3c2a57323c"
+      },
+      {
+        "path": "lib/models/controller_snapshot.dart",
+        "lines": 53,
+        "sha256": "d039cd90047e0edab328bb2cfb6a5965bf291d56c94dfd9fb868b2e34546fd93"
+      },
+      {
+        "path": "lib/models/device_runtime_state.dart",
+        "lines": 39,
+        "sha256": "38605f2e45a74bfd14b206ce1a23b42c00104567884c25266f555aad6dfc44f9"
+      },
+      {
+        "path": "lib/models/farm_event.dart",
+        "lines": 15,
+        "sha256": "7d1d4f878f94cb7a6f1660807d8adf2f26de67a2900328f288051ac893e65c00"
+      },
+      {
+        "path": "lib/models/farm_state.dart",
+        "lines": 358,
+        "sha256": "a75031f0878993292883550690fdebba7e015189d8f7d370e0eb11d66ad5ae68"
+      },
+      {
+        "path": "lib/models/output_device.dart",
+        "lines": 255,
+        "sha256": "2b40b97213d992ca964321f3e3ada01e795ca7f9366ec94281146365bd935c18"
+      },
+      {
+        "path": "lib/models/relay_device.dart",
+        "lines": 38,
+        "sha256": "82cda6f7ad120a7877f46acad56966f50a4c818037fda3e57e3291aa3da899b6"
+      },
+      {
+        "path": "lib/models/sensor_config.dart",
+        "lines": 148,
+        "sha256": "53a0008bbb18536eb4c290086484a1760893ef76e26e65f12b174e28be7a3f75"
+      },
+      {
+        "path": "lib/models/sensor_data.dart",
+        "lines": 39,
+        "sha256": "534c21641f9b5683c02e56c76c1e290647c0028fa5fc8da95a5cf75a08be294c"
+      },
+      {
+        "path": "lib/models/sensor_model.dart",
+        "lines": 45,
+        "sha256": "be75c9b9519c603698f7f335c4c9c45e7d5842dc4c1bc2fc90a56e8adcd7d61c"
+      },
+      {
+        "path": "lib/models/sensor_reading.dart",
+        "lines": 57,
+        "sha256": "76d10a3215c099bf1ab4dbab36a87a1a50645b7f945b4b99b0a3b4ced9ee7029"
+      },
+      {
+        "path": "lib/models/system_clock_state.dart",
+        "lines": 71,
+        "sha256": "dc41e9390f7e3620570da2c3c99f43f98ff9585c47e167a83d1ad77f9fc86070"
+      },
+      {
+        "path": "lib/models/system_health_state.dart",
+        "lines": 57,
+        "sha256": "b0f77426349af659c921c6a31208682bc3ee2af5e8ee47e3e6b2973a1af3bccd"
+      },
+      {
+        "path": "lib/models/wifi_network.dart",
+        "lines": 19,
+        "sha256": "a669400ca43f78085b90cd65e6e0c43581024045e577d06419a9e303770953d9"
+      },
+      {
+        "path": "lib/pages/esp32_controller_page.dart",
+        "lines": 673,
+        "sha256": "1ec8b3e68daf372a04713351ec7ad0895379a08c27a4146318e55aef5cb44289"
+      },
+      {
+        "path": "lib/screens/automation_screen.dart",
+        "lines": 554,
+        "sha256": "a06570a4c0e89f1888e81f5eed9231a405a3e97a2336b8f3ff75a7abe1f42eb6"
+      },
+      {
+        "path": "lib/screens/dashboard_screen.dart",
+        "lines": 288,
+        "sha256": "686ad9cb65f416e136c2238e9e803510e045edc80e6c6a33392f91eea2177e43"
+      },
+      {
+        "path": "lib/screens/devices_screen.dart",
+        "lines": 424,
+        "sha256": "844e2538950a8b69e0112e072243fcde1eb2e63c27be5d6e40211cf175af0959"
+      },
+      {
+        "path": "lib/screens/main_screen.dart",
+        "lines": 106,
+        "sha256": "efc4859239fc8f1a3382be26e01f4261fc454e0f971447ce54fc0a4634f00355"
+      },
+      {
+        "path": "lib/screens/pair_controller_screen.dart",
+        "lines": 484,
+        "sha256": "5a6411e2481c2ad0c5e3bee467c06cdcd52121808670481834623c42dbbacf8c"
+      },
+      {
+        "path": "lib/screens/sensor_screen.dart",
+        "lines": 284,
+        "sha256": "c53de927b9302cdba3108cb92c82f4c5cd2d9f077cb19bd9aeafa079e9f29025"
+      },
+      {
+        "path": "lib/screens/sensors_screen.dart",
+        "lines": 89,
+        "sha256": "a1834ed2e91c78a1310975a09c5a8a669d9568ba80fb49527bd9f142174c833e"
+      },
+      {
+        "path": "lib/screens/settings_screen.dart",
+        "lines": 669,
+        "sha256": "f001b90e147b0971f09850fe1da1ed946138d6e8bb20abf5eea36f751283e386"
+      },
+      {
+        "path": "lib/screens/splash_screen.dart",
+        "lines": 163,
+        "sha256": "6cb0447061886710b3cd6d31fd04114887de74e5c8dc72447b7c437054763116"
+      },
+      {
+        "path": "lib/services/device_repository.dart",
+        "lines": 45,
+        "sha256": "758922d18fbb51ca8ff2a4ccefaec41915184f1c657e4d06caff4cbd4adea6b7"
+      },
+      {
+        "path": "lib/services/esp32_http_service.dart",
+        "lines": 280,
+        "sha256": "e7395c9f82022fcaa6d6ee2bb84bd0121e588d6b4e03ca56685dd3d26f335b25"
+      },
+      {
+        "path": "lib/services/farm_health_engine.dart",
+        "lines": 264,
+        "sha256": "aa50095354b70e261475d3108799821423b04e9e26f1e5c922477eacd267b095"
+      },
+      {
+        "path": "lib/services/sensor_repository.dart",
+        "lines": 32,
+        "sha256": "be44b0ae5f4d4919681f87c5f573cb8b142809d21e373ed9a0dad9fea37e7327"
+      },
+      {
+        "path": "lib/services/settings_repository.dart",
+        "lines": 90,
+        "sha256": "e678ea70796e1c791da12c00fec272d0a7110f05884c14fc45d2af701ffb2992"
+      },
+      {
+        "path": "lib/services/simulation_service.dart",
+        "lines": 56,
+        "sha256": "3d9adf08dac5a20553c18217b9b56ba57a2bfba30cc7b3b35f55907e043fafe9"
+      },
+      {
+        "path": "lib/services/snapshot_cache_service.dart",
+        "lines": 24,
+        "sha256": "1d4ced36a35d6e732602cedb2e153d97e1d7669a8f29b00fe45b2e75a3f64a49"
+      },
+      {
+        "path": "lib/stores/device_store.dart",
+        "lines": 461,
+        "sha256": "27900794cf1169ef6a68ebb9e94ec5fbfc96143b2eee1f1eb975ae658f8955d1"
+      },
+      {
+        "path": "lib/stores/pairing_store.dart",
+        "lines": 208,
+        "sha256": "cf5506666ab05c7564476fddbe326ebb1eaf5868c6e50e0314cd4d7937f6b4d4"
+      },
+      {
+        "path": "lib/stores/sensor_store.dart",
+        "lines": 100,
+        "sha256": "f3a1e656c0dd0714635d210119cb9ca5ef0058974d8b1232e7257d369f663f03"
+      },
+      {
+        "path": "lib/stores/settings_store.dart",
+        "lines": 120,
+        "sha256": "ad5357fb75778a8eed7333d8c59da4baa605119a3ecd5dd10b26dd8b4c814963"
+      },
+      {
+        "path": "lib/theme/app_theme.dart",
+        "lines": 15,
+        "sha256": "1655f4e3c0220eaa524dcbb96ebe2b0c087284289b412ed66c3c53df97fc8f05"
+      },
+      {
+        "path": "lib/widgets/dashboard/dashboard_data_widgets.dart",
+        "lines": 861,
+        "sha256": "161ce86fdda4165c7e8705418fcc96d9d940cdb3eaaaac6463dadc2ddb03cb88"
+      },
+      {
+        "path": "lib/widgets/dashboard/dashboard_overview_widgets.dart",
+        "lines": 698,
+        "sha256": "b410727b6b07362fb228888ada0eba2d013a5ec95f4e8a174253f03479fa1b4e"
+      },
+      {
+        "path": "lib/widgets/dashboard/farm_health_card.dart",
+        "lines": 266,
+        "sha256": "564976559d174c58f33b620014bf84ff84f41dbee48c3042b010d657a5ec7b70"
+      },
+      {
+        "path": "lib/widgets/dashboard/live_datetime_header.dart",
+        "lines": 213,
+        "sha256": "6f680ca4490a755d36317abeddaa16e4163333dd606f8b35e6d4f19e15bf222b"
+      },
+      {
+        "path": "lib/widgets/dashboard/quick_actions_card.dart",
+        "lines": 202,
+        "sha256": "601817e550633f82bd48c46d7dc1e50c2abd5a4c0e74b92445decda8f568d2f5"
+      },
+      {
+        "path": "lib/widgets/output_device_card.dart",
+        "lines": 277,
+        "sha256": "f36b9fbddd98cd30955d743ce84f95d13b97259bc9f2d3f6ebebe91007b456a0"
+      },
+      {
+        "path": "lib/widgets/output_device_dialog.dart",
+        "lines": 1323,
+        "sha256": "a1a9313ce448a5e69fd210f4c77f107103501f8ca13ea4dea8500b0c4a942542"
+      },
+      {
+        "path": "lib/widgets/pair_step_header.dart",
+        "lines": 54,
+        "sha256": "1581432ea47b2b9b02557f33e725fac42a38c4fa0dd1046fafbc48f959a600e5"
+      },
+      {
+        "path": "lib/widgets/relay_card.dart",
+        "lines": 82,
+        "sha256": "daac5dbe6296eb5e163fbbf9c2b7f14944f51459696e4748c8e23806038ee9c2"
+      },
+      {
+        "path": "lib/widgets/sensor_card.dart",
+        "lines": 153,
+        "sha256": "41b9f3d70f6491689b01aafb4fd149cadb2f549c032aa6e30e3a4c9f8b649c57"
+      },
+      {
+        "path": "lib/widgets/sensor_setup_dialog.dart",
+        "lines": 266,
+        "sha256": "8f54ef6753b4baa65a9cc03d8c1cec35f4f8822eb9cd17c5196411f802e49202"
+      },
+      {
+        "path": "lib/widgets/settings_tile.dart",
+        "lines": 80,
+        "sha256": "6b84c1d7bf8c0f154682b24ee5252ad6d0ab83b8bf217c65a5841b195bb5ad0a"
+      },
+      {
+        "path": "linux/flutter/generated_plugin_registrant.cc",
+        "lines": 11,
+        "sha256": "7861b227b10a10cc1d7643f82a246b7db35b503f2d9ff1d3c906136e6c260dce"
+      },
+      {
+        "path": "linux/flutter/generated_plugin_registrant.h",
+        "lines": 15,
+        "sha256": "00f93bb5b1faefdede8f6065df327522900fb0b8efee86bacf424fd947ed14bb"
+      },
+      {
+        "path": "linux/runner/main.cc",
+        "lines": 6,
+        "sha256": "ea23f7cdf74091d63bba29ef60486370b766157b848f0cfe62bd8b1c1695a0c1"
+      },
+      {
+        "path": "linux/runner/my_application.cc",
+        "lines": 148,
+        "sha256": "f84d656bebf782f6b9147b95ddeb8780ed0a101810bfb358e34cbf47a8b93518"
+      },
+      {
+        "path": "linux/runner/my_application.h",
+        "lines": 21,
+        "sha256": "a4218d7ac0db8a9a6716daf216b2d4fc6bdc7ac647e3183078b2c962ebdfcf70"
+      },
+      {
+        "path": "test/models/farm_state_test.dart",
+        "lines": 94,
+        "sha256": "f81b001d760e7ee2db433c789b6195a6c2f640d3cccf07a2b7419efd5f21c3ae"
+      },
+      {
+        "path": "test/services/farm_health_engine_test.dart",
+        "lines": 72,
+        "sha256": "cb184560605cff73ad4a6db1ed6e8625f60d4a88e254d974598631ba1d359f48"
+      },
+      {
+        "path": "test/widget_test.dart",
+        "lines": 14,
+        "sha256": "23480131f417cf075cdc551be8dfbffbc97faa3d1a2910b7e7361d6ba90268e2"
+      },
+      {
+        "path": "test/widgets/dashboard/dashboard_r82_widgets_test.dart",
+        "lines": 40,
+        "sha256": "7b0e0baae0476c571c8fc86a9e576130ea9d83cc6b97d57bb64fae7cb7aa3729"
+      },
+      {
+        "path": "windows/flutter/generated_plugin_registrant.cc",
+        "lines": 11,
+        "sha256": "82e02567f2faf5e732dc92a2fb0d01104f7ba8c48973f8cfd41a860b4fac3f3b"
+      },
+      {
+        "path": "windows/flutter/generated_plugin_registrant.h",
+        "lines": 15,
+        "sha256": "dbc11635d7b1ba1887adf40df5b83d634e9c3ab0bee34510c71528bb4d73602a"
+      },
+      {
+        "path": "windows/runner/flutter_window.cpp",
+        "lines": 71,
+        "sha256": "dd185884c0b5301d400b58f12ebb36b1c8b326531597e531b40e44a6eeb0e943"
+      },
+      {
+        "path": "windows/runner/flutter_window.h",
+        "lines": 33,
+        "sha256": "38e0fcd3a0b83895852ec295cb70d90179c0dcd40d58f065eb5232a4ecd84898"
+      },
+      {
+        "path": "windows/runner/main.cpp",
+        "lines": 43,
+        "sha256": "f87a065b6926e29a357db7944179c3260a8429b6372bee86d61655b6557549ea"
+      },
+      {
+        "path": "windows/runner/resource.h",
+        "lines": 16,
+        "sha256": "1fa98588b04561590ba1cf0521ab86a9db4a878312f21c9d5861d965ddd8d1ae"
+      },
+      {
+        "path": "windows/runner/utils.cpp",
+        "lines": 69,
+        "sha256": "6c2c87106b4b29d534c7edcafb3b7f7b9079caa3cdafa7e56671ad2adf5a2543"
+      },
+      {
+        "path": "windows/runner/utils.h",
+        "lines": 19,
+        "sha256": "95a7f7dddb832997cefa937a96f89472332277e75734a5de553610760b744b03"
+      },
+      {
+        "path": "windows/runner/win32_window.cpp",
+        "lines": 288,
+        "sha256": "9065f31ccf746cf8b390121f958f9e959033af864aed779597066625ed56bc36"
+      },
+      {
+        "path": "windows/runner/win32_window.h",
+        "lines": 102,
+        "sha256": "7dd03746b19dcf3542829b2f6e8ed40a2714ce5f2cb3b0e23f0118a2fcf62d62"
+      }
+    ]
+  },
+  "esp32": {
+    "files_read": 24,
+    "lines_read": 2762,
+    "errors": [],
+    "files": [
+      {
+        "path": "AutomationEngine.cpp",
+        "lines": 236,
+        "sha256": "378d1c8aedba75fa22daf991976608eb234c3a3c942df13ba9a03475d06198c6"
+      },
+      {
+        "path": "AutomationEngine.h",
+        "lines": 60,
+        "sha256": "f0486ecaa49f4efd2af395fe435ce6e616a0bdcc62cb488fad31a448ebeddfd2"
+      },
+      {
+        "path": "ClockService.cpp",
+        "lines": 181,
+        "sha256": "d73babb4258853b4cb1ea2fdca1fb9b2bdc1be687a7ca72b1be29e31b7609649"
+      },
+      {
+        "path": "ClockService.h",
+        "lines": 44,
+        "sha256": "b39a56bef10803dd59cd6d601ab3f036a1de086c2ccd35dfc34c851fef123662"
+      },
+      {
+        "path": "Config.h",
+        "lines": 66,
+        "sha256": "756dc46d350dc2d809f8c38aad3e718370730ba5f0f266d4f8e0547cd4462525"
+      },
+      {
+        "path": "EventLog.cpp",
+        "lines": 33,
+        "sha256": "d59dcc9580a8f79289aa11dde8d6f2cb3f67725356d387d949ad3b9d3344d6ec"
+      },
+      {
+        "path": "EventLog.h",
+        "lines": 26,
+        "sha256": "912ebcd73ecf915004962ae833484c08758ba7a9d1b06cb45c214e67551869f1"
+      },
+      {
+        "path": "Protocol.cpp",
+        "lines": 333,
+        "sha256": "2942eb1bcaa7e9e7dc81674c2c295aac0613db1879601f84d7e687fc153b023c"
+      },
+      {
+        "path": "Protocol.h",
+        "lines": 76,
+        "sha256": "aff27a2aec4045ef963c6b86ccd95382a18f7c1f7808a93fff97a55f4c031155"
+      },
+      {
+        "path": "ProvisioningResetManager.cpp",
+        "lines": 63,
+        "sha256": "8987ccd44d5719994fbcc7a9ea8a1376ddb9c99736c749a7ba6577c047b9d7c1"
+      },
+      {
+        "path": "ProvisioningResetManager.h",
+        "lines": 14,
+        "sha256": "8ded0ad6f2d8fcfc155812f9cf34d468f4d0d50e1a12306d5d485920f9d1e5b5"
+      },
+      {
+        "path": "RelayManager.cpp",
+        "lines": 102,
+        "sha256": "b5bd8031a653d38e3b6ac257470d8fa6ea8a7322e173dc84519d61e62612e4ce"
+      },
+      {
+        "path": "RelayManager.h",
+        "lines": 30,
+        "sha256": "d8fb4a0bc8dac599603f39c1fbb61b30ca337c3c6eb61ea43e02981c734a0351"
+      },
+      {
+        "path": "ScheduleAutomationEngine.cpp",
+        "lines": 175,
+        "sha256": "fa710b303548a9d49cedabbd316d896e233b6315f1316f0192c7174767135687"
+      },
+      {
+        "path": "ScheduleAutomationEngine.h",
+        "lines": 89,
+        "sha256": "10798d69d8a16ac330912e236716dc3b10c888587c16c56419405bfb8489d248"
+      },
+      {
+        "path": "SensorRegistry.cpp",
+        "lines": 110,
+        "sha256": "79315c808ddacdaa9eca45232876640cba4bc012f3104931aa63141141489dfc"
+      },
+      {
+        "path": "SensorRegistry.h",
+        "lines": 34,
+        "sha256": "d2762962c13de458ad4c33d7196ee855702448e5e5709ba9fd1682f95b522846"
+      },
+      {
+        "path": "SmartFarm_ESP32_5F_R8_12_V3_STABILITY.ino",
+        "lines": 94,
+        "sha256": "80b228f638eb6383a86cba1c49492d0417e57444d510c25341699ac8212d0aea"
+      },
+      {
+        "path": "StateManager.cpp",
+        "lines": 141,
+        "sha256": "548b698181eeac678bf93248a3ca74eada49139c0de6fcbea9c632e45b0e412b"
+      },
+      {
+        "path": "StateManager.h",
+        "lines": 32,
+        "sha256": "f9ec496d461b13bf965c7709712c07c19d4325745b0bf721c05e0b8cb338ad94"
+      },
+      {
+        "path": "SystemHealthManager.cpp",
+        "lines": 80,
+        "sha256": "cb28a586a374c1dde1e8f0c60ce2b257c4bb7a50b4360812130bd8fb237ce56d"
+      },
+      {
+        "path": "SystemHealthManager.h",
+        "lines": 37,
+        "sha256": "e03aae1fae456dbde59c55d837868517072d02c06807676895f12272f1b5fc28"
+      },
+      {
+        "path": "WiFiTransport.cpp",
+        "lines": 627,
+        "sha256": "d5824aa4ff536c26c68c65eecca906f357a5bb6b5036f537bfd548afe7fb01c6"
+      },
+      {
+        "path": "WiFiTransport.h",
+        "lines": 79,
+        "sha256": "d0d778a18f7b98158068577965207584bb7cba2abec6e2f82edc6c016c1df7d9"
+      }
+    ]
+  },
+  "checks": {
+    "flutter_dialog_no_inherited_lookup_in_init": true,
+    "flutter_profile_sync_barrier": true,
+    "flutter_http_diagnostics": true,
+    "flutter_version": true,
+    "esp_active_high": true,
+    "esp_gpio_map": true,
+    "esp_power_restore": true,
+    "esp_strict_profile_validation": true,
+    "esp_api_diagnostics": true,
+    "esp_version": true,
+    "esp_ino_folder_match": true
+  },
+  "toolchains": {
+    "flutter": "not installed",
+    "dart": "not installed",
+    "arduino_cli": "not installed"
+  },
+  "result": "pass"
+}

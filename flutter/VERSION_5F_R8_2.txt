@@ -1,0 +1,6 @@
+Smart Farm Controller 5F R8.2
+Flutter: 0.8.9+30
+ESP32: 0.6.10-5f-r8.1-hotfix2 (unchanged)
+Protocol Version: 1
+API Version: 2
+Release type: Dashboard UI Refresh

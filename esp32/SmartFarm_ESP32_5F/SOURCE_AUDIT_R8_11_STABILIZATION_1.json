@@ -1,0 +1,141 @@
+{
+  "release": "R8.11 Core Recovery Stabilization 1",
+  "flutterVersion": "0.8.11+101",
+  "firmwareVersion": "0.8.0-5f-r8.11-core-recovery",
+  "scheduleTests": [
+    {
+      "test": "same_day",
+      "expected": 7200,
+      "actual": 7200,
+      "passed": true
+    },
+    {
+      "test": "cross_midnight",
+      "expected": 29220,
+      "actual": 29220,
+      "passed": true
+    },
+    {
+      "test": "two_minutes",
+      "expected": 120,
+      "actual": 120,
+      "passed": true
+    },
+    {
+      "test": "max_window",
+      "expected": 86340,
+      "actual": 86340,
+      "passed": true
+    },
+    {
+      "test": "equal_invalid",
+      "expected": null,
+      "actual": null,
+      "passed": true
+    },
+    {
+      "test": "relay_pin_uniqueness",
+      "passed": true,
+      "pins": [
+        4,
+        5,
+        6,
+        7,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "test": "rtc_pin_separation",
+      "passed": true,
+      "rtc": [
+        8,
+        9
+      ]
+    }
+  ],
+  "delimiterAudit": {
+    "fileCount": 91,
+    "passed": true
+  },
+  "apiRouteAudit": [
+    {
+      "path": "/api/device",
+      "passed": true
+    },
+    {
+      "path": "/api/emergency-release",
+      "passed": true
+    },
+    {
+      "path": "/api/emergency-stop",
+      "passed": true
+    },
+    {
+      "path": "/api/relay",
+      "passed": true
+    },
+    {
+      "path": "/api/relays",
+      "passed": true
+    },
+    {
+      "path": "/api/state",
+      "passed": true
+    },
+    {
+      "path": "/api/v2/automations",
+      "passed": true
+    },
+    {
+      "path": "/api/v2/automations/delete",
+      "passed": true
+    },
+    {
+      "path": "/api/v2/automations/test",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/clock",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/clock/sync",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/devices/config",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/devices/evaluate",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/devices/request",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/runtime",
+      "passed": true
+    },
+    {
+      "path": "/api/v3/snapshot",
+      "passed": true
+    },
+    {
+      "path": "/api/wifi/connect",
+      "passed": true
+    },
+    {
+      "path": "/api/wifi/scan",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Flutter SDK not installed in build environment",
+    "Arduino CLI/ESP32 core not installed in build environment"
+  ]
+}

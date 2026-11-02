@@ -1,0 +1,13 @@
+SMART FARM+ CHECKPOINT 5F R8 - TEST CHECKLIST
+
+1) รัน flutter pub get
+2) รัน dart format lib
+3) รัน flutter analyze และส่งผลกลับ
+4) เปิดแอปโดยยังไม่เชื่อม ESP32: Dashboard ต้องแสดง Offline และไม่มีค่าปลอม
+5) เชื่อม ESP32: Hero Card ต้องแสดง firmware/protocol/uptime เมื่อ API มีข้อมูล
+6) เพิ่ม Temperature/Humidity/Soil sensor แล้วตรวจว่าการ์ดแสดง No data จน ESP32 ส่งค่าจริง
+7) เมื่อ metrics API ส่งค่า การ์ดต้องแสดงค่าจริงพร้อมหน่วย
+8) ทดสอบ Relay ON/OFF และสถานะ pending
+9) ทดสอบ Emergency Stop และ Release; รีเลย์ต้องไม่เปิดกลับเอง
+10) ตรวจ System Alerts/Event Timeline
+11) ทดสอบ Wi-Fi provisioning เดิมจาก R7

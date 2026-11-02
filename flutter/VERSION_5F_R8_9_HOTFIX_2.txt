@@ -1,0 +1,8 @@
+Smart Farm Flutter 5F R8.9 HOTFIX 2
+Version: 0.8.9+82
+
+- Restored the richer R8.7-style Add Device UI.
+- Preserved R8.9 real-sensor selection and start/stop thresholds.
+- Controller clock is fetched on connect and every polling cycle.
+- Devices page shows Controller time, weekday, date, month, year.
+- Clock parser accepts ISO dateTimeLocal and separate date/time fields.

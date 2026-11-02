@@ -1,0 +1,12 @@
+Smart Farm 5F R8.6
+Firmware: 0.8.0-5f-r8.6
+
+แกนหลัก:
+- DS3231 เป็นแหล่งเวลาหลักของ Automation Engine
+- REST API /api/v2/clock และ /api/v2/automations ใช้งานจริง
+- ตรวจสอบวัน เดือน ปี leap year, OSF/lostPower และ read failure
+- อ่านอุณหภูมิภายใน DS3231 แยกจากอุณหภูมิฟาร์ม
+- คำนวณ nextRunAt ของแต่ละตาราง
+- Device ID ผูกกับ Rule พร้อม relay channel เพื่อ backward compatibility
+- Cooldown, max runtime, emergency stop และ priority guard
+- ป้องกันทำงานซ้ำในนาทีเดียวหลัง reboot/poll ซ้ำ

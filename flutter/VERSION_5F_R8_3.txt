@@ -1,0 +1,6 @@
+Smart Farm Flutter 5F R8.3
+Version: 0.8.20+40
+Edition: Plug & Play Foundation
+API compatibility: 2
+Protocol compatibility: 1
+Relay profile: 8 channels

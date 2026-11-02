@@ -1,0 +1,2 @@
+Smart Farm Flutter 5F R8.8 HOTFIX 2
+Package version: 0.8.8+72

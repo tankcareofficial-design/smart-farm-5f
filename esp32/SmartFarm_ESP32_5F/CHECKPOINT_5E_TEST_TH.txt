@@ -1,0 +1,22 @@
+SMART FARM ESP32 CHECKPOINT 5E — LIVE CONTROLLER API
+====================================================
+
+บอร์ดเป้าหมาย: ESP32-S3 N16R8
+Baud rate: 115200
+SoftAP password: smartfarm123
+Base URL: http://192.168.4.1
+
+API ที่ Flutter ใช้
+- GET /api/device
+- GET /api/state
+
+วิธีตรวจโดยไม่ใช้แอป
+1. เชื่อมโทรศัพท์หรือคอมพิวเตอร์กับ SSID SmartFarm-xxxxxx
+2. เปิด http://192.168.4.1/api/device
+3. เปิด http://192.168.4.1/api/state
+4. ทั้งสอง URL ต้องตอบ JSON ที่มี ok=true
+5. Serial Monitor ต้องแสดง HTTP GET ของ endpoint ที่เรียก
+
+Checkpoint นี้ยังใช้รีเลย์เสมือน 4 ช่อง (GPIO = -1)
+ห้ามต่อโหลดกำลังสูงเพื่อทดสอบ 5E
+รีเลย์จริง 8 ช่องจะกำหนด GPIO และทดสอบใน Checkpoint 5G

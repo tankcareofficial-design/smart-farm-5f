@@ -1,0 +1,7 @@
+SMART FARM CONTROLLER 5F R8.1
+Flutter: 0.8.7+28
+ESP32: 0.6.9-5f-r8.1-stability
+Protocol Version: 1
+API Version: 2
+Release type: Architecture Validation & Stability
+Base: 5F R8 HOTFIX 1

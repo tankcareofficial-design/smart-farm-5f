@@ -1,0 +1,8 @@
+SMART FARM ESP32 CHECKPOINT 5F R8
+Firmware: 0.6.8-5f-r8-state-snapshot
+
+- รักษา HTTP API เดิมจาก R7
+- ส่ง metrics temperature, humidity และ soilMoisture เมื่อฮาร์ดแวร์มีข้อมูล
+- คง protocolVersion, apiVersion, uptimeMs และ EventLog
+- คง SoftAP + Station provisioning และ Wi-Fi reconnect
+- คง Emergency latch และ relay fail-safe

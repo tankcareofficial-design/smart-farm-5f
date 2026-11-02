@@ -1,0 +1,18 @@
+SMART FARM CHECKPOINT 5E FINAL
+
+ขอบเขต:
+- หน้า Dashboard และ Theme คงโครงสร้างเดิม
+- Settings > Controller เปิดหน้าควบคุม ESP32 โดยตรง ไม่บังคับผ่านข้อมูล Pairing จำลอง
+- เชื่อมต่อจริงด้วย GET /api/device และ GET /api/state
+- เมื่อเชื่อมสำเร็จ บันทึก Device ID, SSID, Base URL และสถานะลง Settings
+- อุปกรณ์ Output เริ่มต้นเป็นรายการว่าง เพิ่มเมื่อผู้ใช้กดเพิ่ม และบันทึกด้วย SharedPreferences
+- Auto reconnect ทำงานเฉพาะเมื่อเคยเชื่อม Controller จริงแล้ว
+
+ทดสอบ:
+1) ต่อมือถือกับ Wi-Fi SmartFarm-xxxxxx รหัส smartfarm123
+2) เปิดแอป > ตั้งค่า > Controller
+3) Base URL http://192.168.4.1
+4) กดเชื่อมต่อ
+5) ต้องเห็น Device ID/Firmware/Uptime/Wi-Fi clients จาก ESP32 จริง
+6) กลับหน้าตั้งค่า ต้องจำ Controller และสถานะ
+7) หน้าอุปกรณ์ต้องว่างจนกดเพิ่ม และเปิดแอปใหม่อุปกรณ์ที่เพิ่มต้องยังอยู่

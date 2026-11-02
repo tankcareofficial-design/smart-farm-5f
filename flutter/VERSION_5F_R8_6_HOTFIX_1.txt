@@ -1,0 +1,10 @@
+Smart Farm 5F R8.6 HOTFIX 1
+
+Scope: Flutter static-analysis cleanup only.
+Base: Smart Farm Flutter 5F R8.6
+Firmware compatibility: Smart Farm ESP32 5F R8.6 (unchanged)
+
+Fixes:
+- Added braces to SystemClockState.fromJson null guard.
+- Guarded BuildContext after async gaps with context.mounted.
+- Removed unused _PlaceholderScreen declaration.

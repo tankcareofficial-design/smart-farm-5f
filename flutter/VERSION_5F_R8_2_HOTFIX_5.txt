@@ -1,0 +1,4 @@
+Smart Farm Flutter 5F R8.2 HOTFIX 5
+Version: 0.8.13+34
+UI: 0.7.5a green card language
+User terminology: Plug & Play

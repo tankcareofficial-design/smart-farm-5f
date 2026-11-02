@@ -1,0 +1,4 @@
+Smart Farm 5F R8.1 HOTFIX 2
+Flutter: 0.8.8+29
+Protocol: 1
+API: 2

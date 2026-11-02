@@ -1,0 +1,8 @@
+Smart Farm ESP32 5F R8.3
+Firmware: 0.7.0-5f-r8.3-plugplay
+Hardware profile: smart_farm_8ch_plugplay_v1
+Accessory schema: 1
+API: 2
+Protocol: 1
+Relay count: 8
+Simulation: disabled

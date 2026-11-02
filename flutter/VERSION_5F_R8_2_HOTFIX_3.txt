@@ -1,0 +1,4 @@
+Smart Farm Flutter 5F R8.2 HOTFIX 3
+Version 0.8.12+33
+ESP32 0.6.11-5f-r8.2-hotfix3
+Relay profile: 8

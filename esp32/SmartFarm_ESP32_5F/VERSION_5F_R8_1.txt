@@ -1,0 +1,5 @@
+SMART FARM ESP32 5F R8.1
+Firmware: 0.6.9-5f-r8.1-stability
+Protocol Version: 1
+API Version: 2
+Base: 5F R8

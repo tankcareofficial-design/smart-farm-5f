@@ -1,0 +1,5 @@
+Smart Farm ESP32 5F R8.1 HOTFIX 2
+Firmware: 0.6.10-5f-r8.1-hotfix2
+Protocol: 1
+API: 2
+Relay channels: 12

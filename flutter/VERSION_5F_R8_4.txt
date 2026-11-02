@@ -1,0 +1,4 @@
+Smart Farm 5F R8.4
+Flutter: 0.8.30+50
+Accessory Schema: 2
+Focus: Product Identity + Device Role/Port Foundation

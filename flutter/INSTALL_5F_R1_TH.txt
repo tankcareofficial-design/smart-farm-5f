@@ -1,0 +1,15 @@
+วิธีติดตั้ง Checkpoint 5F Revision 1
+
+1. ปิด VS Code ของโปรเจกต์เดิม
+2. แตก ZIP ลงโฟลเดอร์ใหม่ ห้ามแตกทับโฟลเดอร์เก่า
+3. เปิดโฟลเดอร์ใหม่ที่มี pubspec.yaml
+4. รัน:
+   flutter clean
+   flutter pub get
+   dart format .
+   flutter analyze
+   flutter run
+
+ถ้า VS Code ยังแสดง Error เก่าหลัง flutter analyze ผ่าน:
+- กด Ctrl+Shift+P
+- เลือก Dart: Restart Analysis Server

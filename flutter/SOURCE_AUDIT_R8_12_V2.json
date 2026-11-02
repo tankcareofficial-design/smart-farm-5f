@@ -1,0 +1,1622 @@
+{
+  "SmartFarm_ESP32_5F_R8_12_V2_POWER_RECOVERY": {
+    "source_files_read": 98,
+    "source_lines_read": 4233,
+    "issues": [],
+    "files": [
+      {
+        "path": "AutomationEngine.cpp",
+        "lines": 236,
+        "sha256": "378d1c8aedba75fa22daf991976608eb234c3a3c942df13ba9a03475d06198c6"
+      },
+      {
+        "path": "AutomationEngine.h",
+        "lines": 60,
+        "sha256": "f0486ecaa49f4efd2af395fe435ce6e616a0bdcc62cb488fad31a448ebeddfd2"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_1.md",
+        "lines": 8,
+        "sha256": "98aa3d65eafa6f7841564090a75968d757fef79b78a42aebdef92aa888e3e09d"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_11_CORE_RECOVERY.md",
+        "lines": 9,
+        "sha256": "7c04e52d51ca08e45297e2d43a5fbfab1154f16696250c0cce9f0dd410888e03"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_11_STABILIZATION_1.md",
+        "lines": 11,
+        "sha256": "688ea0a5d059aea7bc269a4e75c747ce58dd15fc98b533c9ccb5a4e06437a53b"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_12.md",
+        "lines": 7,
+        "sha256": "3c3e0a13d04e59445293d16c3b1c037fe6d7fd101d72a6cc7a45487cccbb7082"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_12_V2.md",
+        "lines": 21,
+        "sha256": "efb5ac9b0c1ba803324e85580baad788fe25b4038e99b9cb03d2a1ffb7314d9e"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_1_HOTFIX_2.md",
+        "lines": 13,
+        "sha256": "73358985d3cad3f72c3863729989db4c403c100d211273ba7c80d783d73791e0"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_3.md",
+        "lines": 7,
+        "sha256": "41ed199dbff49e41aaf5d7b7c413dd9bc8e4d13ba08803e87900b74ace92c8be"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_4.md",
+        "lines": 25,
+        "sha256": "95a2ef241d21a896c124eda14e892d899afb07812fe0907b8b0d829575c0bb86"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_5.md",
+        "lines": 9,
+        "sha256": "074d2d554efd95cfa8ef1c56e09f06a7c3bf5093980d2ee014cc1297565c59ac"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_3.md",
+        "lines": 10,
+        "sha256": "1faf31fc4636bb97380c6aa7b8abbe258cb937549ce7be84ee91afbacf59c2b0"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_4.md",
+        "lines": 8,
+        "sha256": "99f75501e2d99bb252f5a340368a82769c7a88ccb440414cc5064832fda92b6d"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_5.md",
+        "lines": 7,
+        "sha256": "08324236be7ca6580f658031dad7345d2ff50d55c3098bce8fd2be9e7ab364c9"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_6.md",
+        "lines": 14,
+        "sha256": "426c36ca6fed96814d814a4facfc362d7f63465f56c2b6eafaf65f0f8ee8f3a9"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_6_HOTFIX_2.md",
+        "lines": 15,
+        "sha256": "23fea7a448cfdfd0f74388ca30e1ce67445ea37df71fb0b45128ba50c8a78a8d"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7.md",
+        "lines": 9,
+        "sha256": "628846a04cb562ed0b521e44639aac13119e5799eb0c83b5ced1a66724bfe5f4"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7_1_ADVANCED.md",
+        "lines": 8,
+        "sha256": "dcb3174d5dcddfeac1650bd5c16f0ad13128668b72fcaabd09512817468f2529"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7_HOTFIX_1.md",
+        "lines": 11,
+        "sha256": "71515054db909e77ca881a4d9bc92f64d6a6a69555cfc1e049f8598143bc7e6c"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_8.md",
+        "lines": 6,
+        "sha256": "cca9746c821ce069b5d8022c7528b8a5e60442c701b36a2fe23bd7b3326c79cf"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_9.md",
+        "lines": 9,
+        "sha256": "5ff18c7d6cf78fd7d32cd634b9d2b7507b57041751327bccae22e2b4375d8ce9"
+      },
+      {
+        "path": "CHECKPOINT_5E1_TH.txt",
+        "lines": 7,
+        "sha256": "048460c2f46747b91282cf93a4f66f5bbbeaaabc0a55d6f4b51eb89b5ccebc15"
+      },
+      {
+        "path": "CHECKPOINT_5E_FINAL_TH.txt",
+        "lines": 10,
+        "sha256": "df27504e21e0f0f0c8f3e5d70deb598164af2b1fa0c9800c9402b95045913dbe"
+      },
+      {
+        "path": "CHECKPOINT_5E_TEST_TH.txt",
+        "lines": 22,
+        "sha256": "41244efa08671201eaf7f8c1f52290badd817e7d63f4e4f96d8657e52d1903f1"
+      },
+      {
+        "path": "CHECKPOINT_5F_R1_TH.txt",
+        "lines": 10,
+        "sha256": "ae6c6e7b11e57ab1484080929bf1a91e77ea854d2068324a251d72390e03841b"
+      },
+      {
+        "path": "CHECKPOINT_5F_R2_TH.txt",
+        "lines": 10,
+        "sha256": "fb9fc44410bbc28823e2304c89523b07cdd46771e189be67d085f7b71338234b"
+      },
+      {
+        "path": "CHECKPOINT_5F_R3_TH.txt",
+        "lines": 6,
+        "sha256": "3e11bf44d7aa4df6f85fdfc18ee5f75f8f18ba056347817fd8d4b661d9951486"
+      },
+      {
+        "path": "CHECKPOINT_5F_R4_TH.txt",
+        "lines": 16,
+        "sha256": "5c94bf98e8bb1b52af72d9ecd127b4c5fa1d9b2f98ed3ad37e98a320277d71f7"
+      },
+      {
+        "path": "CHECKPOINT_5F_R5_TH.txt",
+        "lines": 7,
+        "sha256": "eaecceaae66cd99714de3bb6d4083da21295f6eefa28a6d958d36b0d1aa78696"
+      },
+      {
+        "path": "CHECKPOINT_5F_R6_TH.txt",
+        "lines": 6,
+        "sha256": "a8af7b61209cfa7f432f5f1d2f41115a0090a06ab29f7a05e0ffc3bbf6865f25"
+      },
+      {
+        "path": "CHECKPOINT_5F_R7_TH.txt",
+        "lines": 7,
+        "sha256": "a7a69d6038128dc025833bd9a5f3aa745b68f752b7737b6fc3f852a5c3fde4f8"
+      },
+      {
+        "path": "CHECKPOINT_5F_R8_TH.txt",
+        "lines": 8,
+        "sha256": "99979cbdba5d018e58f7c5d0fb5b1b1b129973e22873c01ca8dc1111829c32dd"
+      },
+      {
+        "path": "CHECKPOINT_5F_TH.txt",
+        "lines": 13,
+        "sha256": "19da137134fbf803959e15a07e2ca940f450286a8a3c914dc116729498a07ba2"
+      },
+      {
+        "path": "ClockService.cpp",
+        "lines": 181,
+        "sha256": "d73babb4258853b4cb1ea2fdca1fb9b2bdc1be687a7ca72b1be29e31b7609649"
+      },
+      {
+        "path": "ClockService.h",
+        "lines": 44,
+        "sha256": "b39a56bef10803dd59cd6d601ab3f036a1de086c2ccd35dfc34c851fef123662"
+      },
+      {
+        "path": "Config.h",
+        "lines": 66,
+        "sha256": "7adf7e01c3594a79cfde949960d527833c97d584c4c537315c15426ada7a3da7"
+      },
+      {
+        "path": "EventLog.cpp",
+        "lines": 33,
+        "sha256": "d59dcc9580a8f79289aa11dde8d6f2cb3f67725356d387d949ad3b9d3344d6ec"
+      },
+      {
+        "path": "EventLog.h",
+        "lines": 26,
+        "sha256": "912ebcd73ecf915004962ae833484c08758ba7a9d1b06cb45c214e67551869f1"
+      },
+      {
+        "path": "HARDWARE_BLOCKERS_R8_11.md",
+        "lines": 5,
+        "sha256": "f0c13754ed2752f64ee2abcb584f854083ed7dc884092839f2e4a04a3d612a86"
+      },
+      {
+        "path": "MOBILE_HTTP_TEST_TH.txt",
+        "lines": 24,
+        "sha256": "faf1334f9e3d75825daced50ce5f5e01567ca7be924a6084f20b0d00e3387dc5"
+      },
+      {
+        "path": "Protocol.cpp",
+        "lines": 333,
+        "sha256": "2942eb1bcaa7e9e7dc81674c2c295aac0613db1879601f84d7e687fc153b023c"
+      },
+      {
+        "path": "Protocol.h",
+        "lines": 76,
+        "sha256": "aff27a2aec4045ef963c6b86ccd95382a18f7c1f7808a93fff97a55f4c031155"
+      },
+      {
+        "path": "ProvisioningResetManager.cpp",
+        "lines": 63,
+        "sha256": "8987ccd44d5719994fbcc7a9ea8a1376ddb9c99736c749a7ba6577c047b9d7c1"
+      },
+      {
+        "path": "ProvisioningResetManager.h",
+        "lines": 14,
+        "sha256": "8ded0ad6f2d8fcfc155812f9cf34d468f4d0d50e1a12306d5d485920f9d1e5b5"
+      },
+      {
+        "path": "README_5E_TH.txt",
+        "lines": 21,
+        "sha256": "c4e50f8b021e5d7065115867ce74d363a6733623de83815c8199d7f14ada37bd"
+      },
+      {
+        "path": "README_TH.txt",
+        "lines": 91,
+        "sha256": "5a0e5be20dbe6cdade4a71ce62005e0f0898c47a306157c823bbd271931031f0"
+      },
+      {
+        "path": "RelayManager.cpp",
+        "lines": 102,
+        "sha256": "b5bd8031a653d38e3b6ac257470d8fa6ea8a7322e173dc84519d61e62612e4ce"
+      },
+      {
+        "path": "RelayManager.h",
+        "lines": 30,
+        "sha256": "d8fb4a0bc8dac599603f39c1fbb61b30ca337c3c6eb61ea43e02981c734a0351"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_11.json",
+        "lines": 47,
+        "sha256": "574e7045d99c81ec9694b93248c89072cc6d8448233bef61ac1ae32bfa8dce8e"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_11_STABILIZATION_1.json",
+        "lines": 141,
+        "sha256": "0cacd24c760699b484c13f25133a9453b7eb796ed4778ee4fa67d6ee9025f1ca"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_12.json",
+        "lines": 573,
+        "sha256": "0e4ef61c1b9d56811da08e6447d5407284f86af6747f48cb9b92334162a25719"
+      },
+      {
+        "path": "ScheduleAutomationEngine.cpp",
+        "lines": 168,
+        "sha256": "e924ba20e0951256b04594d5c39d114343eee381a92c091346d9443fb002cadb"
+      },
+      {
+        "path": "ScheduleAutomationEngine.h",
+        "lines": 89,
+        "sha256": "10798d69d8a16ac330912e236716dc3b10c888587c16c56419405bfb8489d248"
+      },
+      {
+        "path": "SensorRegistry.cpp",
+        "lines": 110,
+        "sha256": "79315c808ddacdaa9eca45232876640cba4bc012f3104931aa63141141489dfc"
+      },
+      {
+        "path": "SensorRegistry.h",
+        "lines": 34,
+        "sha256": "d2762962c13de458ad4c33d7196ee855702448e5e5709ba9fd1682f95b522846"
+      },
+      {
+        "path": "SmartFarm_ESP32_5F_R8_12_V2_POWER_RECOVERY.ino",
+        "lines": 94,
+        "sha256": "80b228f638eb6383a86cba1c49492d0417e57444d510c25341699ac8212d0aea"
+      },
+      {
+        "path": "StateManager.cpp",
+        "lines": 141,
+        "sha256": "548b698181eeac678bf93248a3ca74eada49139c0de6fcbea9c632e45b0e412b"
+      },
+      {
+        "path": "StateManager.h",
+        "lines": 32,
+        "sha256": "f9ec496d461b13bf965c7709712c07c19d4325745b0bf721c05e0b8cb338ad94"
+      },
+      {
+        "path": "SystemHealthManager.cpp",
+        "lines": 80,
+        "sha256": "cb28a586a374c1dde1e8f0c60ce2b257c4bb7a50b4360812130bd8fb237ce56d"
+      },
+      {
+        "path": "SystemHealthManager.h",
+        "lines": 37,
+        "sha256": "e03aae1fae456dbde59c55d837868517072d02c06807676895f12272f1b5fc28"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_1.md",
+        "lines": 9,
+        "sha256": "2df9fe73fce5d1b04d8ea9a35a2c37334e050b8af887a2a7ae0fe2bd0d009384"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_11.md",
+        "lines": 7,
+        "sha256": "a660184704fe694dc5c21b7e1d94a28bb9c3b4e21e7906ac6e1ab2ae1c31a57f"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_11_STABILIZATION_1.md",
+        "lines": 10,
+        "sha256": "7266e9c7b72bf3b04fe0fa70f829bd8334c13d815a6c4296b535ebbbdc1966ef"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_12.md",
+        "lines": 11,
+        "sha256": "c9a5a466bd32ec1ae41a8688412758bd14f38c2b686b99dcd7cbb0b5f1f4e57c"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_12_V2.md",
+        "lines": 10,
+        "sha256": "cef4bd184e4da45f35c8ae0855a14c6b2be9d8fb543d5f95ebf05455547b2968"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_1_HOTFIX_2.md",
+        "lines": 9,
+        "sha256": "27d0bcd6278e83cb6dbca52f8a037c53542bd0165cc8e5ef63cd60720b5762bb"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_3.md",
+        "lines": 7,
+        "sha256": "c3e3272e96b0f13ad4a2b20ad8713dc909960cb77886fc92618e4062c4098f40"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_4.md",
+        "lines": 10,
+        "sha256": "9d286e31b8d37ac9e11f0c5af457e40f1bff7ee707e0bcefd6e2ec1c21ce3359"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_3.md",
+        "lines": 9,
+        "sha256": "57253fa3f8c7620655d246c2fec2bf13952581832e50cb583a868ba072e3bfae"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_4.md",
+        "lines": 8,
+        "sha256": "10db645ac2bf26f34cd8386ac1b0bc8f263355c6bbfdd9b45f8e6dde5e4d0ab5"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_5.md",
+        "lines": 8,
+        "sha256": "ca16dc4db266393c5107b6dc51325e0b1d8b07d1a65a928df8b0a8ea566eb64c"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_6.md",
+        "lines": 12,
+        "sha256": "54a9cc0aa9bb6ee0180cc4c131c5c15a7b4ab3bcef88430be04fac2d5708ac2d"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_6_HOTFIX_2.md",
+        "lines": 11,
+        "sha256": "ac1db70534de61f6a881ab3b192b62413467d0ea7ce1a8cc5286ad2be9917b1f"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7.md",
+        "lines": 12,
+        "sha256": "3aa817c5f14d71865425c72cc5d8ff49bc0458adafff6d6f60553648e0a6ce4f"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7_1_ADVANCED.md",
+        "lines": 9,
+        "sha256": "bbfc8e7e88178737f866122dba4878be5ae6f76e6bdfc0a2a9cba4aa5152411e"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7_HOTFIX_1.md",
+        "lines": 9,
+        "sha256": "cbcd52d7d9ef9e557fe429c8d691479500d6c86944e20a46726509f760175860"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_8.md",
+        "lines": 9,
+        "sha256": "f1dd0350962b435168adec5da518019326d35dd1ac72ebb3bde99c9e896f58a9"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_9.md",
+        "lines": 9,
+        "sha256": "cdf249b5e03cf16cd82186df751070f2b0c52d5c8066c310e870a5f1b1a7ab5c"
+      },
+      {
+        "path": "VERSION_5F_R8_1.txt",
+        "lines": 5,
+        "sha256": "e85bc4052937d9b9745ab32985445aeb31e052092d1802d32cce94562c833f0e"
+      },
+      {
+        "path": "VERSION_5F_R8_11.txt",
+        "lines": 3,
+        "sha256": "705e03c53bd1bb8a2538814d5e2a2106c92f035b56639ac70e26e2a035dbb883"
+      },
+      {
+        "path": "VERSION_5F_R8_12.txt",
+        "lines": 2,
+        "sha256": "105ba775a7bb350bc6f92772ec91588b5b77ee5cf18c361abe0299828fe03624"
+      },
+      {
+        "path": "VERSION_5F_R8_12_V2.txt",
+        "lines": 5,
+        "sha256": "da6908fca34a66e482ee5c31d20c5abd7396e132c07d324cec31b3edb96790de"
+      },
+      {
+        "path": "VERSION_5F_R8_1_HOTFIX_2.txt",
+        "lines": 5,
+        "sha256": "103153a1313a842600b4fd3fb14864d2b71ff25202843fed16833b35e8895ca7"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_3.txt",
+        "lines": 6,
+        "sha256": "be79f409424dd63a7e191a102baa71df06ddf5dc54a42fdf41ef700e8200faa0"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_4.txt",
+        "lines": 6,
+        "sha256": "83e109fdf563f9acebb69bc01a944e3bbe45827cffbb956af7a94b0a12cb69b0"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_5.txt",
+        "lines": 7,
+        "sha256": "3b332c79f72a75f9ee82f6118eb0fffc21ced3cfe2c1edb02b60ad24cb6d41d8"
+      },
+      {
+        "path": "VERSION_5F_R8_3.txt",
+        "lines": 8,
+        "sha256": "fac40d16616294fc50200aaca1421fa26f27382058703b917fa6bef47c761a3c"
+      },
+      {
+        "path": "VERSION_5F_R8_4.txt",
+        "lines": 4,
+        "sha256": "96123e1e344945120b995f63b65dda929298606294d4cf8c8653d688a816d530"
+      },
+      {
+        "path": "VERSION_5F_R8_5.txt",
+        "lines": 5,
+        "sha256": "6a4de4740cfcf86b61b87d51c4ec9f3c15db4a68c0404c8bb9094acd980539ad"
+      },
+      {
+        "path": "VERSION_5F_R8_6.txt",
+        "lines": 12,
+        "sha256": "6b996d7f5bd6da4b88112dbf7d3b205cff4a9b33b566c7c8ddf48f13036ff131"
+      },
+      {
+        "path": "VERSION_5F_R8_6_HOTFIX_2.txt",
+        "lines": 3,
+        "sha256": "2dfeb56c104df1eea97456218e2f41e9010926d47546c1890067161f43eb7fc3"
+      },
+      {
+        "path": "VERSION_5F_R8_7.txt",
+        "lines": 4,
+        "sha256": "6876e9141fe73e9ca48d2d7c19b12cfd9ec6cd369f8d740ce6a8176b6906f24e"
+      },
+      {
+        "path": "VERSION_5F_R8_7_1_ADVANCED.txt",
+        "lines": 4,
+        "sha256": "96530e606e756bafebc5dfae51449e1354d4238fc92ce1fa996672e22faa9db3"
+      },
+      {
+        "path": "VERSION_5F_R8_7_HOTFIX_1.txt",
+        "lines": 3,
+        "sha256": "bb5e8d8aa6fd8690c50c86beae7f226f29cde87e2779243efefea1ae0a60048f"
+      },
+      {
+        "path": "VERSION_5F_R8_8.txt",
+        "lines": 2,
+        "sha256": "772f449a81ce2d7ccda12989bb013d0abc2ee43b0d49360922cbf9a77a0615fd"
+      },
+      {
+        "path": "VERSION_5F_R8_9.txt",
+        "lines": 2,
+        "sha256": "930fd2c808e5043f3d4a00ea5dd8e3bd4608de8979c9d76d475352745015658b"
+      },
+      {
+        "path": "WiFiTransport.cpp",
+        "lines": 619,
+        "sha256": "ae3833ca3ddfa924193a4bfdcd1a28aada6f23f4b4480ab152e96978370e259c"
+      },
+      {
+        "path": "WiFiTransport.h",
+        "lines": 79,
+        "sha256": "d0d778a18f7b98158068577965207584bb7cba2abec6e2f82edc6c016c1df7d9"
+      }
+    ]
+  },
+  "SmartFarm_Flutter_5F_R8_12_V2_POWER_RECOVERY": {
+    "source_files_read": 221,
+    "source_lines_read": 18787,
+    "issues": [],
+    "files": [
+      {
+        "path": "ARCHITECTURE_IMPACT_5F_R8_1.md",
+        "lines": 25,
+        "sha256": "f704eb187e8558b9ad72beb568fab24628f5c2a977952180c5f1c73ebfd9dc1f"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "lines": 17,
+        "sha256": "f0ed7f88273a4df852ee89ae4056f41d760fe1fc95e58eae985a60c990219876"
+      },
+      {
+        "path": "CHANGELOG_0.7.4.md",
+        "lines": 11,
+        "sha256": "57402c533b2cebaa44339f32eb176df620aa1fe5ce4929319a94879ddf24c93d"
+      },
+      {
+        "path": "CHANGELOG_5E_R1.md",
+        "lines": 23,
+        "sha256": "cc0535eeae7b85510cb14db8ea649cdce0c5c8c6a49ece1cb28ab74354d6766b"
+      },
+      {
+        "path": "CHANGELOG_5F.md",
+        "lines": 20,
+        "sha256": "95806baa99a06e0464fce94cfe736ad4141991254437eb6959f0084188eea1e1"
+      },
+      {
+        "path": "CHANGELOG_5F_R1.md",
+        "lines": 15,
+        "sha256": "6156720f018ce871de036567e8d0a1b4de0bc76c1a7566c9e163c77ef3a90e5c"
+      },
+      {
+        "path": "CHANGELOG_5F_R2.md",
+        "lines": 17,
+        "sha256": "6bdabd3610bccaac012d01e2303d5ee10a45ec56430d4720b4e6ab298c7a2b7f"
+      },
+      {
+        "path": "CHANGELOG_5F_R3.md",
+        "lines": 16,
+        "sha256": "d9cdae81fd34b0ea4ab94bd3db6583e8ec9fd7471a8a782860537853881047e6"
+      },
+      {
+        "path": "CHANGELOG_5F_R4.md",
+        "lines": 22,
+        "sha256": "4bac8e04ba6cacaf13bd4a8418ad2dd955e1119ec1e3c117e8c95c7522b1ca7e"
+      },
+      {
+        "path": "CHANGELOG_5F_R5.md",
+        "lines": 9,
+        "sha256": "38a83c6d76bb1067ff7f4326199745c5e5b5a4d800f22240239934effd84b11c"
+      },
+      {
+        "path": "CHANGELOG_5F_R6.md",
+        "lines": 9,
+        "sha256": "47e97601bce178eafe3757ccd2382ec3bf8ee259a35b32786f1ff01be08fb2ea"
+      },
+      {
+        "path": "CHANGELOG_5F_R7.md",
+        "lines": 17,
+        "sha256": "6cc080dcf0882a504667c18f80be9c68edc5598f6ebaf7de89f626cac1114312"
+      },
+      {
+        "path": "CHANGELOG_5F_R7_HOTFIX_1.md",
+        "lines": 10,
+        "sha256": "471fa8f9b05866fe1950193df6ecb330d3f260282f4adb892f9258a454262cd5"
+      },
+      {
+        "path": "CHANGELOG_5F_R8.md",
+        "lines": 26,
+        "sha256": "3646edc909883a25b2b8699ca4e0354382081deb0aa6a143d2724e9e74a34948"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_1.md",
+        "lines": 49,
+        "sha256": "9c474daeb824cf7af963df0db6b7e9b1cdf74185f0b3b4ab41bf2b7da361c6be"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_10_ARCHITECTURE_UPGRADE.md",
+        "lines": 10,
+        "sha256": "b0df5607f68a0555c3f608f3d1a9dd078acf3269600b52dced9901223f8216eb"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_10_GLOBAL_CLOCK_HOTFIX.md",
+        "lines": 10,
+        "sha256": "2d24abafb21affc47e04560c9b58dfb620fdad74997621950cc6a4c8f86989e2"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_10_GLOBAL_CLOCK_HOTFIX_2.md",
+        "lines": 7,
+        "sha256": "e92834bcf5644566f6007f2741452f63b496289a629117c73baccbcfca22e302"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_10_HOTFIX_1.md",
+        "lines": 7,
+        "sha256": "c88122d6e62c3106a35f40af0aee64855f36fb788b3fa890d404b0ceb3b01336"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_11_CORE_RECOVERY.md",
+        "lines": 9,
+        "sha256": "7c04e52d51ca08e45297e2d43a5fbfab1154f16696250c0cce9f0dd410888e03"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_11_STABILIZATION_1.md",
+        "lines": 11,
+        "sha256": "688ea0a5d059aea7bc269a4e75c747ce58dd15fc98b533c9ccb5a4e06437a53b"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_12.md",
+        "lines": 8,
+        "sha256": "b87aa0dd6278ece21ed20b2e9446aaa1843d2397274930f27cd12c058d99ba91"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_12_V2.md",
+        "lines": 6,
+        "sha256": "95f200d9bab377cbf6ebd5ac434fa29ac33e8c2db80ac52020eedbc4d4557c04"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_1_HOTFIX_2.md",
+        "lines": 12,
+        "sha256": "51c84df8e05c5ff80672e4b1eab7ba3453f7d466b69a170985c8b47f58de541b"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2.md",
+        "lines": 36,
+        "sha256": "6a7a94541a4bab023353783b1d1b2ce8448fc8d3debea243fd21f4c881c7a932"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_1.md",
+        "lines": 32,
+        "sha256": "be20b72c28878740c4c9dc71fd1152b7fe39030b4a0dabc040aef5567f3d90da"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_2.md",
+        "lines": 9,
+        "sha256": "aea6ec0e1433ce9439115a55e1c90c173790c2a65a03ef85c086ab34ea71fcb4"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_3.md",
+        "lines": 9,
+        "sha256": "a84e530120c393b73e87ceaff487df6f2e816c01d442e21337c08d9e23975cd3"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_2_HOTFIX_5.md",
+        "lines": 6,
+        "sha256": "0e9de6dcaf7dd929cc744629b2f9e99819a71871f536c3ef6d0e99c1286dc27d"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_3.md",
+        "lines": 18,
+        "sha256": "8342bebc9f122eafbcaadee605f84c53f23a5c2be915d218a5c6faaaedef16ca"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_4.md",
+        "lines": 8,
+        "sha256": "9e3564c42fb952dd6043cb3b27ec0d7911c7a9f48ad8a0027cdfd620234038a4"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_5.md",
+        "lines": 6,
+        "sha256": "d2a787b28d2b3c57a730d0f811b30563ce2381950391b1cf3e09bc0f0a4aa757"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_6.md",
+        "lines": 8,
+        "sha256": "f310aaa1df6e81e36a3436d6a4cf31961c6376c7a6cf1e71345808506fc22316"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_6_HOTFIX_1.md",
+        "lines": 10,
+        "sha256": "90b6e0c3868b03477732e5b4992542710ed77d627d9308b4a503bab331ea6c58"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7.md",
+        "lines": 9,
+        "sha256": "628846a04cb562ed0b521e44639aac13119e5799eb0c83b5ced1a66724bfe5f4"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7_1_ADVANCED.md",
+        "lines": 7,
+        "sha256": "709db6ccf262e601462d10cdcd91137a1a614d104f15c87be663a1c647fe978e"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_7_UI_HARDENING_HOTFIX.md",
+        "lines": 24,
+        "sha256": "5376a552ae604474861b19af2036b095b385a3f2f7a509d6d91260671c93c375"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_8.md",
+        "lines": 10,
+        "sha256": "66af0ca7ae49d04fbaa88639ec4e2afb6460f36f9c0d2cbb9d41a68c4543c06d"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_8_HOTFIX_1.md",
+        "lines": 10,
+        "sha256": "083fecc0e5660efa488e2aa726cd850a52104cd8b2bb539a14d29a3050fd4bb4"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_8_HOTFIX_2.md",
+        "lines": 11,
+        "sha256": "6270080a54fa2308b6a40adee99ef18d5f1e19c25389a7b12a90aecb3763ca5e"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_8_HOTFIX_3.md",
+        "lines": 8,
+        "sha256": "bb814217402afc7f3ba796a8aa51884d0849fa3703b7fa39131b2226b4cfc4bc"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_9.md",
+        "lines": 9,
+        "sha256": "5ff18c7d6cf78fd7d32cd634b9d2b7507b57041751327bccae22e2b4375d8ce9"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_9_HOTFIX_1.md",
+        "lines": 12,
+        "sha256": "def6b0042193cab94204c9378fe95cd640044f0c652734c176ad0d3fe1e16fd2"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_9_HOTFIX_2.md",
+        "lines": 16,
+        "sha256": "602cbc0595833714b812bc97d0d75aed4a40c44fbd0c48b7dfb7e27958b379d2"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_9_HOTFIX_3.md",
+        "lines": 8,
+        "sha256": "01aeeacb0c7153ecb279921aba1acb8237640170589978d94c79c2f1c9582be6"
+      },
+      {
+        "path": "CHANGELOG_5F_R8_HOTFIX_1.md",
+        "lines": 16,
+        "sha256": "2addd6eea74fb18876c84ac05fcc38a928457ef4ec5177e205b46923a4b6c219"
+      },
+      {
+        "path": "CHECKPOINT_5E_FINAL_TH.txt",
+        "lines": 18,
+        "sha256": "ba134378a33d486fe1dc494cc2cf203eb4edeb8c7b3dbc2e25d9963ddceb52a0"
+      },
+      {
+        "path": "CHECKPOINT_5F_R4_TEST_TH.txt",
+        "lines": 20,
+        "sha256": "4865d371e4bbe72472a5960bbffe52d34a193c8721a28bafe03b84b3c9ea727d"
+      },
+      {
+        "path": "CHECKPOINT_5F_R5_TEST_TH.txt",
+        "lines": 12,
+        "sha256": "3e278df771bbc12fb00c34c83bbdf0ec7f14484648606adaa00794876327eb9f"
+      },
+      {
+        "path": "CHECKPOINT_5F_R6_TEST_TH.txt",
+        "lines": 16,
+        "sha256": "c95e0133969f70bc790b0238b4aa517180f61547b4735d837fb438d48b932a2f"
+      },
+      {
+        "path": "CHECKPOINT_5F_R7_TEST_TH.txt",
+        "lines": 14,
+        "sha256": "b14870815d338e4ea934084b3a07ef96abe72d005271549ede272c318dc11ea6"
+      },
+      {
+        "path": "CHECKPOINT_5F_R8_TEST_TH.txt",
+        "lines": 13,
+        "sha256": "a9dd0460abbba4026fd377ea911e7c5c9499471e3cacfa8a6233d47d6703eb16"
+      },
+      {
+        "path": "DASHBOARD_UI_MIGRATION_5F_R8_2.md",
+        "lines": 25,
+        "sha256": "1cddec740408ae6eb16192f8e2d377485dba977d4093fbdaa768ad762cf61278"
+      },
+      {
+        "path": "INSTALL_5F_R1_TH.txt",
+        "lines": 15,
+        "sha256": "d28f9c64ec6ad030a6ac2681733459f803260131526d9c14b37a1ea5eea28bb5"
+      },
+      {
+        "path": "README.md",
+        "lines": 17,
+        "sha256": "f0f2d8831f04f0ccd94b365a232b78261523c4c86a6798c0ee7a5b4250f37352"
+      },
+      {
+        "path": "README.txt",
+        "lines": 21,
+        "sha256": "d70fc691d681870f7b67c3fa54be5b07436c0c2f5fc9cb5b325c001f2e17abc7"
+      },
+      {
+        "path": "README_0.7.6_FIX_SERIAL_TH.txt",
+        "lines": 34,
+        "sha256": "03f5893b21e6009a63a92e60c230aebefb2d43931ae6c0ac96d218e1fd9452bc"
+      },
+      {
+        "path": "RELEASE_0.7.5.md",
+        "lines": 13,
+        "sha256": "cfa7ad036807f1946b8d8484760655a779e4bc5e3aa63f295e8a527736b25742"
+      },
+      {
+        "path": "RELEASE_0.7.6.md",
+        "lines": 9,
+        "sha256": "c71ea7acc43b6ef8b5f05391ceeb880745815852ebfe2810e704d15da29bdbdd"
+      },
+      {
+        "path": "RELEASE_0.8.0.md",
+        "lines": 60,
+        "sha256": "741963939ad63437589fa352d0b808a32b244377b3d604aa6629bb3df9d27503"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_11.json",
+        "lines": 47,
+        "sha256": "574e7045d99c81ec9694b93248c89072cc6d8448233bef61ac1ae32bfa8dce8e"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_11_STABILIZATION_1.json",
+        "lines": 141,
+        "sha256": "0cacd24c760699b484c13f25133a9453b7eb796ed4778ee4fa67d6ee9025f1ca"
+      },
+      {
+        "path": "SOURCE_AUDIT_R8_12.json",
+        "lines": 1995,
+        "sha256": "4e106b7dd4aec30d712ce02b77bec443c5928dfa054aedb71fe7fb1c88ef7801"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_1.md",
+        "lines": 35,
+        "sha256": "f94054d5e12541b3905ceda14fe3e0e57beddcfc6f973e7c3e90a8470a335bd2"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_10.md",
+        "lines": 11,
+        "sha256": "f9e8aee8b57e641837e956b9bf00501e84819251f6347de6921ab56f4bf198d1"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_11.md",
+        "lines": 9,
+        "sha256": "b0818710d002cf4ebc91f9a89ae4cf1c8be268ff199552c1baa2f63e8c10d53b"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_11_STABILIZATION_1.md",
+        "lines": 10,
+        "sha256": "7266e9c7b72bf3b04fe0fa70f829bd8334c13d815a6c4296b535ebbbdc1966ef"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_12.md",
+        "lines": 9,
+        "sha256": "fba29f80c896a26c4e981ec8b23ecbd48b33fd9be07bb740ee6add4d79661af3"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_12_V2.md",
+        "lines": 7,
+        "sha256": "2b2a97fdb7a889b8db61e57ee592755ad587a27659e2297f202c068015e2c29b"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_1_HOTFIX_2.md",
+        "lines": 11,
+        "sha256": "d8bd566108d4c5f6138b81a29c6775de0c5131432a83159b7e0d3979b02a9db9"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2.md",
+        "lines": 40,
+        "sha256": "2839ad510bf843bb6ac8016c3d3044e71658f5a4f604444fcac9643810a84c9c"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_1.md",
+        "lines": 31,
+        "sha256": "5f8b2ddb8ed19abca62127444020ea7aec47f98f7eeadaff919409acabf17020"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_2.md",
+        "lines": 11,
+        "sha256": "67372c7e14eeab338448e547dcce21fcacf4a50abd1122bf32c2d09d99fca8ed"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_2_HOTFIX_3.md",
+        "lines": 10,
+        "sha256": "4ddae43d0f9150c424518b35b3ecba8bed9836fdf08d5fa50d0bdeef0ec307fd"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_3.md",
+        "lines": 11,
+        "sha256": "49e33af8151659987687c9b7833c242e8c7735ad75c30e07664031f341bab5bd"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_6.md",
+        "lines": 12,
+        "sha256": "4212f4bd25aae4f8553583c899fc87ac17cbb1b39d40417f708ddd98ebbc516d"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_6_HOTFIX_1.md",
+        "lines": 23,
+        "sha256": "37ef726306511d4054fa88ec4babbaf02aa6ceb2b3c28b63d868d4346cad11fb"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7.md",
+        "lines": 12,
+        "sha256": "3aa817c5f14d71865425c72cc5d8ff49bc0458adafff6d6f60553648e0a6ce4f"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7_1_ADVANCED.md",
+        "lines": 8,
+        "sha256": "3605793affcddbb3b681f86f3262e6a7a7f7ee2cffc306eb2572393009616614"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_7_UI_HARDENING_HOTFIX.md",
+        "lines": 29,
+        "sha256": "316c7e3f2590d1197df945a8be5c0532142c39277155ca1d5b51c2228defc00f"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_8.md",
+        "lines": 13,
+        "sha256": "c92ccfa73830134e67f714bafcf19fb2009af93c209da949e6d9b737a1be7bf8"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_8_HOTFIX_1.md",
+        "lines": 18,
+        "sha256": "8a76ef145ce7b65137435bac03f94221eea5001cbe9ff467913d34198588f9b4"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_8_HOTFIX_2.md",
+        "lines": 13,
+        "sha256": "ae09284675f48f9c5bc00f4c1da688ec1056748f8e726de9848f040ffa0b6dd0"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_9.md",
+        "lines": 8,
+        "sha256": "fe59307cbf6d85ed0e19671770fc18c2aaacb9b0964c31e26f4bbe21cf460cae"
+      },
+      {
+        "path": "TEST_CHECKLIST_5F_R8_HOTFIX_1.md",
+        "lines": 11,
+        "sha256": "54fec43d6a1030f3f3a52c4466797949f28ad2c7ca5699410dc861cc47f2c594"
+      },
+      {
+        "path": "V0.8_CHECKLIST.md",
+        "lines": 62,
+        "sha256": "e65e6911a8a4c5da61bb56027371736cbaa14428744634fa981117421828ecc8"
+      },
+      {
+        "path": "VERSION_5F_R8_1.txt",
+        "lines": 7,
+        "sha256": "7791e1d187d5f550d7a553087f6216ce2e646a545f7d493b8a86d954817635f5"
+      },
+      {
+        "path": "VERSION_5F_R8_11.txt",
+        "lines": 3,
+        "sha256": "42224bb35d206856f6a34bb3b166d1dbc863fa484906943d3e21b1d0393955c8"
+      },
+      {
+        "path": "VERSION_5F_R8_12.txt",
+        "lines": 2,
+        "sha256": "db95297e36c918705433ec1b7bc6978c563f0cde92dc2c8fc31beb96d6c7f4ab"
+      },
+      {
+        "path": "VERSION_5F_R8_12_V2.txt",
+        "lines": 3,
+        "sha256": "8140fd656141519a3e5d15f2b26c0b6bd4d1d241e63f71263f83be28d0e5881c"
+      },
+      {
+        "path": "VERSION_5F_R8_1_HOTFIX_2.txt",
+        "lines": 4,
+        "sha256": "c73d4754449f5e8abaa271a2d12d13a8672c414a92aa26d0d637b7ea83227e72"
+      },
+      {
+        "path": "VERSION_5F_R8_2.txt",
+        "lines": 6,
+        "sha256": "0568a00809edf3f4cdd1673f550ac3221ab8d652e0a1b1e89b401d9500baf26f"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_1.txt",
+        "lines": 6,
+        "sha256": "09b063ddb8f6c255271a05c633a83642cb4e1d2b3f30d158b95abf64099444ea"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_2.txt",
+        "lines": 7,
+        "sha256": "6db2a24e29d6d2fc3d6c774db3ce3482dbf8d7104d82d12eed5166e76f477100"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_3.txt",
+        "lines": 4,
+        "sha256": "dbb62952db478d942dccb6deb964bb57b996f80eb9abcede63665bdd67a3be38"
+      },
+      {
+        "path": "VERSION_5F_R8_2_HOTFIX_5.txt",
+        "lines": 4,
+        "sha256": "d35efb5f0d6bd6a830edcc90992ff199ab04817a4f8fac1c1d042a8ea93b5aae"
+      },
+      {
+        "path": "VERSION_5F_R8_3.txt",
+        "lines": 6,
+        "sha256": "f652e6e47a2229aa9ac1267fd2ebf3e2de870b4da36f7f6a825966bd72e27f97"
+      },
+      {
+        "path": "VERSION_5F_R8_4.txt",
+        "lines": 4,
+        "sha256": "d7092964989765cd8a17e61f97218e7451b9dac954bc760cfe9c69d3c9c7921f"
+      },
+      {
+        "path": "VERSION_5F_R8_6.txt",
+        "lines": 7,
+        "sha256": "3280f42b85477623b8ce4372cf445931b19cf44344ced45529926a4871e2dd68"
+      },
+      {
+        "path": "VERSION_5F_R8_6_HOTFIX_1.txt",
+        "lines": 10,
+        "sha256": "80d6fcb59cca2056b0f3355d016609416e07a572dc29fc09362a7085274d0d91"
+      },
+      {
+        "path": "VERSION_5F_R8_7.txt",
+        "lines": 2,
+        "sha256": "ab394c11acadc5fff7b793cb72f2876ca9ed0cd5c79a67bf00e429a95a946d33"
+      },
+      {
+        "path": "VERSION_5F_R8_7_1_ADVANCED.txt",
+        "lines": 3,
+        "sha256": "8690ca04feda0b5a5310bacd3f97cc3ce6b7d9591a81a6ab710eec93ff792ade"
+      },
+      {
+        "path": "VERSION_5F_R8_7_UI_HARDENING_HOTFIX.txt",
+        "lines": 5,
+        "sha256": "593f889d74d42c6105093d08400de46b9343604e0a17e2e79f8788267d324c18"
+      },
+      {
+        "path": "VERSION_5F_R8_8.txt",
+        "lines": 3,
+        "sha256": "63a2b405b5efdd82019de8fb5ea2371c7e7175d7f1115e3132f33ee5b506bcea"
+      },
+      {
+        "path": "VERSION_5F_R8_8_HOTFIX_1.txt",
+        "lines": 3,
+        "sha256": "adf95eb683afba6e36f959e04cb64df8543ccb0854c934f59d33d1d50bc2bbc7"
+      },
+      {
+        "path": "VERSION_5F_R8_8_HOTFIX_2.txt",
+        "lines": 2,
+        "sha256": "222ea1669d8b19bd11d83f57097b8be60828aac196ab711f7dfc6bfb6f2a1f11"
+      },
+      {
+        "path": "VERSION_5F_R8_8_HOTFIX_3.txt",
+        "lines": 2,
+        "sha256": "7a2dac8e63a80588339de3214c2462aa9dc2dcbb7ac8cd57a1859652b61b2648"
+      },
+      {
+        "path": "VERSION_5F_R8_9.txt",
+        "lines": 3,
+        "sha256": "5d97475752ee46ce1ba3edce569d8239e8100ad8f49bd1202753a816871818d9"
+      },
+      {
+        "path": "VERSION_5F_R8_9_HOTFIX_1.txt",
+        "lines": 2,
+        "sha256": "c64d82c4f6abfddcfe1cb192f8bef6fed336689efbde1378ac881fc2980fa311"
+      },
+      {
+        "path": "VERSION_5F_R8_9_HOTFIX_2.txt",
+        "lines": 8,
+        "sha256": "0616ea2fe20bb692b704361f20becffadb02f5c1ea8f7aa43bfff37489291c36"
+      },
+      {
+        "path": "VERSION_5F_R8_HOTFIX_1.txt",
+        "lines": 4,
+        "sha256": "cecfc254c2cb58416a806a1750e63369dbb9db68299e41e200f609833955a0bc"
+      },
+      {
+        "path": "analysis_options.yaml",
+        "lines": 28,
+        "sha256": "b63207cf529949ec4727b68c23dbb38ce255b6f6f4ae1effcb5c1dcf2852d238"
+      },
+      {
+        "path": "android/app/build.gradle.kts",
+        "lines": 45,
+        "sha256": "0f5d5cedbbf3423ef1f05480f8b07db3ea1dd33de87f00db357d3c96046c7fbc"
+      },
+      {
+        "path": "android/app/src/debug/AndroidManifest.xml",
+        "lines": 7,
+        "sha256": "b01a4541a8144c15bc617bab7eb267c99fa1476368fbbda5a12cdbf4e316a34c"
+      },
+      {
+        "path": "android/app/src/main/AndroidManifest.xml",
+        "lines": 48,
+        "sha256": "6fc8af8a33365191f7a72ce2e5c01eb7a0ba2485a70b7f19a1ba7485f81e1631"
+      },
+      {
+        "path": "android/app/src/main/res/drawable/launch_background.xml",
+        "lines": 12,
+        "sha256": "2df60e2cfbee873ce2858088cf003e6b93498f2f568476da437610467ea1a9d7"
+      },
+      {
+        "path": "android/app/src/main/res/drawable-v21/launch_background.xml",
+        "lines": 12,
+        "sha256": "dca312ec77de83e43ef70a825c299b51451247286c29167d62f19165750b8793"
+      },
+      {
+        "path": "android/app/src/main/res/values/styles.xml",
+        "lines": 18,
+        "sha256": "cca15a99b59380a548bf6a890f7ca5380ee509b1f9bbb2f5f9ec3589fa25c2f7"
+      },
+      {
+        "path": "android/app/src/main/res/values-night/styles.xml",
+        "lines": 18,
+        "sha256": "ea763597dc1a84c8034251caee98d7753e0fbf57340ffc94677427de4b537516"
+      },
+      {
+        "path": "android/app/src/profile/AndroidManifest.xml",
+        "lines": 7,
+        "sha256": "b01a4541a8144c15bc617bab7eb267c99fa1476368fbbda5a12cdbf4e316a34c"
+      },
+      {
+        "path": "android/build.gradle.kts",
+        "lines": 24,
+        "sha256": "218f400e3fff31c9c986a2535dfb974560e1b4d33cc27b7c1fee96a2b7e44454"
+      },
+      {
+        "path": "android/settings.gradle.kts",
+        "lines": 26,
+        "sha256": "d6b16579d5f6a6066cc22323c4e34adb82020f7b75378bffed7f0358bc949ce3"
+      },
+      {
+        "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+        "lines": 1,
+        "sha256": "59aee64f32dab46ad775da6ea2f3fc4efe6e8a78289a9185cd0d2d7e055845dd"
+      },
+      {
+        "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+        "lines": 23,
+        "sha256": "fbd112a9f3b541a1d811f71ac8e4fe68b6176687d973a5f4d99b7aa4a722e94e"
+      },
+      {
+        "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+        "lines": 5,
+        "sha256": "853ac958e2416fe2540f6f61165283a3618b71a7ba5f85f65ac41c2158dfcd21"
+      },
+      {
+        "path": "ios/Runner/GeneratedPluginRegistrant.h",
+        "lines": 19,
+        "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+      },
+      {
+        "path": "ios/Runner/Runner-Bridging-Header.h",
+        "lines": 1,
+        "sha256": "efe657d8b27f7f8595a0d416bffb33fe7d93bd2869d81f7353b556c439d7a1a7"
+      },
+      {
+        "path": "lib/controllers/farm_controller.dart",
+        "lines": 87,
+        "sha256": "c0422ae31272a5686c1b9e74bddef950002b526dcb3820ca9e8c4262609306fb"
+      },
+      {
+        "path": "lib/controllers/smart_farm_controller.dart",
+        "lines": 873,
+        "sha256": "7032af2e10f40ebe2d92717d0d76fc3c1ee3ef8ef6f64c31324c788d819a4251"
+      },
+      {
+        "path": "lib/core/app_info.dart",
+        "lines": 9,
+        "sha256": "4cc441800cfe671d803a77a7b540a2a355fc6e9b2c74333de458d46d4bd3fe88"
+      },
+      {
+        "path": "lib/core/localization/app_localizations.dart",
+        "lines": 43,
+        "sha256": "59b62d095d436e5cd56861243561490c9a3a8897c79bb1160f487de2548fabb1"
+      },
+      {
+        "path": "lib/core/theme/sf_animation.dart",
+        "lines": 14,
+        "sha256": "ecc154c770562aaa72e548c92bc97e3c6eacf3f9143dfbaba636c63a17c7f8ae"
+      },
+      {
+        "path": "lib/core/theme/sf_colors.dart",
+        "lines": 33,
+        "sha256": "38d8c0dc12c13b93c2ffaac3386c87613700bb795f39a59ea0a3489fc0927d4d"
+      },
+      {
+        "path": "lib/core/theme/sf_radius.dart",
+        "lines": 29,
+        "sha256": "1d30c6ad333c6e21ba86429dea92716b7ec24e87047e4af41eeec2491f5d522e"
+      },
+      {
+        "path": "lib/core/theme/sf_spacing.dart",
+        "lines": 32,
+        "sha256": "396a394373cc898280902e2b0059923645cce47e52a7643d561e580997891a02"
+      },
+      {
+        "path": "lib/core/theme/sf_text_styles.dart",
+        "lines": 53,
+        "sha256": "2b69153f30bd91a0ec433e85e7b60fb6bd6c8da2e8302cee0ae9ec27edb74aa4"
+      },
+      {
+        "path": "lib/core/theme/sf_theme.dart",
+        "lines": 258,
+        "sha256": "c343bdc30f08afa0d7464ba0ea3b48071ade669237f84b026730d8dcf5cd64df"
+      },
+      {
+        "path": "lib/core/widgets/sf_card.dart",
+        "lines": 60,
+        "sha256": "18b78ba0c319502101ee52460dea88d433961e30e9af51dadbddd8a9421cd24f"
+      },
+      {
+        "path": "lib/core/widgets/sf_primary_button.dart",
+        "lines": 40,
+        "sha256": "04d4664c6f570646f154cfc87ba11ca1c3dcde0e54823aff0a367eae2439e239"
+      },
+      {
+        "path": "lib/core/widgets/sf_status_badge.dart",
+        "lines": 77,
+        "sha256": "d8e41949b477a0517d12a4030ac51e7ff3b795a2967a79f0dba7c9f63a4ce202"
+      },
+      {
+        "path": "lib/data/esp32_data_source.dart",
+        "lines": 1,
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "lib/data/simulation_data_source.dart",
+        "lines": 45,
+        "sha256": "7def27e22a9a751216ddc75b6378fe9c7eef4c187e6f176efa4fe2794d286ce0"
+      },
+      {
+        "path": "lib/data/system_data_source.dart",
+        "lines": 11,
+        "sha256": "6f868c9e3e12e1a2ba0617de7ddc8cf166cce77c545a0fb4f2c519a132115660"
+      },
+      {
+        "path": "lib/main.dart",
+        "lines": 54,
+        "sha256": "ecc3f18f0849eaa2e25fdf0621e4f93b6c1fdb8756417eea93cacee0959042b5"
+      },
+      {
+        "path": "lib/models/accessory_manifest.dart",
+        "lines": 120,
+        "sha256": "b79bc48e41d35e46d16560bbfbb10404bb732572bd8c1ccbd0aef0e3af4270a3"
+      },
+      {
+        "path": "lib/models/app_settings.dart",
+        "lines": 82,
+        "sha256": "3290e6451c199b40e423590417e7114d408dbc01c7215490cf27a9dca79b414b"
+      },
+      {
+        "path": "lib/models/automation_rule.dart",
+        "lines": 191,
+        "sha256": "568d61b68773c71a302a3a7959c8dd8247851dc4e7820d82a6c840a83443d80d"
+      },
+      {
+        "path": "lib/models/controller_candidate.dart",
+        "lines": 39,
+        "sha256": "e1292c351b06925089dfcf78790fdd528aa7cccb6d199b15b8b41190d6f22735"
+      },
+      {
+        "path": "lib/models/controller_identity.dart",
+        "lines": 47,
+        "sha256": "07898cfc7431558166e84b7fb533916cc63ee4ce7b686def7a0b9f3c2a57323c"
+      },
+      {
+        "path": "lib/models/controller_snapshot.dart",
+        "lines": 53,
+        "sha256": "d039cd90047e0edab328bb2cfb6a5965bf291d56c94dfd9fb868b2e34546fd93"
+      },
+      {
+        "path": "lib/models/device_runtime_state.dart",
+        "lines": 39,
+        "sha256": "38605f2e45a74bfd14b206ce1a23b42c00104567884c25266f555aad6dfc44f9"
+      },
+      {
+        "path": "lib/models/farm_event.dart",
+        "lines": 15,
+        "sha256": "7d1d4f878f94cb7a6f1660807d8adf2f26de67a2900328f288051ac893e65c00"
+      },
+      {
+        "path": "lib/models/farm_state.dart",
+        "lines": 358,
+        "sha256": "a75031f0878993292883550690fdebba7e015189d8f7d370e0eb11d66ad5ae68"
+      },
+      {
+        "path": "lib/models/output_device.dart",
+        "lines": 255,
+        "sha256": "2b40b97213d992ca964321f3e3ada01e795ca7f9366ec94281146365bd935c18"
+      },
+      {
+        "path": "lib/models/relay_device.dart",
+        "lines": 38,
+        "sha256": "2838b5ee765c2ef45a8c2196f3837efba1a960f549c75aea6d278598bcd2eef4"
+      },
+      {
+        "path": "lib/models/sensor_config.dart",
+        "lines": 148,
+        "sha256": "53a0008bbb18536eb4c290086484a1760893ef76e26e65f12b174e28be7a3f75"
+      },
+      {
+        "path": "lib/models/sensor_data.dart",
+        "lines": 39,
+        "sha256": "2f39547afd8f7b8e43d02b8340b0fca2c640b91c3364bf45fd723935b46ae3c5"
+      },
+      {
+        "path": "lib/models/sensor_model.dart",
+        "lines": 45,
+        "sha256": "be75c9b9519c603698f7f335c4c9c45e7d5842dc4c1bc2fc90a56e8adcd7d61c"
+      },
+      {
+        "path": "lib/models/sensor_reading.dart",
+        "lines": 57,
+        "sha256": "76d10a3215c099bf1ab4dbab36a87a1a50645b7f945b4b99b0a3b4ced9ee7029"
+      },
+      {
+        "path": "lib/models/system_clock_state.dart",
+        "lines": 71,
+        "sha256": "dc41e9390f7e3620570da2c3c99f43f98ff9585c47e167a83d1ad77f9fc86070"
+      },
+      {
+        "path": "lib/models/system_health_state.dart",
+        "lines": 57,
+        "sha256": "b0f77426349af659c921c6a31208682bc3ee2af5e8ee47e3e6b2973a1af3bccd"
+      },
+      {
+        "path": "lib/models/wifi_network.dart",
+        "lines": 19,
+        "sha256": "a669400ca43f78085b90cd65e6e0c43581024045e577d06419a9e303770953d9"
+      },
+      {
+        "path": "lib/pages/esp32_controller_page.dart",
+        "lines": 673,
+        "sha256": "1ec8b3e68daf372a04713351ec7ad0895379a08c27a4146318e55aef5cb44289"
+      },
+      {
+        "path": "lib/screens/automation_screen.dart",
+        "lines": 554,
+        "sha256": "a06570a4c0e89f1888e81f5eed9231a405a3e97a2336b8f3ff75a7abe1f42eb6"
+      },
+      {
+        "path": "lib/screens/dashboard_screen.dart",
+        "lines": 288,
+        "sha256": "686ad9cb65f416e136c2238e9e803510e045edc80e6c6a33392f91eea2177e43"
+      },
+      {
+        "path": "lib/screens/devices_screen.dart",
+        "lines": 424,
+        "sha256": "844e2538950a8b69e0112e072243fcde1eb2e63c27be5d6e40211cf175af0959"
+      },
+      {
+        "path": "lib/screens/main_screen.dart",
+        "lines": 106,
+        "sha256": "efc4859239fc8f1a3382be26e01f4261fc454e0f971447ce54fc0a4634f00355"
+      },
+      {
+        "path": "lib/screens/pair_controller_screen.dart",
+        "lines": 484,
+        "sha256": "5a6411e2481c2ad0c5e3bee467c06cdcd52121808670481834623c42dbbacf8c"
+      },
+      {
+        "path": "lib/screens/sensor_screen.dart",
+        "lines": 284,
+        "sha256": "c53de927b9302cdba3108cb92c82f4c5cd2d9f077cb19bd9aeafa079e9f29025"
+      },
+      {
+        "path": "lib/screens/sensors_screen.dart",
+        "lines": 89,
+        "sha256": "a1834ed2e91c78a1310975a09c5a8a669d9568ba80fb49527bd9f142174c833e"
+      },
+      {
+        "path": "lib/screens/settings_screen.dart",
+        "lines": 669,
+        "sha256": "f001b90e147b0971f09850fe1da1ed946138d6e8bb20abf5eea36f751283e386"
+      },
+      {
+        "path": "lib/screens/splash_screen.dart",
+        "lines": 163,
+        "sha256": "6cb0447061886710b3cd6d31fd04114887de74e5c8dc72447b7c437054763116"
+      },
+      {
+        "path": "lib/services/device_repository.dart",
+        "lines": 45,
+        "sha256": "758922d18fbb51ca8ff2a4ccefaec41915184f1c657e4d06caff4cbd4adea6b7"
+      },
+      {
+        "path": "lib/services/esp32_http_service.dart",
+        "lines": 267,
+        "sha256": "f6a271d90559dc35f07ca9add2fc1052056ce8537f6964ea03e528608c9a176e"
+      },
+      {
+        "path": "lib/services/farm_health_engine.dart",
+        "lines": 264,
+        "sha256": "aa50095354b70e261475d3108799821423b04e9e26f1e5c922477eacd267b095"
+      },
+      {
+        "path": "lib/services/sensor_repository.dart",
+        "lines": 32,
+        "sha256": "be44b0ae5f4d4919681f87c5f573cb8b142809d21e373ed9a0dad9fea37e7327"
+      },
+      {
+        "path": "lib/services/settings_repository.dart",
+        "lines": 90,
+        "sha256": "e678ea70796e1c791da12c00fec272d0a7110f05884c14fc45d2af701ffb2992"
+      },
+      {
+        "path": "lib/services/simulation_service.dart",
+        "lines": 56,
+        "sha256": "ade7de05107adf79449ef5272c57f634782d80da1a45b6c710d58833d62f99bf"
+      },
+      {
+        "path": "lib/services/snapshot_cache_service.dart",
+        "lines": 24,
+        "sha256": "1d4ced36a35d6e732602cedb2e153d97e1d7669a8f29b00fe45b2e75a3f64a49"
+      },
+      {
+        "path": "lib/stores/device_store.dart",
+        "lines": 445,
+        "sha256": "05378cc53330ddb47c175c888d0d508ae0448255ee8f2fe5f54c5cf13b19072e"
+      },
+      {
+        "path": "lib/stores/pairing_store.dart",
+        "lines": 208,
+        "sha256": "cf5506666ab05c7564476fddbe326ebb1eaf5868c6e50e0314cd4d7937f6b4d4"
+      },
+      {
+        "path": "lib/stores/sensor_store.dart",
+        "lines": 100,
+        "sha256": "f3a1e656c0dd0714635d210119cb9ca5ef0058974d8b1232e7257d369f663f03"
+      },
+      {
+        "path": "lib/stores/settings_store.dart",
+        "lines": 120,
+        "sha256": "ad5357fb75778a8eed7333d8c59da4baa605119a3ecd5dd10b26dd8b4c814963"
+      },
+      {
+        "path": "lib/theme/app_theme.dart",
+        "lines": 15,
+        "sha256": "3d04e7b1edfbce3b4656b1fe84e2c398136fff72386c6658fac8c18457b52be7"
+      },
+      {
+        "path": "lib/widgets/dashboard/dashboard_data_widgets.dart",
+        "lines": 861,
+        "sha256": "161ce86fdda4165c7e8705418fcc96d9d940cdb3eaaaac6463dadc2ddb03cb88"
+      },
+      {
+        "path": "lib/widgets/dashboard/dashboard_overview_widgets.dart",
+        "lines": 698,
+        "sha256": "b410727b6b07362fb228888ada0eba2d013a5ec95f4e8a174253f03479fa1b4e"
+      },
+      {
+        "path": "lib/widgets/dashboard/farm_health_card.dart",
+        "lines": 266,
+        "sha256": "564976559d174c58f33b620014bf84ff84f41dbee48c3042b010d657a5ec7b70"
+      },
+      {
+        "path": "lib/widgets/dashboard/live_datetime_header.dart",
+        "lines": 213,
+        "sha256": "6f680ca4490a755d36317abeddaa16e4163333dd606f8b35e6d4f19e15bf222b"
+      },
+      {
+        "path": "lib/widgets/dashboard/quick_actions_card.dart",
+        "lines": 202,
+        "sha256": "601817e550633f82bd48c46d7dc1e50c2abd5a4c0e74b92445decda8f568d2f5"
+      },
+      {
+        "path": "lib/widgets/output_device_card.dart",
+        "lines": 277,
+        "sha256": "f36b9fbddd98cd30955d743ce84f95d13b97259bc9f2d3f6ebebe91007b456a0"
+      },
+      {
+        "path": "lib/widgets/output_device_dialog.dart",
+        "lines": 1295,
+        "sha256": "64833817cf1a27e768ddd84a3f5ebdffb94a22652d0993a8390d20b3fa8e0941"
+      },
+      {
+        "path": "lib/widgets/pair_step_header.dart",
+        "lines": 54,
+        "sha256": "1581432ea47b2b9b02557f33e725fac42a38c4fa0dd1046fafbc48f959a600e5"
+      },
+      {
+        "path": "lib/widgets/relay_card.dart",
+        "lines": 82,
+        "sha256": "daac5dbe6296eb5e163fbbf9c2b7f14944f51459696e4748c8e23806038ee9c2"
+      },
+      {
+        "path": "lib/widgets/sensor_card.dart",
+        "lines": 153,
+        "sha256": "41b9f3d70f6491689b01aafb4fd149cadb2f549c032aa6e30e3a4c9f8b649c57"
+      },
+      {
+        "path": "lib/widgets/sensor_setup_dialog.dart",
+        "lines": 266,
+        "sha256": "8f54ef6753b4baa65a9cc03d8c1cec35f4f8822eb9cd17c5196411f802e49202"
+      },
+      {
+        "path": "lib/widgets/settings_tile.dart",
+        "lines": 80,
+        "sha256": "6b84c1d7bf8c0f154682b24ee5252ad6d0ab83b8bf217c65a5841b195bb5ad0a"
+      },
+      {
+        "path": "linux/CMakeLists.txt",
+        "lines": 128,
+        "sha256": "1d445f8f2bdb813d9b7c8273363618f9f0015907f3f3a611b45b80b69f3917e8"
+      },
+      {
+        "path": "linux/flutter/CMakeLists.txt",
+        "lines": 88,
+        "sha256": "4eb17836308c1cd53f6b2bb8edb3b7b30610bff3b1d9df7fecc9317f9109700c"
+      },
+      {
+        "path": "linux/flutter/generated_plugin_registrant.h",
+        "lines": 15,
+        "sha256": "00f93bb5b1faefdede8f6065df327522900fb0b8efee86bacf424fd947ed14bb"
+      },
+      {
+        "path": "linux/runner/CMakeLists.txt",
+        "lines": 26,
+        "sha256": "81ecf2604c50f480c23d460b2ddf653ecd39df29cc5b2fe4913f1a59f008a5a7"
+      },
+      {
+        "path": "linux/runner/my_application.h",
+        "lines": 21,
+        "sha256": "880393cb82d7feaaa95d9acd6c2317749afae0e17ea5f5ee44b456bc081b5987"
+      },
+      {
+        "path": "macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+        "lines": 68,
+        "sha256": "992ba63d183dfb8f8e3af38ac203d834d23c004da1417c438b4c5a3d7d1d7103"
+      },
+      {
+        "path": "pubspec.yaml",
+        "lines": 97,
+        "sha256": "2032640c04af960d4e30a7cb3a6a0237a177e4ab551b8d0302bbea3429da9134"
+      },
+      {
+        "path": "pubspec_icon_snippet.yaml",
+        "lines": 11,
+        "sha256": "f07eca345e17de00b20d76592e527527af7f3c7a29b68c3381878cc7af97899b"
+      },
+      {
+        "path": "test/models/farm_state_test.dart",
+        "lines": 94,
+        "sha256": "f81b001d760e7ee2db433c789b6195a6c2f640d3cccf07a2b7419efd5f21c3ae"
+      },
+      {
+        "path": "test/services/farm_health_engine_test.dart",
+        "lines": 72,
+        "sha256": "cb184560605cff73ad4a6db1ed6e8625f60d4a88e254d974598631ba1d359f48"
+      },
+      {
+        "path": "test/widget_test.dart",
+        "lines": 14,
+        "sha256": "23480131f417cf075cdc551be8dfbffbc97faa3d1a2910b7e7361d6ba90268e2"
+      },
+      {
+        "path": "test/widgets/dashboard/dashboard_r82_widgets_test.dart",
+        "lines": 40,
+        "sha256": "7b0e0baae0476c571c8fc86a9e576130ea9d83cc6b97d57bb64fae7cb7aa3729"
+      },
+      {
+        "path": "web/manifest.json",
+        "lines": 35,
+        "sha256": "0fc6a115e026b9cec00d70a9113302d7e46366291c2ec76d84cafe6d877f129f"
+      },
+      {
+        "path": "windows/CMakeLists.txt",
+        "lines": 108,
+        "sha256": "e6929e9f0f12f55131960afcf6b8661f32bba9581eed7151617676824b64f417"
+      },
+      {
+        "path": "windows/flutter/CMakeLists.txt",
+        "lines": 109,
+        "sha256": "bd05e3268b2f246bcbafdb778165fe67a7bafdba04eb73599502563a67b8ae7e"
+      },
+      {
+        "path": "windows/flutter/generated_plugin_registrant.h",
+        "lines": 15,
+        "sha256": "dbc11635d7b1ba1887adf40df5b83d634e9c3ab0bee34510c71528bb4d73602a"
+      },
+      {
+        "path": "windows/runner/CMakeLists.txt",
+        "lines": 40,
+        "sha256": "d765fdd05f63ad099e585a2cced0cbff13ec3229b7de68c8681b2107db850089"
+      },
+      {
+        "path": "windows/runner/flutter_window.cpp",
+        "lines": 71,
+        "sha256": "d615eedc06ae37321e59c2c00c7687d1887dcd97904eb7225fafd8dcb5b83da6"
+      },
+      {
+        "path": "windows/runner/flutter_window.h",
+        "lines": 33,
+        "sha256": "0252b804f5da380c7709cbe1daff2b8d18daf6c49d7e6dd43e5af3c99c19f56c"
+      },
+      {
+        "path": "windows/runner/main.cpp",
+        "lines": 43,
+        "sha256": "4ae35b8dbf323c64194d60e63a1781e8b7d1c018b6b82ea97333593e31cc6f8b"
+      },
+      {
+        "path": "windows/runner/resource.h",
+        "lines": 16,
+        "sha256": "d0e8bf7835468b4b6b1f8f0747f2e8f25c19841f2df2ac60aaa584ddae3aa7c6"
+      },
+      {
+        "path": "windows/runner/utils.cpp",
+        "lines": 69,
+        "sha256": "a128b67b9f3c2579e2ecef5b0dde2c33f222a097cdfe5da2a3067c73d1485b39"
+      },
+      {
+        "path": "windows/runner/utils.h",
+        "lines": 19,
+        "sha256": "832e246b6758253f89016fb0374b30791242e97ad950d27fc678b3d9feacfdc4"
+      },
+      {
+        "path": "windows/runner/win32_window.cpp",
+        "lines": 288,
+        "sha256": "4e4f4dcf8e86ea6e097562cb3476039e693449bd8045367538afee579c017511"
+      },
+      {
+        "path": "windows/runner/win32_window.h",
+        "lines": 102,
+        "sha256": "d154cf89ba85f820631a9b5bedacbe64fc5815e428fe6bc5da579ce649f69841"
+      }
+    ]
+  },
+  "invariants": {
+    "active_high": true,
+    "gpio_map": true,
+    "restore_enabled": true,
+    "preferences_injected": true,
+    "mask_persisted": true,
+    "valid_marker": true,
+    "safe_inactive_before_output": true,
+    "write_only_on_change": true,
+    "folder_matches_ino": true
+  }
+}

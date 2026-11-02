@@ -1,0 +1,2 @@
+Firmware: 0.8.0-5f-r8.12-v3-stability
+Relay: Active HIGH

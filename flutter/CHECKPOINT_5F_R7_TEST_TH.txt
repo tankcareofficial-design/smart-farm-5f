@@ -1,0 +1,14 @@
+CHECKPOINT 5F R7 - รายการทดสอบ
+
+1. รัน flutter pub get
+2. รัน dart format lib
+3. รัน flutter analyze และรายงานผลทั้งหมด
+4. รันแอปบน Android
+5. ตรวจ Dashboard, Hero, Farm Health, Sensor Grid และ Device Preview
+6. ทดสอบ Controller Online/Offline
+7. ทดสอบ Emergency Stop และ Release
+8. ทดสอบเปิด/ปิดรีเลย์ และตรวจว่าระหว่าง Pending มีวงกลมโหลด
+9. ทดสอบ Pull to Refresh
+10. ทดสอบภาษาไทย/อังกฤษ และ Light/Dark theme
+
+หมายเหตุ: R7 คง HTTP API จาก R6 ไม่ต้องเปลี่ยน endpoint

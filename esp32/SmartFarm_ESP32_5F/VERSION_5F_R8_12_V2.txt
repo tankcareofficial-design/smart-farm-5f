@@ -1,0 +1,5 @@
+Smart Farm 5F ESP32
+Version: 0.8.0-5f-r8.12-v2-power-recovery
+Storage schema: 2
+Relay polarity: Active HIGH
+Relay recovery: Enabled

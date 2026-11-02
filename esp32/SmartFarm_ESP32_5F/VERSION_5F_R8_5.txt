@@ -1,0 +1,5 @@
+Smart Farm 5F R8.5
+Firmware: 0.8.0-5f-r8.5
+Clock Schema: 1
+Automation Schema: 1
+Accessory Schema: 2

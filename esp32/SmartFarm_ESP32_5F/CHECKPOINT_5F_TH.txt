@@ -1,0 +1,13 @@
+SMART FARM CHECKPOINT 5F - LIVE RELAY CONTROL
+
+สิ่งที่เพิ่ม:
+- GET /api/relays สำหรับอ่านสถานะรีเลย์ทั้งหมด
+- POST /api/relay ควบคุมรีเลย์จริงและตอบสถานะ override
+- Relay boot-safe สำหรับ Active LOW ลดโอกาสรีเลย์กระพริบตอนเปิดเครื่อง
+- รายงาน freeHeap ใน /api/device และ /api/state
+- Firmware 0.6.1-5f-r1-live-relay-control
+
+สำคัญ:
+- RELAY_PINS ยังเป็น -1 ทั้ง 4 ช่อง จึงเป็น virtual relay
+- ก่อนต่อบอร์ดรีเลย์จริง ให้แก้ GPIO ใน Config.h ให้ตรงบอร์ดและตรวจ Active LOW
+- ห้ามจ่ายโหลดไฟบ้านผ่าน ESP32 โดยตรง ต้องใช้รีเลย์/คอนแทคเตอร์ ฟิวส์ และ isolation ที่เหมาะสม

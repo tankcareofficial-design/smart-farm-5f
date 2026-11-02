@@ -1,0 +1,7 @@
+Smart Farm Flutter 5F R8.6
+
+- หน้าเงื่อนไขและเวลาแบบ Wizard 3 ขั้นตอน
+- ซิงค์ DS3231 จากเวลาท้องถิ่นของโทรศัพท์
+- แสดงสถานะ RTC, วันเวลา, next run, running และ last result
+- ผูก Automation กับ deviceId พร้อม relayChannel เพื่อ compatibility
+- ตั้งระยะเวลาทำงานและ cooldown ได้ง่าย

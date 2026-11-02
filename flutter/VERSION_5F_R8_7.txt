@@ -1,0 +1,2 @@
+Smart Farm 5F Flutter R8.7
+Snapshot cache + ESP32 source of truth

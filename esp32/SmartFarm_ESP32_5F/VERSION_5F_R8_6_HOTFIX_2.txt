@@ -1,0 +1,3 @@
+Smart Farm 5F R8.6 HOTFIX 2
+ESP32 firmware only
+Firmware: 0.8.0-5f-r8.6-hotfix2

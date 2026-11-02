@@ -1,0 +1,16 @@
+SMART FARM ESP32 CHECKPOINT 5F R4
+Firmware: 0.6.4-5f-r4-standalone-real-data
+Protocol: 1
+
+การเปลี่ยนแปลง:
+- คง API เดิมจาก 5F R3 เพื่อไม่ให้ Flutter แตก
+- ปิด USE_MOCK_HARDWARE_SCAN โดยค่าเริ่มต้น
+- ไม่ส่งค่าจำลองเซ็นเซอร์
+
+ทดสอบ:
+1. Compile และ Upload บน ESP32-S3 N16R8
+2. Serial Monitor 115200
+3. เชื่อม Wi-Fi SmartFarm-xxxxxx / smartfarm123
+4. เปิด http://192.168.4.1/api/device
+5. เปิด http://192.168.4.1/api/state
+6. ส่ง Serial log และ compile report กลับมา

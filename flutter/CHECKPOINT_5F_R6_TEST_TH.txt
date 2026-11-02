@@ -1,0 +1,16 @@
+SMART FARM FLUTTER CHECKPOINT 5F R6
+
+1. flutter pub get
+2. dart format lib
+3. flutter analyze
+4. flutter run
+
+ตรวจ Dashboard:
+- วันที่และเวลายังอัปเดต
+- Hero card แสดง Online/Offline จริง
+- Farm Health เปลี่ยนตาม Controller/Emergency/error
+- Quick Actions ครบ 4 ปุ่ม
+- เพิ่ม Sensor แล้วเกิดการ์ด แต่ไม่มีค่าจำลอง
+- Device Preview ควบคุมรีเลย์จริงเมื่อ Controller online
+- Emergency Stop และ Release ทำงานจริง
+- ไม่มี overflow บนจอมือถือแนวตั้ง

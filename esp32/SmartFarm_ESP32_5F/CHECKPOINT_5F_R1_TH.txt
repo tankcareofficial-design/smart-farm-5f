@@ -1,0 +1,10 @@
+Smart Farm ESP32 Checkpoint 5F Revision 1
+Firmware: 0.6.1-5f-r1-live-relay-control
+
+Revision นี้ใช้ Protocol และ Relay API เดียวกับ 5F:
+- GET /api/device
+- GET /api/state
+- GET /api/relays
+- POST /api/relay
+
+ไม่มีการเปลี่ยน GPIO อัตโนมัติ โปรดกำหนด RELAY_PINS ใน Config.h ให้ตรงกับบอร์ดจริง

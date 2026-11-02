@@ -1,0 +1,7 @@
+SMART FARM ESP32 CHECKPOINT 5F R7
+Firmware: 0.6.7-5f-r7-architecture-stable
+
+- รักษา API และ Protocol ของ R6
+- รักษา Wi-Fi provisioning, SoftAP + Station และ reconnect
+- รักษา Emergency latch และ relay fail-safe
+- เปลี่ยน checkpoint marker สำหรับทดสอบร่วมกับ Flutter R7
