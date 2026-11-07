@@ -3,10 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_settings.dart';
 
 class SettingsRepository {
+  // Preserve the public `preferences:` named argument; using a field-formal
+  // would expose the private backing-field name as the constructor argument.
   SettingsRepository({SharedPreferencesAsync? preferences})
-    : _preferences = preferences ?? SharedPreferencesAsync();
+    // ignore: prefer_initializing_formals
+    : _preferences = preferences;
 
-  final SharedPreferencesAsync _preferences;
+  SharedPreferencesAsync? _preferences;
+
+  SharedPreferencesAsync get _prefs =>
+      _preferences ??= SharedPreferencesAsync();
 
   static const _farmNameKey = 'settings.farmName';
   static const _controllerNameKey = 'settings.controllerName';
@@ -23,30 +29,31 @@ class SettingsRepository {
 
   Future<AppSettings> load() async {
     final defaults = AppSettings.defaults();
+    final preferences = _prefs;
 
-    final themeName = await _preferences.getString(_themeKey);
-    final languageCode = await _preferences.getString(_languageKey);
+    final themeName = await preferences.getString(_themeKey);
+    final languageCode = await preferences.getString(_languageKey);
 
     return AppSettings(
-      farmName: await _preferences.getString(_farmNameKey) ?? defaults.farmName,
+      farmName: await preferences.getString(_farmNameKey) ?? defaults.farmName,
       controllerName:
-          await _preferences.getString(_controllerNameKey) ??
+          await preferences.getString(_controllerNameKey) ??
           defaults.controllerName,
       controllerId:
-          await _preferences.getString(_controllerIdKey) ??
+          await preferences.getString(_controllerIdKey) ??
           defaults.controllerId,
       controllerOnline:
-          await _preferences.getBool(_controllerOnlineKey) ??
+          await preferences.getBool(_controllerOnlineKey) ??
           defaults.controllerOnline,
       controllerBaseUrl:
-          await _preferences.getString(_controllerBaseUrlKey) ??
+          await preferences.getString(_controllerBaseUrlKey) ??
           defaults.controllerBaseUrl,
       controllerAutoReconnect:
-          await _preferences.getBool(_controllerAutoReconnectKey) ??
+          await preferences.getBool(_controllerAutoReconnectKey) ??
           defaults.controllerAutoReconnect,
-      wifiName: await _preferences.getString(_wifiNameKey),
+      wifiName: await preferences.getString(_wifiNameKey),
       notificationsEnabled:
-          await _preferences.getBool(_notificationsKey) ??
+          await preferences.getBool(_notificationsKey) ??
           defaults.notificationsEnabled,
       themeMode: AppThemeMode.values.firstWhere(
         (mode) => mode.name == themeName,
@@ -54,37 +61,39 @@ class SettingsRepository {
       ),
       languageCode: languageCode == 'en' ? 'en' : 'th',
       cloudSignedIn:
-          await _preferences.getBool(_cloudSignedInKey) ??
+          await preferences.getBool(_cloudSignedInKey) ??
           defaults.cloudSignedIn,
       useAutomaticTime:
-          await _preferences.getBool(_automaticTimeKey) ??
+          await preferences.getBool(_automaticTimeKey) ??
           defaults.useAutomaticTime,
     );
   }
 
   Future<void> save(AppSettings settings) async {
+    final preferences = _prefs;
+
     await Future.wait<void>([
-      _preferences.setString(_farmNameKey, settings.farmName),
-      _preferences.setString(_controllerNameKey, settings.controllerName),
-      _preferences.setString(_controllerIdKey, settings.controllerId),
-      _preferences.setBool(_controllerOnlineKey, settings.controllerOnline),
-      _preferences.setString(_controllerBaseUrlKey, settings.controllerBaseUrl),
-      _preferences.setBool(
+      preferences.setString(_farmNameKey, settings.farmName),
+      preferences.setString(_controllerNameKey, settings.controllerName),
+      preferences.setString(_controllerIdKey, settings.controllerId),
+      preferences.setBool(_controllerOnlineKey, settings.controllerOnline),
+      preferences.setString(_controllerBaseUrlKey, settings.controllerBaseUrl),
+      preferences.setBool(
         _controllerAutoReconnectKey,
         settings.controllerAutoReconnect,
       ),
-      _preferences.setBool(_notificationsKey, settings.notificationsEnabled),
-      _preferences.setString(_themeKey, settings.themeMode.name),
-      _preferences.setString(_languageKey, settings.languageCode),
-      _preferences.setBool(_cloudSignedInKey, settings.cloudSignedIn),
-      _preferences.setBool(_automaticTimeKey, settings.useAutomaticTime),
+      preferences.setBool(_notificationsKey, settings.notificationsEnabled),
+      preferences.setString(_themeKey, settings.themeMode.name),
+      preferences.setString(_languageKey, settings.languageCode),
+      preferences.setBool(_cloudSignedInKey, settings.cloudSignedIn),
+      preferences.setBool(_automaticTimeKey, settings.useAutomaticTime),
     ]);
 
     final wifiName = settings.wifiName;
     if (wifiName == null || wifiName.isEmpty) {
-      await _preferences.remove(_wifiNameKey);
+      await preferences.remove(_wifiNameKey);
     } else {
-      await _preferences.setString(_wifiNameKey, wifiName);
+      await preferences.setString(_wifiNameKey, wifiName);
     }
   }
 }

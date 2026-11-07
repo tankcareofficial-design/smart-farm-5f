@@ -548,11 +548,6 @@ class DeviceStore extends ChangeNotifier {
     return true;
   }
 
-  void _commit() {
-    notifyListeners();
-    unawaited(_persist());
-  }
-
   Future<void> _persist() => _repository.save(_outputs);
 
   void _sortByChannel() {

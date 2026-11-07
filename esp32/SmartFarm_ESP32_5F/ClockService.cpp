@@ -18,8 +18,10 @@ bool ClockService::probe() const {
 bool ClockService::begin(TwoWire &wire) {
   _wire = &wire;
   _snapshot.synchronized = false;
-  _snapshot.available = probe();
-  _snapshot.errorCode = _snapshot.available ? "none" : "device_not_found";
+  _snapshot.available = false;
+  _snapshot.valid = false;
+  _snapshot.readFailures = 0;
+  _snapshot.errorCode = "not_started";
   return readRtc();
 }
 
@@ -33,8 +35,27 @@ void ClockService::updateQuality() {
   if (!_snapshot.available) _snapshot.quality = "unavailable";
   else if (_snapshot.lostPower) _snapshot.quality = "lost_power";
   else if (!_snapshot.valid) _snapshot.quality = "invalid";
+  else if (_snapshot.readFailures > 0) _snapshot.quality = "degraded";
   else if (_snapshot.synchronized) _snapshot.quality = "synchronized";
   else _snapshot.quality = "rtc";
+}
+
+bool ClockService::recordReadFailure(const char *errorCode, bool deviceMissing) {
+  const bool hadVerifiedClock = _snapshot.valid;
+  _snapshot.readFailures++;
+
+  // Do not invalidate a previously verified clock on a single I2C miss.
+  // After three consecutive transport failures, fail safe and block schedule.
+  if (!hadVerifiedClock || _snapshot.readFailures >= kTransientFailureThreshold) {
+    if (deviceMissing) _snapshot.available = false;
+    _snapshot.valid = false;
+    _snapshot.errorCode = errorCode;
+  } else {
+    _snapshot.errorCode = String(errorCode) + "_transient";
+  }
+
+  updateQuality();
+  return false;
 }
 
 bool ClockService::readTemperature() {
@@ -49,57 +70,60 @@ bool ClockService::readTemperature() {
 }
 
 bool ClockService::readRtc() {
-  _snapshot.available = probe();
-  if (!_snapshot.available) {
-    _snapshot.valid = false;
-    _snapshot.errorCode = "device_not_found";
-    _snapshot.readFailures++;
-    updateQuality();
-    return false;
+  if (!probe()) {
+    return recordReadFailure("device_not_found", true);
   }
+  _snapshot.available = true;
 
   _wire->beginTransmission(DS3231_ADDRESS);
   _wire->write(static_cast<uint8_t>(0x00));
   if (_wire->endTransmission(false) != 0 ||
       _wire->requestFrom(static_cast<int>(DS3231_ADDRESS), 7) != 7) {
-    _snapshot.valid = false;
-    _snapshot.errorCode = "i2c_read_failed";
-    _snapshot.readFailures++;
-    updateQuality();
-    return false;
+    return recordReadFailure("i2c_read_failed", false);
   }
 
-  _snapshot.second = bcdToDec(_wire->read() & 0x7F);
-  _snapshot.minute = bcdToDec(_wire->read() & 0x7F);
-  _snapshot.hour = bcdToDec(_wire->read() & 0x3F);
-  _snapshot.dayOfWeek = bcdToDec(_wire->read() & 0x07);
-  _snapshot.day = bcdToDec(_wire->read() & 0x3F);
-  _snapshot.month = bcdToDec(_wire->read() & 0x1F);
-  _snapshot.year = 2000 + bcdToDec(_wire->read());
+  const uint8_t second = bcdToDec(_wire->read() & 0x7F);
+  const uint8_t minute = bcdToDec(_wire->read() & 0x7F);
+  const uint8_t hour = bcdToDec(_wire->read() & 0x3F);
+  const uint8_t dayOfWeek = bcdToDec(_wire->read() & 0x07);
+  const uint8_t day = bcdToDec(_wire->read() & 0x3F);
+  const uint8_t month = bcdToDec(_wire->read() & 0x1F);
+  const uint16_t year = 2000 + bcdToDec(_wire->read());
 
   _wire->beginTransmission(DS3231_ADDRESS);
   _wire->write(static_cast<uint8_t>(0x0F));
-  if (_wire->endTransmission(false) == 0 &&
-      _wire->requestFrom(static_cast<int>(DS3231_ADDRESS), 1) == 1) {
-    _snapshot.lostPower = (_wire->read() & 0x80) != 0;
-  } else {
-    _snapshot.lostPower = true;
+  if (_wire->endTransmission(false) != 0 ||
+      _wire->requestFrom(static_cast<int>(DS3231_ADDRESS), 1) != 1) {
+    return recordReadFailure("status_read_failed", false);
   }
+  const bool lostPower = (_wire->read() & 0x80) != 0;
 
+  const uint8_t maxDay = daysInMonth(year, month);
+  const bool dateTimeValid = year >= 2025 && year <= 2099 &&
+                             month >= 1 && month <= 12 &&
+                             day >= 1 && day <= maxDay &&
+                             dayOfWeek >= 1 && dayOfWeek <= 7 &&
+                             hour < 24 && minute < 60 && second < 60;
+
+  // Commit the time atomically only after all required RTC registers
+  // (time + status) have been read successfully.
+  _snapshot.year = year;
+  _snapshot.month = month;
+  _snapshot.day = day;
+  _snapshot.dayOfWeek = dayOfWeek;
+  _snapshot.hour = hour;
+  _snapshot.minute = minute;
+  _snapshot.second = second;
+  _snapshot.lostPower = lostPower;
+  _snapshot.valid = !lostPower && dateTimeValid;
+  _snapshot.readFailures = 0;
+  _snapshot.errorCode = _snapshot.valid
+      ? "none"
+      : (lostPower ? "lost_power" : "invalid_datetime");
+
+  // Temperature is diagnostic only. Its read failure must not invalidate
+  // the scheduler clock.
   readTemperature();
-  const uint8_t maxDay = daysInMonth(_snapshot.year, _snapshot.month);
-  _snapshot.valid = !_snapshot.lostPower && _snapshot.year >= 2025 && _snapshot.year <= 2099 &&
-                    _snapshot.month >= 1 && _snapshot.month <= 12 &&
-                    _snapshot.day >= 1 && _snapshot.day <= maxDay &&
-                    _snapshot.dayOfWeek >= 1 && _snapshot.dayOfWeek <= 7 &&
-                    _snapshot.hour < 24 && _snapshot.minute < 60 && _snapshot.second < 60;
-  if (_snapshot.valid) {
-    _snapshot.readFailures = 0;
-    _snapshot.errorCode = "none";
-  } else {
-    _snapshot.errorCode = _snapshot.lostPower ? "lost_power" : "invalid_datetime";
-    _snapshot.readFailures++;
-  }
   updateQuality();
   return _snapshot.valid;
 }
