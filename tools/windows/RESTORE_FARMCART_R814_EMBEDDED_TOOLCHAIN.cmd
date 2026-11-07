@@ -10,7 +10,7 @@ echo NVS_WRITE=NO
 echo MERGE_MAIN=NO
 echo.
 
-set "REPO=%~dp0\..\.."
+set "REPO=%~dp0\..\.."\nset "FQBN=esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi"
 pushd "%REPO%" >nul 2>nul
 if errorlevel 1 (
   echo ERROR=REPO_NOT_FOUND
@@ -106,7 +106,7 @@ python -m esptool version
 echo.
 echo --- BUILD VERIFY ONLY: NO FLASH ---
 if exist "%TEMP%\farmcart_r814_build" rmdir /s /q "%TEMP%\farmcart_r814_build"
-arduino-cli compile --fqbn esp32:esp32:esp32s3 --build-path "%TEMP%\farmcart_r814_build" esp32\SmartFarm_ESP32_5F
+arduino-cli compile --fqbn "%FQBN%" --build-path "%TEMP%\farmcart_r814_build" esp32\SmartFarm_ESP32_5F
 if errorlevel 1 (
   echo EMBEDDED_BUILD=FAIL
   popd
