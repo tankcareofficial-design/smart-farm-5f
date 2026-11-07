@@ -136,7 +136,7 @@ if errorlevel 1 (
   exit /b 96
 )
 echo BACKUP_DIR=!BACKUP!
-echo BACKUP_MODE=32x512KB_RETRY3_BAUD115200
+echo BACKUP_MODE=32x512KB_STUB_RETRY3_THEN_NO_STUB_RETRY3_BAUD115200
 
 set "CHUNK_SIZE=524288"
 set "BACKUP_FAILED=0"
@@ -161,6 +161,27 @@ for /L %%I in (0,1,31) do (
         )
       ) else (
         echo BACKUP_CHUNK_RETRY=%%I TRY=%%R
+      )
+    )
+  )
+  if "!CHUNK_OK!"=="0" (
+    echo BACKUP_CHUNK_FALLBACK_NO_STUB=%%I
+    for /L %%R in (1,1,3) do (
+      if "!CHUNK_OK!"=="0" (
+        if exist "!CHUNK!" del /q "!CHUNK!" >nul 2>nul
+        echo BACKUP_CHUNK_NO_STUB=%%I/31 OFFSET=!OFFSET! TRY=%%R
+        python -m esptool --chip esp32s3 --port %PORT% -b 115200 --no-stub read-flash --flash-size 16MB !OFFSET! 0x80000 "!CHUNK!"
+        if not errorlevel 1 (
+          for %%F in ("!CHUNK!") do set "CHUNK_BYTES=%%~zF"
+          if "!CHUNK_BYTES!"=="524288" (
+            set "CHUNK_OK=1"
+            echo BACKUP_CHUNK_PASS_NO_STUB=%%I BYTES=!CHUNK_BYTES!
+          ) else (
+            echo BACKUP_CHUNK_NO_STUB_SIZE_MISMATCH=%%I BYTES=!CHUNK_BYTES!
+          )
+        ) else (
+          echo BACKUP_CHUNK_NO_STUB_RETRY=%%I TRY=%%R
+        )
       )
     )
   )
