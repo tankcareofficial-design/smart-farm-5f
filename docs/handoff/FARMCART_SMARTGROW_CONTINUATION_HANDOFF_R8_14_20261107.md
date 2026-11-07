@@ -945,3 +945,32 @@ Correction:
 Approval status:
 - the user's explicit R8.14 N16R8 flash approval remains in scope
 - only backup transport strategy changed; firmware/profile/target/write scope did not change
+
+## R8.14 N16R8 flash PASS — 2026-11-07
+
+Explicitly approved flash operation completed successfully.
+
+Flash evidence:
+- target port: COM5
+- canonical FQBN: `esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi`
+- flash status: PASS
+- application SHA256: `306e3b4be82b9cbb794e76975c968ca146689ee63192e5fa81383473f8177f9f`
+- pre-flash full 16MB backup SHA256: `a3e74d26160e9b738cdb7d015edf1244dccb3143f90c0f12ad62b8dfb6f64802`
+- backup directory: `D:\FarmCart\backups\farmcart_r814_preflash_COM5_20261107_220605` (normalized from runner path)
+- erase-all: NO
+- full backup completed before flash write
+- canonical board/profile/device gates passed before flash
+
+Important post-flash source behavior:
+- `DEVELOPMENT_CLEAR_WIFI_ON_FIRMWARE_CHANGE = true`
+- `WIFI_PROVISIONING_VERSION = 81202`
+- if persisted `wifiBuild` differs from 81202, first boot clears Wi-Fi credentials only; this does not imply controller failure
+- WiFiTransport always starts `SmartFarm-*` AP in AP+STA mode
+- relay initialization starts hardware outputs safe OFF before any later persisted-state reconciliation
+
+Gate status after write:
+- FLASH: PASS
+- HARDWARE ACCEPTANCE: NOT YET PASS
+- RUNTIME ACCEPTANCE: NOT YET PASS
+- RELAY/LOAD POWER: MUST REMAIN DISCONNECTED until post-flash smoke and relay-state inspection pass
+- MERGE MAIN: BLOCKED
