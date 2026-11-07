@@ -613,3 +613,27 @@ Exact next action:
 3. Install or repair only the missing toolchain components.
 4. Re-run preflight until the environment is ready.
 5. Then proceed to the R8.14 hardware preflash gate; flashing still requires explicit approval.
+
+
+## Hardware preflash runner correction — 2026-11-07
+
+Observed on reset Windows machine:
+- restore/toolchain gate PASS
+- embedded build PASS
+- preflash runner stopped before device access with `ERROR=RUNTIME_SHA_MISSING_LOCALLY`
+
+Root cause:
+- the runtime SHA exists in GitHub and remains an ancestor of the candidate branch
+- Windows CMD interpreted the caret in `%RUNTIME_SHA%^{commit}` as an escape character, causing the local ref check to be malformed
+- this was a tooling-script defect only; no firmware/runtime source drift occurred
+
+Correction:
+- commit `0f34f2209d53fc64fa8622497b173cfef07829cb`
+- changed the runtime object existence check to `git cat-file -e %RUNTIME_SHA%`
+- no firmware/app runtime files changed
+- `FLASH=NO`, `NVS_WRITE=NO`, `MERGE_MAIN=NO`
+
+Exact next action:
+1. pull the latest `candidate/r8.14-stability-1`
+2. rerun `tools/windows/RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd`
+3. review COM/chip/flash identity evidence before any flash approval
