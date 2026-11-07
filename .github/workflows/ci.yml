@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+env:
+  FARMCART_ESP32_FQBN: 'esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi'
+  FARMCART_ESP32_CORE: 'esp32:esp32@3.3.12'
+  FARMCART_ARDUINOJSON: 'ArduinoJson@7.4.3'
+
 jobs:
   flutter:
     name: Flutter analyze and test
@@ -56,7 +61,7 @@ jobs:
           retention-days: 14
 
   esp32:
-    name: ESP32-S3 compile
+    name: ESP32-S3 N16R8 compile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,10 +70,10 @@ jobs:
         run: |
           arduino-cli config init
           arduino-cli core update-index
-          arduino-cli core install esp32:esp32
-          arduino-cli lib install ArduinoJson
+          arduino-cli core install "$FARMCART_ESP32_CORE"
+          arduino-cli lib install "$FARMCART_ARDUINOJSON"
       - name: Compile controller firmware
         run: >-
           arduino-cli compile
-          --fqbn esp32:esp32:esp32s3
+          --fqbn "$FARMCART_ESP32_FQBN"
           esp32/SmartFarm_ESP32_5F
