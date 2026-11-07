@@ -17,7 +17,8 @@ echo.
 
 set "EXPECTED_BRANCH=candidate/r8.14-stability-1"
 set "RUNTIME_SHA=566cc4843a121dfefc9d7583f1398736b134c186"
-set "EXPECTED_FW=0.8.0-5f-r8.14-stability-1"\r\nset "FQBN=esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi"
+set "EXPECTED_FW=0.8.0-5f-r8.14-stability-1"
+set "FQBN=esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi"
 set "REPO=%~dp0\..\.."
 
 pushd "%REPO%" >nul 2>nul
