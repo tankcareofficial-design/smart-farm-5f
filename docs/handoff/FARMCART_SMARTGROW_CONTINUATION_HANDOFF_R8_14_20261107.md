@@ -334,3 +334,256 @@ Therefore the **R8.14 CI gate is GREEN** for source SHA `3c83f31bdd894121f60b52d
 
 ### Exact next action
 Perform the existing **R8.14 real-hardware acceptance** on ESP32-S3 + relay + DS3231. Do not merge to `main` until that hardware/runtime evidence passes. Flashing remains approval-gated under the project work rules.
+
+
+## Master implementation roadmap — FarmCart SmartGrow — 2026-11-07
+
+This roadmap is the project-level continuation plan. New chats must use it together with the latest branch/HEAD/CI evidence. Do not skip back to an older phase unless a regression requires it.
+
+### Phase 0 — Close R8.14 hardware/runtime acceptance [CURRENT]
+
+Goal: prove the already-built stability candidate on the real ESP32-S3 + relay + DS3231 before adding new feature scope.
+
+Required evidence:
+- flash the accepted R8.14 controller image only after explicit approval
+- controller reachable and Online state stable
+- `/api/state` failure falls back to `/api/device` as designed
+- reachability hysteresis: do not declare Offline on the first transient miss
+- DS3231 transport miss #1 and #2 stay degraded/usable after a previously verified clock
+- DS3231 transport miss #3 triggers fail-safe invalidation
+- RTC recovery returns to valid state
+- `lost_power` remains distinguishable from transport/read error
+- verify there is no unwanted automatic phone-time write during transient RTC degradation
+- observe RTC + controller Online state continuously for at least 10 minutes
+- regression test relay ON/OFF, rapid commands, Emergency Stop, schedule Save, manual override, device edit, and delete-device safe-off
+
+Gate:
+- FLASH / HARDWARE / RUNTIME remain NOT PASS until physical evidence exists.
+- `main` remains unchanged until explicit merge approval after the gate passes.
+
+### Phase 1 — Freeze R8.14 and create the FarmCart SmartGrow demo line
+
+After Phase 0 passes:
+- record hardware/runtime evidence in this handoff
+- request explicit approval before merge to `main`
+- after accepted merge, create a new candidate branch for demo/product work; recommended naming:
+  `candidate/r8.15-farmcart-smartgrow-demo`
+- preserve R8.14 as the rollback baseline
+
+Do not mix major Crop Profile / Cloud / Camera work into the R8.14 stability PR.
+
+### Phase 2 — Product branding / presentation identity
+
+Goal: make the current app visibly become **FarmCart SmartGrow** without changing controller safety behavior.
+
+Scope:
+- app display title: FarmCart SmartGrow
+- splash / home / dashboard branding
+- remove obsolete user-facing `Smart Farm 5F` / `Smart Farm+` branding where appropriate
+- keep internal package/repository identifiers unchanged unless changing them is necessary
+- update release/version labels for the demo line
+- prepare a simple project identity block for proposal/presentation
+
+Acceptance:
+- Flutter analyze PASS
+- Flutter test PASS
+- Android APK build PASS
+- no controller/relay regression
+
+### Phase 3 — Crop Profile v1 [PRIMARY DIFFERENTIATOR]
+
+Goal: user selects a crop and the system loads a curated starting profile while still allowing calibration and manual customization.
+
+Initial crop set:
+- ผักบุ้งจีน
+- ผักสลัด / ผักกาดหอม
+- คะน้า
+- กวางตุ้ง
+- พริก
+- มะเขือเทศ
+- กะเพรา
+- โหระพา
+- แตงกวา
+- ถั่วฝักยาว
+- ผักชี
+- Custom
+
+Implementation steps:
+1. inspect current Flutter data models, DeviceStore, automation models, controller API, NVS schema, and scheduling code read-only
+2. define versioned `CropProfile` schema
+3. research agronomic starting ranges from authoritative agricultural/university sources
+4. store curated profiles offline in the app with source/reference metadata
+5. create Crop Profile selection UI
+6. allow user override/customization
+7. resolve the selected profile into concrete controller thresholds/schedule values
+8. persist only validated resolved settings on ESP32
+9. controller continues using the last valid profile even when phone/Internet is unavailable
+
+Safety/data rule:
+- do not treat generic Internet soil-moisture percentages as directly valid sensor thresholds
+- actual soil moisture control must use the user's calibrated sensor/media dry/wet or field-capacity reference
+
+Demo acceptance:
+- select crop -> preview settings -> apply -> controller receives validated profile -> disconnect phone -> controller continues locally
+
+### Phase 4 — Sensor calibration and real environmental inputs
+
+Target sensor groups:
+- soil moisture
+- temperature / humidity
+- light
+- water level
+- INA226 power/current monitoring
+
+Steps:
+- confirm which physical sensors are actually available before coding hardware-specific assumptions
+- create sensor calibration/status UI
+- distinguish LIVE / STALE / ERROR / NOT INSTALLED
+- never invent sensor values
+- if simulated values are used for the proposal demo, label them clearly as DEMO/SIMULATION
+- make Crop Profile use calibrated sensor data, not raw ADC numbers
+
+### Phase 5 — Pump + dual mist/fog nozzle control
+
+Hardware intent:
+- 12 V pump
+- two mist/fog nozzles
+
+Control intents must remain separate even if they share the same pump:
+- **Irrigation:** soil/media is too dry -> run -> stop at target/time/dose -> cooldown
+- **Cooling/Humidity:** temperature high or RH low -> short pulse -> wait -> re-read -> decide again
+
+Required safety:
+- maximum continuous pump runtime
+- minimum cooldown
+- low-water lockout when water-level sensing is available
+- Emergency Stop override
+- fail-safe OFF on invalid control state
+- no ghost re-ON from stale NVS/schedule state
+
+Pump calibration:
+- run pump for a known duration
+- measure actual delivered mL through the real two-nozzle assembly
+- calculate mL/min
+- use calibrated flow for dose estimate and daily water total
+
+Demo acceptance:
+- Manual Pump/Mist ON/OFF
+- calibrated flow shown
+- automated soil-triggered cycle
+- safety timeout verified
+
+### Phase 6 — Internet remote monitoring/control
+
+Architecture rule:
+**Local-first + Internet Remote Control. ESP32 remains the automation authority.**
+
+Before implementation:
+- inspect existing Wi-Fi/provisioning/API architecture
+- choose the smallest secure cloud transport compatible with the current codebase
+- do not make remote/cloud logic bypass controller-side validation
+
+Required capabilities:
+- view controller Online/Offline remotely
+- view sensor state remotely
+- remote relay/manual command
+- remote Crop Profile/config sync
+- command acknowledgement/state reconciliation
+- last-seen / connection state
+- Internet loss does not stop local schedules, irrigation, safety, or Crop Profile
+
+Security baseline:
+- per-device credential
+- authenticated commands
+- TLS where supported
+- no hard-coded shared production secret in app/source
+- no direct public exposure of ESP32 HTTP port
+
+Demo acceptance:
+- phone leaves SmartFarm local Wi-Fi
+- uses Internet/mobile data
+- app still shows current controller state
+- remote command reaches controller and confirmed state returns
+- disconnect Internet -> local automation continues
+
+### Phase 7 — ESP32-CAM module
+
+Local v1:
+- ESP32-CAM joins SmartFarm Wi-Fi
+- Camera Online status
+- JPEG snapshot
+- manual refresh / capture
+- flash control when supported
+
+Architecture rules:
+- do not send live image/video payload over ESP-NOW
+- ESP-NOW may be used only for small trigger/heartbeat/status messages if needed
+- camera failure must never block controller operation
+
+Remote evolution:
+- prefer controlled snapshot upload / cloud relay for remote viewing
+- avoid unsafe router port-forwarding as the normal design
+- timelapse/growth history can be added after the proposal demo
+
+### Phase 8 — Demo/presentation package
+
+Prepare a 1–2 minute reliable demonstration:
+1. open FarmCart SmartGrow app
+2. controller Online
+3. select a crop profile
+4. show real sensor/calibration data
+5. manually trigger Pump/Mist
+6. show automatic rule/schedule
+7. Emergency Stop -> outputs OFF
+8. show remote Internet state/control if ready
+9. show camera snapshot if ready
+
+Presentation assets:
+- architecture diagram
+- block diagram / wiring overview
+- Crop Profile explanation
+- local-first vs cloud explanation
+- safety features
+- comparison against a generic ESP32 + Blynk + soil sensor project
+- backup screenshots
+- backup demo video in case live network/hardware fails
+
+### Phase 9 — Post-proposal hardening
+
+After the proposal/demo is secured:
+- historical graphs / telemetry retention
+- alerts/notifications
+- camera timelapse
+- OTA/update strategy
+- stronger cloud auth/device provisioning
+- fault/event history
+- irrigation statistics
+- enclosure/fuse/E-stop physical build
+- long-duration reliability test
+- documentation / BOM / wiring / final report
+
+## Fast-track order for the next proposal demo
+
+If time is constrained, prioritize only:
+1. R8.14 Hardware Acceptance
+2. FarmCart SmartGrow branding
+3. Crop Profile v1
+4. Pump + dual-mist manual + safe automatic cycle
+5. Android APK
+6. remote Internet control
+7. camera snapshot
+8. presentation + backup video
+
+Cloud analytics, advanced graphs, AI, timelapse, and nonessential polish must not block the core demo.
+
+## New-chat continuation rule
+
+A new chat must determine the current phase from **actual branch HEAD + CI/hardware evidence**, not from the calendar.
+
+At startup:
+1. read this handoff
+2. inspect `candidate/r8.14-stability-1` or the newer candidate named in this handoff
+3. verify HEAD and PR state
+4. inspect latest CI
+5. identify the first incomplete roadmap phase
+6. continue there without redoing already-passed gates
