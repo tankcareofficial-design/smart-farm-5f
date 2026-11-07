@@ -637,3 +637,22 @@ Exact next action:
 1. pull the latest `candidate/r8.14-stability-1`
 2. rerun `tools/windows/RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd`
 3. review COM/chip/flash identity evidence before any flash approval
+
+
+## Selectable COM preflash correction — 2026-11-07
+
+Observed on reset Windows machine:
+- Arduino CLI board discovery found the FarmCart ESP32 family device on `COM5`
+- the preflash runner still hard-coded `COM3` and `COM4`
+- the gate therefore failed before any device write even though the board was present
+
+Correction:
+- commit `2a82b4302b6600d822c98bcf21893249fe9cd3cf`
+- preflash runner now accepts an explicit COM port argument, e.g.:
+  `call tools\windows\RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd COM5`
+- if no argument is supplied, the runner lists serial devices and asks interactively for the COM port
+- selected port must match the Windows `COM<number>` form
+- the selected port is then verified as ESP32-S3 before the gate continues
+- `FLASH_WRITE=NO`, `FLASH_ERASE=NO`, `NVS_READ=NO`, `NVS_WRITE=NO`
+
+Current observed FarmCart candidate port on the reset machine: `COM5`.
