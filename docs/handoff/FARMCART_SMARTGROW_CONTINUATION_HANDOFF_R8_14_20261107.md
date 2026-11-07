@@ -974,3 +974,21 @@ Gate status after write:
 - RUNTIME ACCEPTANCE: NOT YET PASS
 - RELAY/LOAD POWER: MUST REMAIN DISCONNECTED until post-flash smoke and relay-state inspection pass
 - MERGE MAIN: BLOCKED
+
+## Post-flash smoke gate prepared — 2026-11-07
+
+Prepared read-only post-flash smoke tooling:
+- `tools/windows/RUN_FARMCART_R814_POSTFLASH_SERIAL_CAPTURE_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_POSTFLASH_SMOKE_READONLY.cmd`
+
+Purpose:
+- confirm ESP32-S3 still responds on the selected COM port
+- trigger a controlled reset via read-only chip probe
+- capture boot/runtime serial output when available
+- look for firmware version, Device ID, AP start and RTC status
+- passively scan Windows Wi-Fi networks for `SmartFarm-*` AP
+- perform no relay command, Wi-Fi configuration write, HTTP write, flash write or NVS write
+
+Safety:
+- relay/pump/load power must remain disconnected during this gate
+- hardware/runtime acceptance still remain NOT PASS until post-flash evidence is reviewed
