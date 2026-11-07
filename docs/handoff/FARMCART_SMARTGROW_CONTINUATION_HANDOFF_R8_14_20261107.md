@@ -1026,3 +1026,49 @@ Gate status:
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - RUNTIME_ACCEPTANCE=NOT_YET_PASS
 - MERGE_MAIN=BLOCKED
+
+## AP HTTP runtime smoke PASS — 2026-11-07
+
+Observed through GET-only AP HTTP smoke while Windows was connected to the controller AP:
+- branch HEAD at test: `88bf5abb581e699c91485539917fb18248554a46`
+- controller AP: `SmartFarm-9FC114` / `192.168.4.1`
+- firmware runtime: `0.8.0-5f-r8.14-stability-1` PASS
+- hardware profile: `smart_farm_8ch_v1` PASS
+- device ID: `sf-64B9509FC114` PASS
+- relay count: 8 PASS
+- all 8 relay runtime states: OFF PASS
+- all manual overrides: inactive
+- emergency latched: false
+- provisioning configured: false
+- station connected: false
+- AP HTTP smoke: PASS
+- sensors currently report not_installed / null metrics
+
+RTC evidence:
+- `/api/v3/clock` reachable
+- available=false
+- valid=false
+- quality=unavailable
+- errorCode=device_not_found
+- I2C address=104 / 0x68
+- SDA=GPIO8
+- SCL=GPIO9
+- readFailures observed: 736
+- RTC acceptance is blocked until DS3231 is physically detected
+
+Safety decision:
+- relay software state is verified OFF for all 8 channels
+- relay module/control wiring may be reconnected for no-load physical testing
+- pump / actuator / 12V load power must remain disconnected until relay hardware behavior is verified
+- Wi-Fi station credentials are expected to be absent because the firmware-change provisioning gate cleared Wi-Fi only
+
+Gate status:
+- FLASH=PASS
+- DEVICE_PRESENCE=PASS
+- AP_VISIBILITY=PASS
+- AP_HTTP_RUNTIME=PASS
+- RELAY_SAFE_STATE=PASS
+- RTC_PHYSICAL=BLOCKED_DEVICE_NOT_FOUND
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- RUNTIME_ACCEPTANCE=NOT_YET_PASS
+- MERGE_MAIN=BLOCKED
