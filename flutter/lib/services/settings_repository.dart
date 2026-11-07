@@ -3,6 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_settings.dart';
 
 class SettingsRepository {
+  // Preserve the public `preferences:` constructor argument while keeping
+  // the backing store private; a field-formal would rename the named argument.
+  // ignore: prefer_initializing_formals
   SettingsRepository({SharedPreferencesAsync? preferences})
     : _preferences = preferences;
 
