@@ -915,3 +915,33 @@ Correction:
 Approval status:
 - original explicit user approval remains for the same R8.14 N16R8 flash operation
 - retry is allowed only with the corrected runner; scope is unchanged
+
+## Chunk #2 stub-read fallback correction — 2026-11-07
+
+Second approved flash attempt again stopped before any write during the pre-flash backup stage.
+
+Evidence:
+- chunked backup mode: 32 x 512KB at 115200 baud
+- chunks 0 and 1: PASS
+- chunk 2 (offset 0x100000): default stub read failed three times
+- each failure stopped around address 0x105000 with `Packet content transfer stopped`
+- chunks 3 through 31: PASS
+- runner ended with `ERROR=CHUNKED_FLASH_BACKUP_FAILED`
+- no flash write stage was reached
+- therefore bootloader / partition / OTA data / app / erase-all / NVS remained untouched
+
+Interpretation:
+- failure is localized to the stub-based read path for chunk 2 rather than a general USB/flash failure
+- all later 512KB regions were readable using the same link and baud
+
+Correction:
+- commit `fa4d3f9916639989325a2fe35872f266ca44791a`
+- normal backup path still tries the esptool stub up to 3 times per chunk
+- any chunk that still fails automatically falls back to ESP32-S3 ROM bootloader read using `--no-stub`
+- no-stub fallback explicitly supplies 16MB flash size and 115200 baud
+- no-stub fallback retries up to 3 times and still requires exactly 524,288 bytes
+- any unresolved chunk failure still exits before flash write
+
+Approval status:
+- the user's explicit R8.14 N16R8 flash approval remains in scope
+- only backup transport strategy changed; firmware/profile/target/write scope did not change
