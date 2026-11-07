@@ -12,11 +12,12 @@ void main() {
       connected: true,
       controllerStatus: 'connected',
       enabledSensors: 1,
+      relayCount: 8,
     );
     final result = engine.evaluate(state);
     expect(result.isAssessable, isFalse);
     expect(result.score, 0);
-    expect(result.alerts, contains('No live sensor data'));
+    expect(result.alerts, contains('กำลังรอข้อมูลจากเซ็นเซอร์จริง'));
   });
 
   test('healthy connected farm with a live sensor scores excellent', () {
@@ -24,7 +25,7 @@ void main() {
       connected: true,
       controllerStatus: 'connected',
       enabledSensors: 1,
-      relayCount: 12,
+      relayCount: 8,
       sensorReadings: <SensorReading>[
         SensorReading(
           id: 'temperature',
@@ -47,13 +48,14 @@ void main() {
     final result = engine.evaluate(FarmState.empty);
     expect(result.isAssessable, isFalse);
     expect(result.score, 0);
-    expect(result.alerts, contains('Controller offline'));
+    expect(result.alerts, contains('กล่องควบคุมไม่ได้เชื่อมต่อ'));
   });
 
   test('communication penalty is capped at twenty points', () {
     final state = FarmState.empty.copyWith(
       connected: true,
       enabledSensors: 1,
+      relayCount: 8,
       consecutiveFailures: 100,
       sensorReadings: <SensorReading>[
         SensorReading(
@@ -67,6 +69,6 @@ void main() {
         ),
       ],
     );
-    expect(engine.evaluate(state).score, 80);
+    expect(engine.evaluate(state).score, 89);
   });
 }

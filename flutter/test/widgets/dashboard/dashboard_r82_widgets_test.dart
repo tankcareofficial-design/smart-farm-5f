@@ -33,7 +33,7 @@ void main() {
       host(const DashboardHeroCard(state: FarmState.empty)),
     );
 
-    expect(find.text('Smart Farm 5F'), findsOneWidget);
+    expect(find.text('ระบบควบคุมฟาร์ม'), findsOneWidget);
     expect(find.text('ออฟไลน์'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
