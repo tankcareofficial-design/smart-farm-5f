@@ -858,3 +858,27 @@ Current gate:
 - HARDWARE ACCEPTANCE: NOT STARTED
 - RUNTIME ACCEPTANCE: NOT STARTED
 - MERGE MAIN: BLOCKED
+
+## Approval-gated N16R8 flash runner prepared — 2026-11-07
+
+Prepared but NOT executed:
+- `tools/windows/FLASH_FARMCART_R814_N16R8_APPROVAL_GATED.cmd`
+- commit `e6b1797775f1956899da1b4467a4d50c2785e1a5`
+
+Safety behavior:
+- requires explicit approval token `FLASH_R814_N16R8`
+- refuses to write if branch/worktree/runtime source/profile/device identity checks fail
+- revalidates canonical N16R8 profile before flashing
+- verifies target is ESP32-S3 with physical 16MB flash
+- creates a full 16MB pre-flash readback backup and SHA256 before any write
+- builds the canonical N16R8 image and records binary hashes
+- uses Arduino CLI upload recipe for the canonical FQBN
+- does NOT erase the full chip
+- writes bootloader / partition table / OTA data / application as defined by Arduino-ESP32 3.3.12
+- hardware/runtime acceptance remain NOT PASS after flashing until physical tests are completed
+
+Current status:
+- final preflash: PASS
+- flash runner: READY
+- flash: NOT PERFORMED
+- explicit user approval required before execution
