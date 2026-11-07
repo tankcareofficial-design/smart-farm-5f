@@ -755,3 +755,34 @@ Exact next action:
 3. record the local canonical-profile binary SHA256
 4. stop at the flash approval gate
 5. only after explicit user approval, flash and begin the R8.14 physical runtime checklist
+
+## Preflash FQBN line-break correction — 2026-11-07
+
+Observed after the canonical N16R8 board-config audit passed on COM5:
+- board-config audit: PASS
+- effective flash size: 16MB
+- effective memory type: `qio_opi`
+- effective partition scheme: `app3M_fat9M_16MB`
+- effective PSRAM type: `opi`
+- physical ESP32-S3 / 16MB flash / 8MB PSRAM identity: PASS
+
+The subsequent preflash runner stopped before flashing with:
+- `FINDSTR: Cannot open FQBN=...`
+- `ERROR=FW_VERSION_MISMATCH`
+
+Root cause:
+- tooling patch inserted the characters `\r\n` literally on the `EXPECTED_FW` / `FQBN` assignment line
+- Windows CMD therefore parsed the line incorrectly
+- this was a runner syntax defect only; it was not a firmware-version mismatch and no device write occurred
+
+Correction:
+- commit `8bf8a907ae421154032ed3ea7de2c808bd5ab3df`
+- restored a real line break between `EXPECTED_FW` and `FQBN` assignments
+- no runtime firmware source changed
+- flash/erase/NVS writes remain disabled
+
+Exact next action:
+1. pull latest candidate
+2. rerun only `RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd COM5`
+3. review canonical-profile build SHA256 and device identity
+4. stop at flash approval gate
