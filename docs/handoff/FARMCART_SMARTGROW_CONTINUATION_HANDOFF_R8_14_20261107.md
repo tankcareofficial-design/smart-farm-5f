@@ -818,3 +818,43 @@ Exact next action:
 3. require `BOARD_PROFILE_LOCK=PASS` and maximum app size 3,145,728 bytes
 4. record the new canonical N16R8 local app SHA256
 5. stop at flash approval gate
+
+## Canonical N16R8 final preflash PASS — 2026-11-07
+
+Final local preflash evidence on reset Windows machine:
+- branch HEAD at test: `ab73b22989891df2cc0f4c967478c6e0dc2245c1`
+- runtime source lock against `566cc4843a121dfefc9d7583f1398736b134c186`: PASS
+- firmware version: `0.8.0-5f-r8.14-stability-1`: PASS
+- canonical board profile lock: PASS
+  - FQBN: `esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi`
+  - flash size: 16MB
+  - memory type: qio_opi
+  - partitions: app3M_fat9M_16MB
+  - PSRAM: opi
+  - app max: 3,145,728 bytes
+- local canonical compile: PASS
+  - sketch: 1,057,435 bytes (33%)
+  - globals: 68,052 bytes (20%)
+  - app binary bytes: 1,057,584
+  - app SHA256: `8752283c9a1f2b125d2fc12ca05122e3ef046487ada524ede092d62409d1d904`
+- physical controller:
+  - COM5
+  - ESP32-S3 QFN56 rev v0.2
+  - embedded PSRAM 8MB
+  - physical flash 16MB
+  - flash type quad / 3.3V
+- preflash port gate: PASS
+- flash ID read: PASS
+- no flash write, erase, NVS read/write, relay command or merge was performed
+
+Important:
+- earlier local app hashes from generic 4MB builds are invalid for flashing and must not be used
+- canonical local preflash app hash for this gate is `8752283c9a1f2b125d2fc12ca05122e3ef046487ada524ede092d62409d1d904`
+- CI #11 already passed with the same canonical N16R8 board profile
+
+Current gate:
+- PREFLASH: PASS
+- FLASH: AWAITING EXPLICIT USER APPROVAL
+- HARDWARE ACCEPTANCE: NOT STARTED
+- RUNTIME ACCEPTANCE: NOT STARTED
+- MERGE MAIN: BLOCKED
