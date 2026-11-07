@@ -124,27 +124,75 @@ if errorlevel 1 (
 echo DEVICE_IDENTITY_GATE=PASS
 
 echo.
-echo --- FULL 16MB PRE-FLASH BACKUP ---
+echo --- FULL 16MB PRE-FLASH BACKUP: CHUNKED READ ---
 for /f "delims=" %%T in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set "TS=%%T"
 set "BACKUP_ROOT=%REPO%\..\backups"
 set "BACKUP=!BACKUP_ROOT!\farmcart_r814_preflash_%PORT%_!TS!"
-mkdir "!BACKUP!" >nul 2>nul
+set "CHUNKS=!BACKUP!\chunks"
+mkdir "!CHUNKS!" >nul 2>nul
 if errorlevel 1 (
   echo ERROR=BACKUP_DIR_CREATE_FAILED
   popd
   exit /b 96
 )
 echo BACKUP_DIR=!BACKUP!
+echo BACKUP_MODE=32x512KB_RETRY3_BAUD115200
 
-python -m esptool --port %PORT% read-flash 0x0 0x1000000 "!BACKUP!\full_flash_16MB_before_r814.bin"
-if errorlevel 1 (
-  echo ERROR=FULL_FLASH_BACKUP_FAILED
+set "CHUNK_SIZE=524288"
+set "BACKUP_FAILED=0"
+for /L %%I in (0,1,31) do (
+  set /a OFFSET=%%I*524288
+  set "IDX=0%%I"
+  set "IDX=!IDX:~-2!"
+  set "CHUNK=!CHUNKS!\chunk_!IDX!.bin"
+  set "CHUNK_OK=0"
+  for /L %%R in (1,1,3) do (
+    if "!CHUNK_OK!"=="0" (
+      if exist "!CHUNK!" del /q "!CHUNK!" >nul 2>nul
+      echo BACKUP_CHUNK=%%I/31 OFFSET=!OFFSET! TRY=%%R
+      python -m esptool --port %PORT% -b 115200 read-flash !OFFSET! 0x80000 "!CHUNK!"
+      if not errorlevel 1 (
+        for %%F in ("!CHUNK!") do set "CHUNK_BYTES=%%~zF"
+        if "!CHUNK_BYTES!"=="524288" (
+          set "CHUNK_OK=1"
+          echo BACKUP_CHUNK_PASS=%%I BYTES=!CHUNK_BYTES!
+        ) else (
+          echo BACKUP_CHUNK_SIZE_MISMATCH=%%I BYTES=!CHUNK_BYTES!
+        )
+      ) else (
+        echo BACKUP_CHUNK_RETRY=%%I TRY=%%R
+      )
+    )
+  )
+  if "!CHUNK_OK!"=="0" set "BACKUP_FAILED=1"
+)
+
+if "!BACKUP_FAILED!"=="1" (
+  echo ERROR=CHUNKED_FLASH_BACKUP_FAILED
+  echo BACKUP_DIR=!BACKUP!
+  echo No flash write was performed.
   popd
   exit /b 97
 )
+
+echo.
+echo --- COMBINE AND VERIFY 16MB BACKUP ---
+powershell -NoProfile -Command "$ErrorActionPreference='Stop'; $files=Get-ChildItem -LiteralPath '!CHUNKS!' -Filter 'chunk_*.bin' ^| Sort-Object Name; if($files.Count -ne 32){throw 'Expected 32 chunks'}; $out=[IO.File]::Create('!BACKUP!\full_flash_16MB_before_r814.bin'); try { foreach($f in $files){ $inp=[IO.File]::OpenRead($f.FullName); try { $inp.CopyTo($out) } finally { $inp.Dispose() } } } finally { $out.Dispose() }"
+if errorlevel 1 (
+  echo ERROR=BACKUP_COMBINE_FAILED
+  popd
+  exit /b 98
+)
+for %%F in ("!BACKUP!\full_flash_16MB_before_r814.bin") do set "BACKUP_BYTES=%%~zF"
+echo BACKUP_BYTES=!BACKUP_BYTES!
+if not "!BACKUP_BYTES!"=="16777216" (
+  echo ERROR=FULL_BACKUP_SIZE_MISMATCH
+  popd
+  exit /b 99
+)
 for /f "tokens=1" %%H in ('certutil -hashfile "!BACKUP!\full_flash_16MB_before_r814.bin" SHA256 ^| findstr /R /V "hash CertUtil"') do if not defined BACKUP_SHA256 set "BACKUP_SHA256=%%H"
 echo BACKUP_SHA256=!BACKUP_SHA256!
-
+echo FULL_FLASH_BACKUP=PASS
 echo.
 echo --- BUILD CANONICAL N16R8 IMAGE ---
 set "BUILD=%TEMP%\farmcart_r814_flash_build"
