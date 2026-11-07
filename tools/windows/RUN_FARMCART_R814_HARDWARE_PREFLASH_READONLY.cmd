@@ -118,10 +118,32 @@ if errorlevel 1 (
 )
 
 echo.
+echo --- CANONICAL N16R8 PROFILE ASSERTION ---
+set "PROPS=%TEMP%\farmcart_r814_preflash_properties.txt"
+arduino-cli compile --fqbn "%FQBN%" --show-properties esp32\SmartFarm_ESP32_5F > "%PROPS%" 2>&1
+if errorlevel 1 (
+  type "%PROPS%"
+  echo ERROR=BOARD_PROFILE_PROPERTIES_FAILED
+  popd
+  exit /b 70
+)
+findstr /C:"build.flash_size=16MB" "%PROPS%" >nul || (echo ERROR=FLASH_SIZE_PROFILE_MISMATCH & popd & exit /b 71)
+findstr /C:"build.memory_type=qio_opi" "%PROPS%" >nul || (echo ERROR=MEMORY_TYPE_PROFILE_MISMATCH & popd & exit /b 72)
+findstr /C:"build.partitions=app3M_fat9M_16MB" "%PROPS%" >nul || (echo ERROR=PARTITION_PROFILE_MISMATCH & popd & exit /b 73)
+findstr /C:"build.psram_type=opi" "%PROPS%" >nul || (echo ERROR=PSRAM_PROFILE_MISMATCH & popd & exit /b 74)
+findstr /C:"upload.maximum_size=3145728" "%PROPS%" >nul || (echo ERROR=APP_LIMIT_PROFILE_MISMATCH & popd & exit /b 75)
+echo BOARD_PROFILE_LOCK=PASS
+echo FLASH_SIZE=16MB
+echo MEMORY_TYPE=qio_opi
+echo PARTITIONS=app3M_fat9M_16MB
+echo PSRAM=opi
+echo APP_MAX_BYTES=3145728
+
+echo.
 echo --- BUILD EXACT CURRENT RUNTIME SOURCE: NO FLASH ---
 set "BUILD=%TEMP%\farmcart_r814_preflash_build"
 if exist "%BUILD%" rmdir /s /q "%BUILD%"
-arduino-cli compile --fqbn esp32:esp32:esp32s3 --build-path "%BUILD%" esp32\SmartFarm_ESP32_5F
+arduino-cli compile --fqbn "%FQBN%" --build-path "%BUILD%" esp32\SmartFarm_ESP32_5F
 if errorlevel 1 (
   echo PREFLASH_BUILD=FAIL
   popd
