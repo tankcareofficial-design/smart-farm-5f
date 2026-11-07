@@ -696,3 +696,62 @@ Exact next action:
 2. run board configuration audit with `COM5`
 3. review effective board options
 4. only then prepare a flash command; flash remains approval-gated
+
+## N16R8 board-profile correction and CI closure — 2026-11-07
+
+Board configuration audit from the reset Windows machine proved that the generic `esp32:esp32:esp32s3` FQBN was not suitable for the actual FarmCart controller:
+- generic effective flash size: 4MB
+- generic partition scheme: `default`
+- generic upload maximum size: 1,310,720 bytes
+- physical controller probe: ESP32-S3 with 16MB flash and 8MB PSRAM
+
+The physical hardware target is ESP32-S3 N16R8. Espressif documentation identifies N16R8 as QSPI flash + OPI PSRAM.
+
+Canonical R8.14 board profile:
+`esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi`
+
+The selected 16MB partition table preserves OTA capability:
+- NVS: 0x9000 / 0x5000
+- OTA data: 0xE000 / 0x2000
+- app0: 0x10000 / 0x300000
+- app1: 0x310000 / 0x300000
+- FFat: 0x610000 / 0x9E0000
+- coredump: 0xFF0000 / 0x10000
+
+Corrections:
+- local restore/preflash/audit tooling pinned to the N16R8 profile
+- CI pinned to ESP32 core `3.3.12`
+- CI pinned to ArduinoJson `7.4.3`
+- CI ESP32 job renamed `ESP32-S3 N16R8 compile`
+- no controller source behavior was changed by this correction
+
+CI evidence:
+- source/config commit: `83b9f6118edef704640763a705f8080a4ede27d4`
+- Smart Farm CI run: `42376419148` (#11)
+- overall: SUCCESS
+- Flutter analyze/test: SUCCESS
+- ESP32-S3 N16R8 compile: SUCCESS
+- Android demo APK: SUCCESS
+- N16R8 compile: sketch 1,057,355 bytes / 3,145,728 bytes (33%)
+- globals: 68,052 / 327,680 bytes (20%)
+- APK artifact id: `13576415065`
+- APK artifact digest: `sha256:af8a54a28def9c1de323dc0c36277a76d263e9953d18365f7945e4e5e4215916`
+
+Gate status:
+- SOURCE: PASS for R8.14 candidate scope
+- STATIC/ANALYZE: PASS
+- TEST: PASS
+- ESP32 N16R8 BUILD: PASS
+- ANDROID APK BUILD: PASS
+- PREFLASH PHYSICAL CHIP/FLASH ID: PASS on COM5
+- FLASH: NOT PERFORMED
+- HARDWARE ACCEPTANCE: NOT YET PASS
+- RUNTIME ACCEPTANCE: NOT YET PASS
+- MERGE MAIN: BLOCKED
+
+Exact next action:
+1. pull latest candidate on the reset Windows machine
+2. rerun the board-config audit and hardware preflash gate using COM5; both must show the canonical N16R8 profile
+3. record the local canonical-profile binary SHA256
+4. stop at the flash approval gate
+5. only after explicit user approval, flash and begin the R8.14 physical runtime checklist
