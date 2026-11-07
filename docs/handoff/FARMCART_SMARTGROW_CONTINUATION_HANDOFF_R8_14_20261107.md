@@ -656,3 +656,43 @@ Correction:
 - `FLASH_WRITE=NO`, `FLASH_ERASE=NO`, `NVS_READ=NO`, `NVS_WRITE=NO`
 
 Current observed FarmCart candidate port on the reset machine: `COM5`.
+
+
+## R8.14 hardware preflash gate evidence — 2026-11-07
+
+Observed on reset Windows machine with FarmCart ESP32-S3 connected:
+- branch HEAD at probe: `3a81964d92f6c2d7370a28bc3973047a8e230e55`
+- runtime source lock against accepted CI SHA `566cc4843a121dfefc9d7583f1398736b134c186`: PASS
+- firmware version lock: `0.8.0-5f-r8.14-stability-1` PASS
+- hardware mapping lock: PASS
+  - relay GPIO: 4,5,6,7,15,16,17,18
+  - relay polarity: active HIGH
+  - RTC SDA GPIO8 / SCL GPIO9
+- local preflash compile: PASS
+- app binary bytes: `1052304`
+- app binary SHA256 for this local build: `efcf68183523105e126150e1b159294f1e6dca81c521d7802c8e317dd862ebfd`
+- selected USB port: `COM5`
+- chip probe: PASS
+  - ESP32-S3 QFN56 revision v0.2
+  - embedded PSRAM 8MB
+  - USB-Serial/JTAG mode
+- flash ID probe: PASS
+  - detected flash size: 16MB
+  - quad mode
+  - 3.3V
+- no flash write, erase, NVS read/write, relay command or merge performed
+
+Important pre-flash review:
+- actual hardware is 16MB flash + 8MB PSRAM
+- current CI/local compile FQBN is generic `esp32:esp32:esp32s3`
+- before flashing, verify the effective Arduino board options (FlashSize / PartitionScheme / PSRAM / memory type) rather than assuming the generic defaults match N16R8 hardware
+
+Added read-only audit runner:
+- `tools/windows/RUN_FARMCART_R814_BOARD_CONFIG_AUDIT_READONLY.cmd`
+- commit `3a321a18769fdaa1d37b5cdd911bcbbbd82e700f`
+
+Exact next action:
+1. pull latest candidate
+2. run board configuration audit with `COM5`
+3. review effective board options
+4. only then prepare a flash command; flash remains approval-gated
