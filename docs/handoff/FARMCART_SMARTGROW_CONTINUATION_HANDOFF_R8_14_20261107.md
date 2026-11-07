@@ -250,3 +250,44 @@ Key points:
 When opening a new chat, the correct starting instruction is:
 
 **“อ่าน docs/handoff/FARMCART_SMARTGROW_CONTINUATION_HANDOFF_R8_14_20261107.md และตรวจ GitHub branch candidate/r8.14-stability-1 แบบ read-only ก่อน จากนั้นเช็ก CI ของ HEAD ล่าสุด แล้วทำต่อจาก Next Action ห้ามเริ่มใหม่หรือย้อนใช้ baseline เก่า”**
+
+
+## R8.14 CI closure — 2026-11-07
+
+### Branch / source
+- Branch: `candidate/r8.14-stability-1`
+- Source SHA that closed the CI gate: `3c83f31bdd894121f60b52d3a45c4dc816d325de`
+- CI-fix commits after the original handoff:
+  - `e81ccdb3711f31ddf50ce4d9fc0dc3994b0f337a` — first lint-suppression attempt; CI still failed because the diagnostic was emitted on the initializer line.
+  - `3c83f31bdd894121f60b52d3a45c4dc816d325de` — moved the suppression to the exact initializer diagnostic while preserving the public `preferences:` constructor API.
+
+### CI evidence
+- GitHub Actions workflow: **Smart Farm CI**
+- Run ID: **42324520907**
+- Run number: **8**
+- Overall conclusion: **SUCCESS**
+- Job `Flutter analyze and test`: **SUCCESS**
+  - `flutter analyze`: **SUCCESS**
+  - `flutter test`: **SUCCESS**
+- Job `ESP32-S3 compile`: **SUCCESS**
+  - controller firmware compile: **SUCCESS**
+
+Therefore the **R8.14 CI gate is GREEN** for source SHA `3c83f31bdd894121f60b52d3a45c4dc816d325de`.
+
+### Status separation
+- SOURCE: **PASS for R8.14 candidate scope at `3c83f31bdd894121f60b52d3a45c4dc816d325de`**
+- STATIC / ANALYZE: **PASS**
+- TEST: **PASS**
+- ESP32 BUILD: **PASS**
+- ANDROID APK BUILD: **NOT YET VERIFIED**
+- FLASH: **NOT PERFORMED in this gate**
+- HARDWARE: **NOT YET ACCEPTED**
+- RUNTIME ON REAL CONTROLLER / DS3231: **NOT YET ACCEPTED**
+- MERGE TO `main`: **BLOCKED until hardware acceptance is completed**
+
+### Exact next action
+1. Build the **Android APK/demo** from the current R8.14 candidate without changing the accepted stability behavior.
+2. Record exact APK build evidence/artifact.
+3. Then perform real ESP32-S3 + relay + DS3231 hardware verification using the existing hardware acceptance checklist.
+4. Keep `main` unchanged until the hardware gate passes.
+5. After the stability/hardware gate closes, continue Branding → **FarmCart SmartGrow** → Crop Profile v1.
