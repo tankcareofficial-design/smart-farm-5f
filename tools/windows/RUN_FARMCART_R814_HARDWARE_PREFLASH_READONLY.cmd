@@ -150,40 +150,51 @@ reg query HKLM\HARDWARE\DEVICEMAP\SERIALCOMM 2>nul
 
 echo.
 echo --- ESPTOOL READ-ONLY CHIP PROBE ---
-set "FOUND_COUNT=0"
-set "ESP_PORT="
-for %%P in (COM3 COM4) do (
-  echo.
-  echo PROBE_PORT=%%P
-  python -m esptool --port %%P chip-id > "%TEMP%\farmcart_esptool_%%P.txt" 2>&1
-  if errorlevel 1 (
-    python -m esptool --port %%P chip_id > "%TEMP%\farmcart_esptool_%%P.txt" 2>&1
-  )
-  type "%TEMP%\farmcart_esptool_%%P.txt"
-  findstr /I /C:"ESP32-S3" "%TEMP%\farmcart_esptool_%%P.txt" >nul
-  if not errorlevel 1 (
-    set /a FOUND_COUNT+=1
-    set "ESP_PORT=%%P"
-    echo ESP32_S3_MATCH=YES PORT=%%P
-  ) else (
-    echo ESP32_S3_MATCH=NO PORT=%%P
-  )
+set "ESP_PORT=%~1"
+if defined ESP_PORT (
+  echo PORT_SELECTION=ARGUMENT
+  echo SELECTED_PORT=!ESP_PORT!
+) else (
+  echo PORT_SELECTION=INTERACTIVE
+  echo Enter the ESP32-S3 COM port shown above, for example COM5.
+  set /p "ESP_PORT=ESP32_S3_PORT: "
 )
 
-echo.
-if "!FOUND_COUNT!"=="0" (
-  echo PREFLASH_PORT_GATE=FAIL_NO_ESP32_S3_FOUND
-  echo NEXT=Check USB cable/driver/device power and rerun.
+if not defined ESP_PORT (
+  echo PREFLASH_PORT_GATE=FAIL_NO_PORT_SELECTED
+  echo NEXT=Rerun with a port argument, for example:
+  echo call tools\windows\RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd COM5
   popd
   exit /b 63
 )
-if not "!FOUND_COUNT!"=="1" (
-  echo PREFLASH_PORT_GATE=FAIL_AMBIGUOUS
-  echo FOUND_COUNT=!FOUND_COUNT!
-  echo NEXT=Disconnect unrelated ESP devices and rerun.
+
+echo !ESP_PORT!| findstr /R /I "^COM[0-9][0-9]*$" >nul
+if errorlevel 1 (
+  echo PREFLASH_PORT_GATE=FAIL_INVALID_PORT
+  echo SELECTED_PORT=!ESP_PORT!
+  echo NEXT=Use a Windows COM port such as COM5.
   popd
   exit /b 64
 )
+
+echo.
+echo PROBE_PORT=!ESP_PORT!
+python -m esptool --port !ESP_PORT! chip-id > "%TEMP%\farmcart_esptool_selected.txt" 2>&1
+if errorlevel 1 (
+  python -m esptool --port !ESP_PORT! chip_id > "%TEMP%\farmcart_esptool_selected.txt" 2>&1
+)
+type "%TEMP%\farmcart_esptool_selected.txt"
+
+findstr /I /C:"ESP32-S3" "%TEMP%\farmcart_esptool_selected.txt" >nul
+if errorlevel 1 (
+  echo PREFLASH_PORT_GATE=FAIL_NOT_ESP32_S3
+  echo SELECTED_PORT=!ESP_PORT!
+  echo NEXT=Choose the ESP32-S3 COM port shown by arduino-cli board list and rerun.
+  popd
+  exit /b 65
+)
+
+echo ESP32_S3_MATCH=YES PORT=!ESP_PORT!
 echo PREFLASH_PORT_GATE=PASS
 echo ESP32_S3_PORT=!ESP_PORT!
 
