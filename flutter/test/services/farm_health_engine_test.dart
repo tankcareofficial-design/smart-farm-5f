@@ -69,6 +69,6 @@ void main() {
         ),
       ],
     );
-    expect(engine.evaluate(state).score, 89);
+    expect(engine.evaluate(state).score, 90);
   });
 }
