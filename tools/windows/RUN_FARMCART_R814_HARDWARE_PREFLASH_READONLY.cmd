@@ -47,7 +47,7 @@ for /f "delims=" %%S in ('git status --porcelain') do (
   exit /b 52
 )
 
-git cat-file -e %RUNTIME_SHA%^{commit} 2>nul
+git cat-file -e %RUNTIME_SHA% 2>nul
 if errorlevel 1 (
   echo ERROR=RUNTIME_SHA_MISSING_LOCALLY
   echo ACTION=git fetch --prune origin
