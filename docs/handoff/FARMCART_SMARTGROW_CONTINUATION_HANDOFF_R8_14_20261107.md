@@ -291,3 +291,46 @@ Therefore the **R8.14 CI gate is GREEN** for source SHA `3c83f31bdd894121f60b52d
 3. Then perform real ESP32-S3 + relay + DS3231 hardware verification using the existing hardware acceptance checklist.
 4. Keep `main` unchanged until the hardware gate passes.
 5. After the stability/hardware gate closes, continue Branding → **FarmCart SmartGrow** → Crop Profile v1.
+
+
+## Android demo APK build closure — 2026-11-07
+
+### Build source
+- Branch: `candidate/r8.14-stability-1`
+- Workflow/source SHA: `566cc4843a121dfefc9d7583f1398736b134c186`
+- Change: added an isolated `Android demo APK` CI job only; no FarmCart/ESP32 runtime behavior was changed.
+
+### CI / APK evidence
+- Workflow: **Smart Farm CI**
+- Run ID: **42324779679**
+- Run number: **10**
+- Overall conclusion: **SUCCESS**
+- `Flutter analyze and test`: **SUCCESS**
+- `ESP32-S3 compile`: **SUCCESS**
+- `Android demo APK`: **SUCCESS**
+  - `Build debug APK`: **SUCCESS**
+  - `Upload demo APK`: **SUCCESS**
+
+### Artifact
+- Artifact ID: **13555126834**
+- Name: `farmcart-smartgrow-r8.14-demo-apk`
+- Size: **74,778,477 bytes**
+- Digest: `sha256:88deabab0e3defd2130eb3a25a017efb4b3a94ea8fe919f66c630a21a0bcd18a`
+- Created: **2026-11-07T01:39:26Z**
+- Expires: **2026-11-21T01:39:21Z**
+- Artifact source SHA: `566cc4843a121dfefc9d7583f1398736b134c186`
+
+### Status separation after APK gate
+- SOURCE: **PASS for current R8.14 runtime source**
+- STATIC / ANALYZE: **PASS**
+- TEST: **PASS**
+- ESP32 BUILD: **PASS**
+- ANDROID APK BUILD: **PASS**
+- APK ARTIFACT: **PRESENT / VERIFIED**
+- FLASH: **NOT PERFORMED**
+- HARDWARE: **NOT YET ACCEPTED**
+- RUNTIME ON REAL ESP32-S3 / relay / DS3231: **NOT YET ACCEPTED**
+- MERGE TO `main`: **BLOCKED**
+
+### Exact next action
+Perform the existing **R8.14 real-hardware acceptance** on ESP32-S3 + relay + DS3231. Do not merge to `main` until that hardware/runtime evidence passes. Flashing remains approval-gated under the project work rules.
