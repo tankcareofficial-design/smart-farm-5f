@@ -13,7 +13,7 @@ echo MERGE_MAIN=NO
 echo.
 
 set "REPO=%~dp0\..\.."
-set "FQBN=esp32:esp32:esp32s3"
+set "FQBN=esp32:esp32:esp32s3:FlashMode=qio,FlashSize=16M,PartitionScheme=app3M_fat9M_16MB,PSRAM=opi"
 set "PORT=%~1"
 
 pushd "%REPO%" >nul 2>nul
