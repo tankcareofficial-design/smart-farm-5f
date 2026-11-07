@@ -587,3 +587,29 @@ At startup:
 4. inspect latest CI
 5. identify the first incomplete roadmap phase
 6. continue there without redoing already-passed gates
+
+
+## Reset-machine recovery tooling — 2026-11-07
+
+The development PC was reset and the local environment must be restored from GitHub source truth before hardware acceptance continues.
+
+Added:
+- `tools/windows/RESTORE_FARMCART_R814_ENV_READONLY.cmd`
+- commit `cedbbd01b534885cd2878d3e139de5e8ef473992`
+
+Behavior:
+- clones/fetches `tankcareofficial-design/smart-farm-5f`
+- checks out `candidate/r8.14-stability-1`
+- refuses to reset/switch if local changes exist
+- prints candidate HEAD and `origin/main`
+- inventories Git / Flutter / Dart / Arduino CLI / Java / ADB / Python
+- lists serial ports read-only
+- verifies Handoff and R8.14 checklist are present
+- `FLASH=NO`, `DEVICE_WRITE=NO`, `NVS_WRITE=NO`, `MERGE_MAIN=NO`
+
+Exact next action:
+1. Run the restore/preflight on the reset Windows machine.
+2. Return the complete output.
+3. Install or repair only the missing toolchain components.
+4. Re-run preflight until the environment is ready.
+5. Then proceed to the R8.14 hardware preflash gate; flashing still requires explicit approval.
