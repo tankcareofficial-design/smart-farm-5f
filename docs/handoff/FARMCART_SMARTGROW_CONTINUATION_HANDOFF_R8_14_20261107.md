@@ -992,3 +992,37 @@ Purpose:
 Safety:
 - relay/pump/load power must remain disconnected during this gate
 - hardware/runtime acceptance still remain NOT PASS until post-flash evidence is reviewed
+
+## Post-flash smoke partial PASS and AP HTTP gate — 2026-11-07
+
+Observed post-flash smoke summary:
+- DEVICE_PRESENCE=PASS
+- SMARTFARM_AP_SCAN=PASS
+- FW_RUNTIME=NOT_SEEN
+- AP_SERIAL=NOT_SEEN
+- relay load/pump power remained disconnected
+- no relay command, Wi-Fi config write, HTTP write, flash write or NVS write occurred
+
+Interpretation:
+- controller is alive after flash and Windows can see the SmartFarm AP
+- missing firmware/AP serial strings are not classified as runtime failure because the first smoke runner reset the controller before opening the serial capture and the boot banner is emitted only during setup
+- source confirms WiFiTransport always starts AP+STA and exposes read-only GET endpoints `/api/device`, `/api/state`, `/api/relays`, `/api/v3/clock`
+- source also confirms manual persisted relay state may be restored after initial safe-OFF initialization; actual relay state must therefore be read before reconnecting any load
+
+Prepared read-only AP HTTP runtime gate:
+- `tools/windows/RUN_FARMCART_R814_AP_HTTP_RUNTIME_SMOKE_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_AP_HTTP_RUNTIME_SMOKE_READONLY.cmd`
+- requires Windows to be connected to the visible `SmartFarm-*` AP
+- AP password from firmware configuration: `smartfarm123`
+- expected AP IP: `192.168.4.1`
+- GET-only verification of firmware version, hardware profile, device ID, relay count, all relay states, provisioning/station status and RTC status
+- relay/load power must remain disconnected until all 8 relay states are confirmed OFF
+
+Gate status:
+- FLASH=PASS
+- DEVICE_PRESENCE=PASS
+- AP_VISIBILITY=PASS
+- AP_HTTP_RUNTIME=NOT_YET_TESTED
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- RUNTIME_ACCEPTANCE=NOT_YET_PASS
+- MERGE_MAIN=BLOCKED
