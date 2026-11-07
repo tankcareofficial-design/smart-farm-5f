@@ -233,7 +233,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
     final connected = widget.store.controllerConnected;
     final clockValid = widget.store.controllerClockValid;
     final hasClockValue = dateTime != null;
-    final online = hasClockValue && clockValid;
+    final online = connected;
     final time = hasClockValue
         ? '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}'
         : connected
