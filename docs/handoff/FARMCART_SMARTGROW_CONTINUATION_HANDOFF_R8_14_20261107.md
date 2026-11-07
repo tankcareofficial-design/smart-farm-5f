@@ -786,3 +786,35 @@ Exact next action:
 2. rerun only `RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd COM5`
 3. review canonical-profile build SHA256 and device identity
 4. stop at flash approval gate
+
+## Local preflash generic-FQBN correction — 2026-11-07
+
+Observed on reset Windows machine after the N16R8 board-config audit passed:
+- physical ESP32-S3 identity on COM5: PASS
+- physical flash ID: 16MB PASS
+- board-config audit effective profile: 16MB / qio_opi / app3M_fat9M_16MB / OPI PSRAM PASS
+- however local preflash compile still reported maximum app size 1,310,720 bytes, proving that compile was still using generic 4MB FQBN
+- local preflash app SHA256 from that incorrect generic-profile build must NOT be used for flashing
+
+Root cause:
+- the preflash script defined canonical `FQBN`, but its actual compile command remained hard-coded as `esp32:esp32:esp32s3`
+- no firmware runtime source regression and no device write occurred
+
+Correction:
+- commit `806ea0348c8d0283dcc80219f6d34dc9a062ff32`
+- actual compile command now uses `--fqbn "%FQBN%"`
+- added mandatory profile assertions before build:
+  - `build.flash_size=16MB`
+  - `build.memory_type=qio_opi`
+  - `build.partitions=app3M_fat9M_16MB`
+  - `build.psram_type=opi`
+  - `upload.maximum_size=3145728`
+- preflash aborts if any profile assertion mismatches
+- flash/erase/NVS writes remain disabled
+
+Exact next action:
+1. pull latest candidate
+2. rerun only `RUN_FARMCART_R814_HARDWARE_PREFLASH_READONLY.cmd COM5`
+3. require `BOARD_PROFILE_LOCK=PASS` and maximum app size 3,145,728 bytes
+4. record the new canonical N16R8 local app SHA256
+5. stop at flash approval gate
