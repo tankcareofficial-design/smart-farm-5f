@@ -882,3 +882,36 @@ Current status:
 - flash runner: READY
 - flash: NOT PERFORMED
 - explicit user approval required before execution
+
+## First approved flash attempt stopped safely during backup — 2026-11-07
+
+Explicit flash approval had been given by the user.
+
+Attempt evidence:
+- branch HEAD: `5d265bb46fb88316b7d30fb7eb645129e5a0c047`
+- port: COM5
+- canonical N16R8 profile lock: PASS
+- device identity gate: PASS
+- physical flash 16MB: PASS
+- full 16MB pre-flash readback started before any write
+- readback stopped around 1,069,056 / 16,777,216 bytes with `Packet content transfer stopped`
+- runner exited with `ERROR=FULL_FLASH_BACKUP_FAILED`
+- flash write stage was never reached
+- therefore no bootloader, partition, OTA data, app, erase-all, or NVS write occurred in this attempt
+
+Root cause class:
+- serial/USB readback transfer interruption during one long 16MB esptool stub read
+- not a source/profile/device identity failure
+
+Correction:
+- commit `2c595f8d49c615e65e1038fb8021db1397a9428d`
+- backup now reads 32 chunks x 512KB at explicit 115200 baud
+- each chunk retries up to 3 times
+- every chunk must be exactly 524,288 bytes
+- all 32 chunks are combined and the final backup must be exactly 16,777,216 bytes
+- SHA256 is recorded before build/upload proceeds
+- any backup failure still exits before flash write
+
+Approval status:
+- original explicit user approval remains for the same R8.14 N16R8 flash operation
+- retry is allowed only with the corrected runner; scope is unchanged
