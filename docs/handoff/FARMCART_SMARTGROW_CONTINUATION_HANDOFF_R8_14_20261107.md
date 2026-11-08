@@ -2436,3 +2436,29 @@ Created dedicated read-only scan-fix runtime acceptance:
 - emits final network list and `WIFI_SCANFIX_RUNTIME=PASS` only on full acceptance
 
 Next: connect Windows to visible SmartFarm-* (password `smartfarm123`) and run the dedicated scan-fix runtime wrapper. Keep relay/pump/load power disconnected.
+
+## First scan-fix runtime acceptance blocked by pre-existing Windows HTTP latency — 2026-11-08
+
+User ran `RUN_FARMCART_R814_WIFI_SCANFIX_RUNTIME_READONLY.cmd` while Windows was connected to SmartFarm AP.
+
+Observed before scan:
+- `/api/device` HTTP 200 PASS
+- firmware `0.8.0-5f-r8.14-stability-1` confirmed at runtime
+- device ID `sf-64B9509FC114` confirmed
+- `/api/device` RTT was extremely high: 12,767.1 ms
+
+First `/api/wifi/scan` request:
+- client timeout at 3,011.4 ms
+- runner emitted `WIFI_SCANFIX_RUNTIME=FAIL_HTTP`
+
+Interpretation:
+- this run does NOT isolate the Wi-Fi scan-fix because HTTP transport was already severely slow before `/api/wifi/scan` was invoked
+- historical evidence in this Handoff already showed Windows AP HTTP instability: 38/60 GET PASS (63.3%) on the prior transport test, while Android direct-IP access to the same SmartFarm AP was qualitatively stable
+- historical leading classification: Windows Realtek RTL8188EU client path instability rather than global ESP32 SoftAP failure
+- current firmware also contains STA reconnect maintenance, but do not mutate/clear NVS yet because client-path instability is already established and must be separated first
+
+Next gate:
+- reuse existing read-only `RUN_FARMCART_R814_AP_LINK_VS_HTTP_DIAGNOSTIC_READONLY.cmd`
+- it measures WLAN interface/route, 30 ICMP pings and 20 `curl.exe --noproxy *` root HTTP requests
+- no ESP/NVS/relay/RTC/Wi-Fi/flash writes
+- do not reflash; scan-fix firmware flash/verify/runtime version gates remain PASS
