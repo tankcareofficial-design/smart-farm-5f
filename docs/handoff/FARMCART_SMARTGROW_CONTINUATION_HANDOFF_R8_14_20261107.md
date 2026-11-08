@@ -2754,3 +2754,27 @@ Current non-RTC gate status:
 - EMERGENCY_STOP_RUNTIME=NOT_YET_ACCEPTED
 - LOAD_ACCEPTANCE=BLOCKED
 - MAIN=UNTOUCHED
+
+## Emergency Stop no-load gate source preflight — 2026-11-08
+
+Source preflight completed after RAPID_LATEST_STATE_RUNTIME=PASS.
+
+Current emergency-stop implementation in `WiFiTransport.cpp`:
+- `POST /api/emergency-stop` loops through all relay channels and calls `setManualRelay(channel, false, 0, ...)`
+- `overrideSeconds=0` creates a non-expiring manual OFF override, preventing automation from reopening outputs
+- after all relay-off operations succeed, firmware sets `_emergencyLatched=true`
+- latch is persisted to Preferences namespace `sf-wifi` key `emergency=true`
+- while latched, relay ON requests return HTTP 423 `emergency_latched`
+- at boot, persisted emergency latch is loaded and all relay channels are again forced OFF
+- `POST /api/emergency-release` clears all manual overrides and persists `emergency=false`
+
+Safety/test implications:
+- Emergency Stop no-load is an NVS-affecting mutation gate and requires explicit user approval before execution
+- external pump/valve/actuator/load power must remain disconnected
+- runtime acceptance should confirm all relays OFF, emergency latch active, ON command blocked while latched, and safe release behavior
+- MAIN remains untouched
+
+Status:
+- EMERGENCY_STOP_SOURCE_PREFLIGHT=PASS
+- EMERGENCY_STOP_RUNTIME=AWAITING_EXPLICIT_APPROVAL
+- LOAD_ACCEPTANCE=BLOCKED
