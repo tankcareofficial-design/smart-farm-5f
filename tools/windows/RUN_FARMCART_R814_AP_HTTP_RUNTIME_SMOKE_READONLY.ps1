@@ -9,13 +9,25 @@ $ErrorActionPreference = "Stop"
 
 function Get-JsonEndpoint([string]$Path) {
   $uri = $BaseUrl.TrimEnd("/") + $Path
-  try {
-    return Invoke-RestMethod -Method Get -Uri $uri -TimeoutSec $TimeoutSec
-  } catch {
-    Write-Host ("HTTP_GET_FAIL=" + $Path)
-    Write-Host ("HTTP_GET_ERROR=" + $_.Exception.Message)
-    exit 21
+  $lastError = $null
+
+  for ($attempt = 1; $attempt -le 3; $attempt++) {
+    try {
+      Write-Host ("HTTP_GET=" + $Path + " TRY=" + $attempt)
+      $result = Invoke-RestMethod -Method Get -Uri $uri -TimeoutSec $TimeoutSec -DisableKeepAlive
+      Write-Host ("HTTP_GET_PASS=" + $Path + " TRY=" + $attempt)
+      Start-Sleep -Milliseconds 350
+      return $result
+    } catch {
+      $lastError = $_.Exception.Message
+      Write-Host ("HTTP_GET_RETRY=" + $Path + " TRY=" + $attempt + " ERROR=" + $lastError)
+      Start-Sleep -Milliseconds 700
+    }
   }
+
+  Write-Host ("HTTP_GET_FAIL=" + $Path)
+  Write-Host ("HTTP_GET_ERROR=" + $lastError)
+  exit 21
 }
 
 Write-Host "=== FARMCART SMARTGROW R8.14 - AP HTTP RUNTIME SMOKE READONLY ==="
