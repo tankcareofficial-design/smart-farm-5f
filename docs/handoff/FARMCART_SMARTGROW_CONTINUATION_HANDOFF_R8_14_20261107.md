@@ -2814,3 +2814,41 @@ Approval status:
 - `EMERGENCY_STOP_RUNTIME=NOT_YET_TESTED`
 - `LOAD_ACCEPTANCE=BLOCKED`
 - `MAIN=UNTOUCHED`
+
+## E-stop physical safety PASS; Android switch-state sync defect found and fixed — 2026-11-08
+
+Physical runtime observation after approved no-load E-stop test:
+- user confirms relay physically turns OFF under Emergency Stop
+- controller E-stop safety action is therefore physically effective for the observed relay
+- however Android output switch remained visually ON while E-stop was active
+- user had to toggle the app control OFF before it could be turned ON again after release
+
+Root cause in app state:
+- `OutputDeviceCard` switch value is `commandPending ? requestedOn : requestedOn || active`
+- `DeviceStore.emergencyStopAllOutputs()` previously set only `isOn=false`
+- stale `requestedOn=true` therefore kept the UI switch visually ON even though the physical relay and controller relay state were OFF
+- `_syncFromController()` also previously reconciled only `isOn`, so the same stale requested state could survive reconnect/reboot while emergency latch remained active
+
+Classification:
+- this is NOT intended product behavior
+- E-stop hardware/controller behavior = safety action PASS
+- Android E-stop switch-state synchronization = DEFECT
+
+App source fixes:
+- `1ac3e20d8c7fdcfe0ece1e0a939c0fca425940d3`: clear requested output state immediately when E-stop is requested
+- `c98065d99cb7960d95557acd5f712b2871777ea5`: while controller is emergency-latched, reconcile every output to `isOn=false`, `requestedOn=false`, `runtimeState=off`, clear waiting state/timer, and discard queued latest desired state
+- no ESP32 firmware source changed for this UI fix
+
+Regression tests:
+- `64c85cb328233d9853cfcd43a3eea59726459991`: add tests for immediate E-stop stale requested-state clearing and reconnect while emergency latch is active
+- Smart Farm CI #17 / run ID `42476190591` started for this head
+- Flutter analyze/test = PASS at latest check
+- full workflow/APK completion still pending at latest check
+
+Current gate status:
+- EMERGENCY_STOP_PHYSICAL_OFF=PASS
+- EMERGENCY_STOP_CONTROLLER_LATCH_BEHAVIOR=PARTIALLY_ACCEPTED_FROM_RUNTIME
+- EMERGENCY_STOP_APP_UI_SYNC=FIX_PREPARED_TEST_PASS
+- EMERGENCY_STOP_UI_RUNTIME_RETEST=NOT_YET_TESTED
+- ESP32_REFLASH_REQUIRED=NO
+- MAIN=UNTOUCHED
