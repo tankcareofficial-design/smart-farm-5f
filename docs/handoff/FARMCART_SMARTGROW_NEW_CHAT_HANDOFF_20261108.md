@@ -678,3 +678,14 @@ Current continuation target: finish non-RTC, no-load acceptance with source/test
 - No result yet supplied for `SAVE_SCHEDULE_APP_RUNTIME` or `SAVE_CONDITION_APP_RUNTIME`, so both remain NOT_REPORTED. No post-reboot ghost-state check was approved/performed.
 - Next: obtain one concise clarification on relay ON-before-delete and immediate physical OFF; then verify controller GET read-only `/api/relays` and `/api/v3/snapshot`. Keep all external load power disconnected; do not issue extra Relay ON, Flash, RTC sync, reboot, or real-load steps.
 - This entry documents observation only; no device was remotely accessed or modified from GitHub, and `main` remains untouched.
+
+---
+
+## 23. 2026-11-08 immediate OFF-on-delete hardware confirmation
+
+- Following section 22, user answered **"จริงครับ"** to the specific question: *before Delete was the relay ON, and after Delete did the physical relay immediately turn OFF?*
+- Hence for this approved no-load test: `DELETE_RELAY_ON_PRECONDITION=USER_CONFIRMED_PASS`, `DELETE_PHYSICAL_OFF_EDGE=USER_CONFIRMED_PASS`, `DELETE_PROFILE_ABSENT_ANDROID_UI=USER_CONFIRMED_PASS`, and `DELETE_RELAY_NO_AUTO_REON=USER_CONFIRMED_PASS`.
+- This confirms **physical immediate safe-off behavior as observed by the user**. It does not retroactively confirm a direct ESP32 readback, rule persistence across reboot, or a specific relay channel/device ID.
+- Pending **read-only** hardware evidence: GET `/api/device`, `/api/relays`, and `/api/v3/snapshot`. Confirm actual relays OFF, deleted test device profile absent from snapshot rules and runtime; expected profile name `FarmCart QA TEMP` only if that name was actually used. Snapshot returns current live rules loaded from Preferences-backed `scheduleRules`, but readback alone does **not** prove reboot retention.
+- `SAFE_DELETE_NOLOAD_PHYSICAL_BEHAVIOR=USER_CONFIRMED_PASS`; `SAFE_DELETE_CONTROLLER_READBACK=PENDING`; `SAFE_DELETE_POST_REBOOT_GHOST=NOT_AUTHORIZED`; `SAVE_SCHEDULE_RUNTIME=NOT_REPORTED`; `SAVE_CONDITION_RUNTIME=NOT_REPORTED`.
+- No further Relay ON, NVS write, RTC sync, flash, reboot, or external-load testing should be performed in the readback phase. No `main` merge.
