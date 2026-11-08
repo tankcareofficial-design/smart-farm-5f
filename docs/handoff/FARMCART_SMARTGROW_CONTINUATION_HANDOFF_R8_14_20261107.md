@@ -2365,3 +2365,16 @@ Purpose:
 
 Reason:
 - legacy R8.14 postflash smoke runner was stale: it locked pre-scanfix runtime SHA `566cc4843...` and invoked generic esptool chip-id, which could reintroduce the transport/stub problem and false-fail the new scan-fix build.
+
+## Post-recovery reboot: SmartFarm AP not seen in Windows passive scan — 2026-11-08
+
+After verified APP0 native USB ROM recovery PASS, user performed the instructed post-write reboot and then ran:
+`netsh wlan show networks mode=bssid | findstr /I "SmartFarm-"`
+
+Observed:
+- command returned no `SmartFarm-*` SSID lines
+- therefore SmartFarm AP presence is NOT confirmed after reboot
+- do not regress or reflash yet: APP0 write + esptool hash verification already PASS
+- next gate is non-invasive serial runtime capture using `RUN_FARMCART_R814_SCANFIX_POSTFLASH_SMOKE_READONLY.cmd COM5`
+- runner performs no esptool access, no flash/NVS/relay/WiFi writes
+- objective: determine whether firmware boot banner/version/AP-start is present or whether runtime is failing before SoftAP starts
