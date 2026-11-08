@@ -2778,3 +2778,39 @@ Status:
 - EMERGENCY_STOP_SOURCE_PREFLIGHT=PASS
 - EMERGENCY_STOP_RUNTIME=AWAITING_EXPLICIT_APPROVAL
 - LOAD_ACCEPTANCE=BLOCKED
+
+## Emergency Stop no-load runtime approval granted — 2026-11-08
+
+User explicitly approved the Emergency Stop no-load runtime gate.
+
+Approved mutation scope:
+- `POST /api/emergency-stop` may force CH1..CH8 OFF
+- emergency latch may be persisted to Preferences/NVS (`sf-wifi/emergency=true`)
+- reboot while latched is allowed for persistence verification
+- `POST /api/emergency-release` is approved at the end of the gate to clear overrides and persist `emergency=false`
+- existing relay no-load/NVS relay-state approval remains applicable for a temporary no-load CH1 ON precondition if needed
+
+Safety constraints:
+- external pump / valve / actuator / load power MUST remain disconnected
+- relay control board may remain connected
+- final state after the gate must be CH1..CH8 OFF
+- if release fails or latch state is uncertain, do not reconnect loads
+- no flash, RTC write, Wi-Fi config write, or main merge
+
+Acceptance sequence:
+1. Verify emergency is currently not latched and all loads are disconnected.
+2. Turn one no-load relay (prefer CH1) ON to create an observable active output.
+3. Trigger Emergency Stop from Android app.
+4. Require all relay LEDs/physical relays OFF and app/controller report emergency latched.
+5. Attempt to turn a relay ON while latched; command must be rejected / relay must remain OFF.
+6. Reboot controller once while latch remains active; after reconnect, emergency latch must still be active and all relays must remain OFF.
+7. Release Emergency Stop from app.
+8. Require emergency latch false, all relays still OFF, controller usable.
+
+Approval status:
+- `EMERGENCY_STOP_NOLOAD=APPROVED`
+- `EMERGENCY_STOP_NVS_WRITE=APPROVED`
+- `EMERGENCY_RELEASE_NVS_WRITE=APPROVED`
+- `EMERGENCY_STOP_RUNTIME=NOT_YET_TESTED`
+- `LOAD_ACCEPTANCE=BLOCKED`
+- `MAIN=UNTOUCHED`
