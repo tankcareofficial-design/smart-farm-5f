@@ -1678,3 +1678,25 @@ Next verification:
 - capture returned JSON / behavior and avoid repeated scan refreshes
 - keep relay/load disconnected
 - after scan-path evidence, validate with current R8.14 APK before final mobile-app acceptance
+
+## Reset recovers AP; Wi-Fi scan returns empty — 2026-11-08
+
+User performed a short reset/restart of the ESP32 controller.
+
+Observed after reset:
+- SmartFarm AP returned
+- Android browser direct `http://192.168.4.1/api/device` responded successfully
+- direct `http://192.168.4.1/api/wifi/scan` responded successfully at HTTP/API level but returned `{"ok":true,"networks":[]}`
+
+Interpretation:
+- reset recovers SoftAP availability after prior disappearance
+- Wi-Fi scan endpoint is alive but discovers zero candidate STA networks
+- ESP32-S3 is 2.4 GHz-only; a 5 GHz-only home SSID would not appear
+- current firmware uses synchronous `WiFi.scanNetworks(false, true)` inside the HTTP handler, which can temporarily block AP HTTP servicing and is a scan-path robustness concern
+
+Next read-only band isolation:
+- use Windows Realtek RTL8188EU (2.4 GHz b/g/n-only) to scan while disconnected from SmartFarm
+- if `Ratthaphum` is visible there, it proves a 2.4 GHz BSSID exists and ESP32 zero-result scan is a firmware/radio-path defect
+- if `Ratthaphum` is absent there, likely 5 GHz-only from the current location/config and ESP32 zero-result is expected
+
+No firmware patch/flash yet.
