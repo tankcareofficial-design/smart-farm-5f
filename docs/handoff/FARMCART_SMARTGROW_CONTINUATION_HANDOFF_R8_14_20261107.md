@@ -2702,3 +2702,28 @@ Current gates:
 - RAPID_LATEST_STATE_RUNTIME=NOT_YET_TESTED
 - EMERGENCY_STOP_RUNTIME=NOT_YET_ACCEPTED
 - LOAD_ACCEPTANCE=BLOCKED
+
+## Android provisioning to home Wi-Fi + post-provision relay control PASS — 2026-11-08
+
+User performed an end-to-end Android app provisioning flow on the physical controller after scan-fix2 runtime PASS.
+
+Observed sequence:
+- Android app scanned available Wi-Fi networks successfully
+- user selected the home Wi-Fi network and provisioned the controller
+- provisioning completed
+- controller data returned in the app after the network transition
+- relay ON/OFF control from the app worked normally after provisioning
+
+Acceptance interpretation:
+- WIFI_SCAN_IN_APP=PASS
+- WIFI_PROVISIONING_TO_HOME_STA=PASS
+- POST_PROVISION_CONTROLLER_DATA_RETURN=PASS
+- POST_PROVISION_RELAY_CONTROL=PASS
+- LOCAL_TO_STA_TRANSITION=PASS
+- prior `wifi_scan_failed` regression remains CLOSED
+
+Important scope note:
+- this does NOT yet close `RAPID_LATEST_STATE_RUNTIME` because the user reported normal ON/OFF operation, not the defined rapid ON->OFF->ON->OFF latest-intent sequence
+- external pump/valve/actuator/load power remains disconnected until remaining no-load safety gates are closed
+- Emergency Stop remains a separate NVS-affecting runtime gate
+- MAIN=UNTOUCHED
