@@ -616,3 +616,40 @@ NEXT=READ_ONLY_RECONCILE_THEN_CLOSE_REMAINING_NON_RTC_NOLOAD_GATES
 Act like an embedded/backend/mobile QA engineer continuing an existing system, not like a new assistant starting a new project.
 
 Use evidence, exact SHAs, runtime state and hardware identity. Preserve all already-passed gates. Read before patching. Record meaningful progress into GitHub Handoff. Do not make the user retrain the workflow.
+
+---
+
+## 20. 2026-11-08 evening continuation — non-RTC host regression expansion
+
+### GitHub source-of-truth reconfirmation
+- Read-only inspection at start: `candidate/r8.14-stability-1` HEAD was `d7f911c72a5265fa3cbbb3cccf18b6c7e85ac94f`, identical to prior Handoff.
+- PR #1 remains DRAFT and UNMERGED; `main` untouched.
+- Read current handoffs, README, ROADMAP, R8.14 checklist/release notes, and relevant ESP32 / Flutter production code and test files.
+- No separate `requirements/` or `docs/requirements/` currently exists. Effective requirements remain the Handoff, docs and live source.
+- CI #20 (`42476651695`) directly verified: Flutter analyze/test, ESP32 compile and debug APK all SUCCESS for `7db8340affe8964560004386966800eea8b9319b`.
+- Latest no-load runtime PASS (scan, provisioning, relay CH1–CH8, rapid latest-state, E-Stop/release) is preserved; do not reopen those gates without new evidence.
+
+### Source-path findings
+- Schedule/condition Save: `OutputDeviceDialog._save -> DeviceStore.updateOutput -> _syncProfile -> SmartFarmController.saveDeviceProfile -> /api/v3/devices/config`. Local profile is replaced only after controller accepts.
+- Safe Delete: `DeviceStore.removeOutput -> SmartFarmController.deleteDeviceProfile -> /api/v3/devices/delete`; ESP32 `WiFiTransport::handleDeviceDelete` forces transient relay OFF, clears persisted channel, then removes the rule before returning success. This is SOURCE observation, not yet physical runtime PASS.
+- Connection health: `SmartFarmController.refreshState` falls back from `/api/state` to `/api/device`; clock/snapshot failures have separate counters; 3 reachability misses required for Offline, success returns Online.
+- Concurrent Delete while a relay command is in flight is NOT separately accepted. Treat as an unverified edge case, not a confirmed runtime defect. Do not infer safety from the client mock alone.
+
+### Candidate test-only commits
+- `42b19441173d511e939eeb799c3e1ee3d9477743`: 2 connection-health tests (3 failures then immediate recovery, clock/snapshot degradation).
+- `fbc8090e1416da0f50495f8db8c464638fb29919`: 4 new DeviceStore profile tests (schedule Save, sensor condition Save, rejected Save preserving local model, delete acknowledgement barrier).
+- CI #22 / `42482371127`: Flutter analyze PASS; test suite 26 PASS / 1 FAIL. The failure was isolated to the new delete-test fixture: saved device ON but fake controller relay default OFF, so normal reconciliation reset it.
+- `1a3a0ce8d394720fde5d7c087ee85c72f53fe8fc`: corrected fake relay physical state to ON at fixture setup; no production source change.
+- CI #23 / `42482499529` for `1a3a0ce8d394720fde5d7c087ee85c72f53fe8fc`: Flutter analyze/test job SUCCESS at last check. ESP32 compile / Android APK jobs still IN_PROGRESS when this entry was prepared; full CI SUCCESS must not be claimed until verified.
+- No firmware flash, no real load, no NVS write, no RTC sync, no production code change, no `main` merge during this new-chat continuation.
+
+### Remaining next action / gates
+1. Verify the final CI #23 result and exact jobs. Ignore stale failures when a newer exact-source CI passes, but retain failure history.
+2. Reconcile stale checklist/README statuses against Handoff runtime PASS; do not downgrade an accepted gate.
+3. For Android no-load **Edit schedule/condition Save** and **Delete an ON device**, obtain explicit approval for profile/relay Preferences-NVS mutations. Confirm the FarmCart physical target and keep pump/valve/actuator external load power disconnected.
+4. Runtime Delete requires relay OFF, controller rule absent, local device gone, and no restored ghost state after reboot if the reboot is separately authorized. Host mocks do not replace this proof.
+5. Connection-health host tests are separate from physical/Android failure-injection acceptance.
+6. DS3231 retention after power loss remains FAIL/DEFERRED; RTC-dependent schedule execution and real load gates remain BLOCKED.
+7. Keep `main` untouched; do not reflash scanfix2 or start R9 Remote before local-stable freeze.
+
+Current continuation target: finish non-RTC, no-load acceptance with source/test/runtime evidence, then investigate RTC battery retention; preserve all previously passed safety behavior.
