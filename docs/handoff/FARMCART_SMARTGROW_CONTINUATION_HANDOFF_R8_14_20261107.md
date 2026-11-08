@@ -2394,3 +2394,19 @@ Interpretation:
 - therefore FarmCart recovery/runtime verification must be performed with only the FarmCart ESP32-S3 connected
 - do not reflash: APP0 recovery write and hash verification already PASS
 - next gate is runtime/AP verification with the second ESP32 disconnected
+
+## Postboot enumeration: native COM5 absent, FarmCart CH343 COM7 remains — 2026-11-08
+
+After verified APP0 recovery flash and physical EN/RST, the auto-port smoke runner found no FarmCart native USB serial matching `14:C1:9F:50:B9:64`.
+
+Current Windows ports:
+- COM1 standard serial
+- COM7 `USB-Enhanced-SERIAL CH343`, VID:PID 1A86:55D3, serial 5C82118392
+- no Espressif native USB COM for FarmCart is currently enumerated
+
+Interpretation:
+- do NOT equate missing COM5 after reset with failed firmware boot; native USB enumeration can differ between ROM and application runtime
+- COM7 CH343 remains the persistent FarmCart UART bridge and is the correct next passive runtime-log path
+- no reflash is warranted: APP0 write and esptool hash verification already PASS
+- next diagnostic: open CH343 COM7 at 115200 with DTR/RTS disabled, then press EN/RST once while capture is already active to catch setup boot banner
+- no esptool, no flash/NVS/relay/WiFi writes during this gate
