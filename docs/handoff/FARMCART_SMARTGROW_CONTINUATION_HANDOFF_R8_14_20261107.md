@@ -2669,3 +2669,36 @@ Safety / next:
 - relay/pump/load power should remain disconnected until the broader hardware/load acceptance gate is explicitly resumed
 - no further scan-fix flash is required
 - continue from current candidate branch and latest continuation snapshot
+
+## Next gate: Android rapid latest-state regression prepared — 2026-11-08
+
+After Wi-Fi scan defect closure, next non-RTC acceptance gate is rapid relay latest-state behavior with external load still disconnected.
+
+Existing source behavior:
+- Flutter `DeviceStore` already coalesces rapid per-device requests through `_DeviceCommandState.latestDesiredState` and `_drainOutputCommands()`.
+- while one command is active, later desired states overwrite the queued desired state; after the active request completes, the latest queued state is sent.
+- automated tests in `flutter/test/stores/device_store_command_queue_test.dart` cover rapid ON->OFF and command-arrival-at-completion boundary.
+- Smart Farm CI #14 PASS includes these tests.
+
+Runtime client selection:
+- Windows Realtek RTL8188EU path is independently unstable and must not be authoritative for rapid command acceptance.
+- use current Android APK against SmartFarm AP.
+
+Current APK:
+- CI #14 artifact ID `13608036389`
+- artifact ZIP digest `sha256:37baee1186501babba125ecbbb148036b05c8a16f16b958186fab3ae58352f60`
+- extracted APK SHA256 `cb48246560af90fdc17f34d9145a0eff60a742ea36997a3270abb8744e79b930`
+
+Safety:
+- relay control wiring may remain connected
+- external pump/valve/actuator/load power remains disconnected
+- rapid test should end with all relays OFF
+- Emergency Stop is NOT part of this gate because it writes `emergency` latch state to Preferences/NVS and requires separate explicit approval
+- MAIN remains untouched
+
+Current gates:
+- WIFI_SCANFIX_RUNTIME=PASS
+- RELAY_NOLOAD_HARDWARE=PASS
+- RAPID_LATEST_STATE_RUNTIME=NOT_YET_TESTED
+- EMERGENCY_STOP_RUNTIME=NOT_YET_ACCEPTED
+- LOAD_ACCEPTANCE=BLOCKED
