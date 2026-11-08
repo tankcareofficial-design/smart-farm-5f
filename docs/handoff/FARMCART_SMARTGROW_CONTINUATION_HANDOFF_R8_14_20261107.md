@@ -1301,3 +1301,32 @@ Current status:
 - RELAY_NOLOAD_APPROVAL=GRANTED
 - RELAY_NOLOAD_EXECUTION=NOT_YET_PERFORMED
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
+
+## Relay no-load CH2 false-fail diagnosis and harness fix — 2026-11-08
+
+Observed first relay no-load execution:
+- CH1 GPIO4: ON API PASS, OFF API PASS
+- CH2 GPIO5: POST response timed out, subsequent GET found relay OFF
+- runner then triggered Emergency Stop as designed
+- emergency latch became true and all relay channels were confirmed OFF
+
+Root cause in test harness:
+- HTTP POST timeout = 6 seconds
+- CH ON manual override window = 4 seconds
+- if the POST was accepted by ESP32 but the HTTP response timed out, the 4-second override could expire before GET verification
+- therefore CH2 OFF after the timeout is not valid evidence that CH2/GPIO5 failed to switch
+
+Fix:
+- commit `f859785ac903d7124d9315d4a4a2e401a1aea1de`
+- CH ON verification window increased to 45 seconds
+- still explicitly commands OFF immediately after ON verification
+- if Emergency Stop is latched from the previous failed attempt, approved no-load retest now releases it, re-reads `/api/relays`, and requires all channels OFF before continuing
+- failure path still attempts Emergency Stop and leaves it latched for review
+
+Current interpretation:
+- CH1 software/API switching: PASS
+- CH1 physical LED/click: user observation still required
+- CH2 software/API switching: NOT YET VERIFIED; previous FAIL was invalidated by harness timing defect
+- CH3..CH8: NOT YET TESTED
+- all relays safe OFF after fail-safe: PASS
+- relay hardware overall acceptance: NOT YET PASS
