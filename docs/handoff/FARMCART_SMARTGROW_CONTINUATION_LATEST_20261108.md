@@ -183,3 +183,15 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - Windows Realtek RTL8188EU path remains independently unstable and should not be used as authoritative controller/AP acceptance client.
 - MAIN remains untouched.
 - Keep relay/pump/load disconnected until broader hardware/load acceptance resumes.
+
+## Next gate prepared: Android rapid latest-state regression
+- Relay no-load API/physical gate was already PASS for CH1-CH8; all final states OFF.
+- Remaining non-RTC blocker before load acceptance includes rapid-command latest-state runtime regression.
+- Windows RTL8188EU AP path is unreliable and must not be authoritative for this gate.
+- Flutter `DeviceStore` already implements per-device command coalescing via `_DeviceCommandState.latestDesiredState` and `_drainOutputCommands()`.
+- Existing automated tests `flutter/test/stores/device_store_command_queue_test.dart` cover rapid ON->OFF and boundary-arrival commands; CI #14 PASS includes these tests.
+- Current Android APK artifact from CI #14: artifact ID `13608036389`, ZIP digest `sha256:37baee1186501babba125ecbbb148036b05c8a16f16b958186fab3ae58352f60`.
+- Extracted APK SHA256: `cb48246560af90fdc17f34d9145a0eff60a742ea36997a3270abb8744e79b930`.
+- Runtime rapid test must be no-load only; relay/pump/valve/actuator external power remains disconnected.
+- Emergency Stop is a separate gate because `/api/emergency-stop` writes the emergency latch to Preferences/NVS; do not combine it with rapid test without explicit approval.
+- MAIN remains untouched.
