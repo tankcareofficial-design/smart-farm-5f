@@ -2250,3 +2250,17 @@ Next bounded recovery check:
 - APP0 remains partially programmed from prior COM7 write failure; NVS/OTADATA/partition/bootloader remain protected
 
 References: esptool ESP32-S3 Advanced Options (`usb-reset`) and Arduino-ESP32 USB CDC flashing docs.
+## COM5 usb-reset reaches ROM identity but stub upload still times out — 2026-11-08
+
+Latest COM5 native USB-Serial/JTAG evidence:
+- `--before usb-reset --after no-reset chip-id`: esptool reported Connected to ESP32-S3 on COM5, then Windows pySerial `PermissionError(13, device attached is not functioning, error 31)` while configuring/reopening the native USB serial endpoint
+- `--before usb-reset --after no-reset flash-id`: ROM identity completed (ESP32-S3 QFN56 rev0.2, PSRAM 8MB, USB mode USB-Serial/JTAG, MAC 14:c1:9f:50:b9:64), then esptool attempted `Uploading stub flasher...` and failed with `Write timeout`
+- no flash write occurred in either command
+
+Interpretation:
+- COM5 target identity is conclusively FarmCart
+- usb-reset improves ROM entry/identity but does not make stub upload reliable on this Windows USB path
+- Espressif documents that USB-Serial/JTAG is valid for firmware download, that pySerial exceptions generally indicate host/driver/disconnection issues, and that `--no-stub` bypasses the RAM stub upload entirely
+- the next bounded diagnostic should therefore be ROM-only on COM5: `--before usb-reset --after no-reset --no-stub flash-id`
+- if ROM-only flash-id succeeds, use ROM-loader write path for the already-partial APP0 recovery; avoid stub and CH343 COM7
+- APP0 remains partially programmed; runtime tests blocked; main untouched
