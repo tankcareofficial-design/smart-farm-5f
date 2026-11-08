@@ -1433,3 +1433,28 @@ Current status:
 - RELAY_FINAL_SAFE_OFF=PASS
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - PUMP_LOAD_POWER=KEEP_DISCONNECTED
+
+## Relay no-load physical hardware PASS — 2026-11-08
+
+User physically confirmed that the relay board LED/click matched CH1 through CH8 in the expected order during the completed no-load test.
+
+Evidence combined:
+- API/state ON/OFF verification: PASS for CH1..CH8
+- physical channel correspondence: PASS for CH1..CH8
+- GPIO mapping verified: CH1..CH8 = 4,5,6,7,15,16,17,18
+- final relay state: all OFF
+- final active manual overrides: 0
+- final emergency latch: false
+- external pump/valve/actuator/load power was not connected for this gate
+
+Gate result:
+- RELAY_NOLOAD_API=PASS
+- RELAY_NOLOAD_PHYSICAL=PASS
+- RELAY_NOLOAD_HARDWARE=PASS
+- MANUAL_RELAY_ON_OFF_REGRESSION=PASS
+
+Remaining blockers before load acceptance:
+- intermittent AP HTTP GET/POST timeouts remain a transport-quality issue
+- RTC retention remains deferred pending backup-battery/power investigation
+- rapid-command latest-state regression still not tested
+- load/pump power must remain disconnected until the next approved gate
