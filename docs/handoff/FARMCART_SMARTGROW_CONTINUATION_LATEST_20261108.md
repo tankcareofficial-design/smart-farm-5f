@@ -195,3 +195,15 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - Runtime rapid test must be no-load only; relay/pump/valve/actuator external power remains disconnected.
 - Emergency Stop is a separate gate because `/api/emergency-stop` writes the emergency latch to Preferences/NVS; do not combine it with rapid test without explicit approval.
 - MAIN remains untouched.
+
+## Latest update: home Wi-Fi provisioning and relay control PASS
+- Android app Wi-Fi scan PASS on physical controller.
+- User selected home Wi-Fi and completed controller provisioning.
+- Controller data returned in the app after transition from SmartFarm AP provisioning to home Wi-Fi station operation.
+- Normal relay ON/OFF from the app worked after provisioning.
+- `WIFI_PROVISIONING_TO_HOME_STA=PASS`
+- `POST_PROVISION_CONTROLLER_DATA_RETURN=PASS`
+- `POST_PROVISION_RELAY_CONTROL=PASS`
+- `RAPID_LATEST_STATE_RUNTIME=NOT_YET_TESTED` (normal ON/OFF does not close the defined rapid sequence gate).
+- Emergency Stop remains separate because it writes the emergency latch to NVS.
+- MAIN remains untouched.
