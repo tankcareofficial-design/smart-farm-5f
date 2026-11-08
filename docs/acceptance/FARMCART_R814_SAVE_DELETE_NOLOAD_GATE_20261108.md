@@ -87,3 +87,26 @@ MAIN=UNTOUCHED
 ```
 
 **Never claim physical/runtime PASS from GitHub CI or unit-test mocks.** Record actual acceptance outcomes in a continuation Handoff after the Android and controller test.
+
+---
+
+## 2026-11-09 continuation — repeatable GET-only Schedule / Condition readback
+
+Current accepted gate: **Safe Delete no-load physical ON -> immediate OFF, profile absent in Android, relay staying OFF, and subsequent controller HTTP GET with zero ON relays and no QA TEMP name among five remaining rules.** Evidence revision \`669\` recorded in Handoff section 24. No reboot retention claim.
+
+Next *not-yet-accepted* gate: Save Schedule and Save Condition through the **existing Android interface**, verifying persistence on the actual ESP32. No firmware changes or re-running Safe Delete ON test needed.
+
+Read-only reproducible checker, authored on candidate branch:
+\`tools/windows/VERIFY_FARMCART_R814_PROFILE_SAVE_READONLY.ps1\`.
+Modes: \`-Stage Preflight\`, \`-Stage Schedule\`, \`-Stage Condition\`, \`-Stage Final\`. Default endpoint \`http://192.168.4.1\`. If using the home LAN, pass the actual station IP from the app. Checker invokes only \`GET /api/device\`, \`GET /api/relays\`, and \`GET /api/v3/snapshot\`; expects exact FarmCart ID \`sf-64B9509FC114\` and firmware \`0.8.0-5f-r8.14-stability-1\`. It fails closed if any relay is ON, E-Stop latched, identity mismatched, or there are duplicate test-profile names. It prints occupied/free channel numbers as **1-based** (Flutter UI channels 1-8; API rule relayChannel 0-7).
+
+Operator acceptance steps:
+1. **Physically disconnect pump/valve/actuator load power.** Ensure no physical loads are energized.
+2. Run \`-Stage Preflight\`. It must report \`PREFLIGHT=PASS\`, \`RELAY_ON_COUNT=0\`, and a nonempty \`FREE_CHANNELS\` list. If it warns of an active test window on the Controller clock, STOP and choose a different non-active schedule window before saving.
+3. In Android create only one **new temporary device** named \`FarmCart QA TEMP\` on an actually unused channel; Manual first. **Do not edit or reassign the five existing devices.** Check that its relay stays OFF. Edit it to \`Schedule\`: daily 06:00-06:15 unless that interval is now active on the Controller clock. Save once. Reopen the form and confirm exact values.
+4. Run \`-Stage Schedule -StartTime 06:00 -EndTime 06:15\` (or pass the actual safely chosen window). \`SCHEDULE_SNAPSHOT_PERSISTENCE=PASS\` plus Android reopen evidence are both required. If Save returns an uncertain error, inspect snapshot before retrying.
+5. If an **actual configured sensor** is exposed in the Android device wizard, edit the same disposable device to \`Automatic\`, choose its supported sensor and configure a condition that is **not triggering**. Save once, reopen, and verify threshold/operator/stop threshold. Run \`-Stage Condition\`; cross-check echoed values with Android. If no actual usable sensor exists, record \`CONDITION=BLOCKED_NO_SENSOR\`; **do not fabricate data**.
+6. Finally delete this disposable profile **while its relay is OFF** using Android. Run \`-Stage Final\` and confirm no test profile by name and all relays OFF. Deletion with relay ON already has its own PASS; don't repeat needlessly.
+7. Send the read-only output and Android observations so Handoff can record independent Schedule/Condition PASS or an accurate blocked/failure state.
+
+Limits: Checker is not a raw NVS dump; it reads Controller snapshot representing loaded stored rules. It cannot independently verify Android UI reopen, condition actually causing a real action, RTC execution, power-cycle restoration, or physical relay LED. **Do not permit real load, power cycle, RTC sync, flash, Wi-Fi re-provisioning, or main merge** under this gate.
