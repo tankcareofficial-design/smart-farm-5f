@@ -1458,3 +1458,24 @@ Remaining blockers before load acceptance:
 - RTC retention remains deferred pending backup-battery/power investigation
 - rapid-command latest-state regression still not tested
 - load/pump power must remain disconnected until the next approved gate
+
+## AP HTTP transport stability diagnostic prepared — 2026-11-08
+
+Prepared read-only transport diagnostic:
+- `tools/windows/RUN_FARMCART_R814_AP_HTTP_TRANSPORT_STABILITY_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_AP_HTTP_TRANSPORT_STABILITY_READONLY.cmd`
+- 12 cycles x 5 endpoints = 60 raw GET requests
+- endpoints: `/`, `/api/device`, `/api/state`, `/api/relays`, `/api/v3/clock`
+- no hidden retry inside the measurement loop; each request is counted as PASS or FAIL
+- per-endpoint pass/fail counts and RTT min/avg/max are reported
+- HTTP keep-alive disabled per request to reduce client connection-reuse ambiguity
+- read-only: no relay, RTC, Wi-Fi, NVS or flash writes
+
+Purpose:
+- determine whether intermittent timeouts are distributed across the whole AP/WebServer transport or concentrated in a specific handler
+- no firmware patch should be made until this pattern is measured
+
+Current gate:
+- RELAY_NOLOAD_HARDWARE=PASS
+- AP_HTTP_TRANSPORT_STABILITY=NOT_YET_TESTED
+- PUMP_LOAD_POWER=KEEP_DISCONNECTED
