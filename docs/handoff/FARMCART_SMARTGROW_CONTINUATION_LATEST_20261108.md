@@ -227,3 +227,16 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - `EMERGENCY_STOP_RUNTIME=NOT_YET_TESTED`.
 - `LOAD_ACCEPTANCE=BLOCKED`.
 - MAIN untouched.
+
+## Latest update: E-stop physical OFF PASS, app switch UI bug fixed
+- User confirmed E-stop physically turns the relay OFF.
+- Android switch did not visually move to OFF and had to be manually toggled OFF before ON after release.
+- This is NOT intended design; it was a stale `requestedOn` UI-state bug.
+- `OutputDeviceCard` renders switch from `requestedOn || active` when not pending.
+- E-stop previously cleared only `isOn`, leaving stale `requestedOn=true`.
+- Fix commits: `1ac3e20d8c7fdcfe0ece1e0a939c0fca425940d3`, `c98065d99cb7960d95557acd5f712b2871777ea5`.
+- Regression tests commit: `64c85cb328233d9853cfcd43a3eea59726459991`.
+- CI #17 run `42476190591`: Flutter analyze/test PASS; ESP32 compile PASS; APK build pending at latest check.
+- No ESP32 reflash required for this app-only fix.
+- Runtime retest on new APK still pending.
+- MAIN untouched.
