@@ -207,3 +207,12 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - `RAPID_LATEST_STATE_RUNTIME=NOT_YET_TESTED` (normal ON/OFF does not close the defined rapid sequence gate).
 - Emergency Stop remains separate because it writes the emergency latch to NVS.
 - MAIN remains untouched.
+
+## Latest update: rapid latest-state runtime PASS
+- Android runtime rapid sequence `ON -> OFF -> ON -> OFF` passed.
+- Final state followed latest intent: OFF.
+- No stale command reasserted.
+- Controller remained usable.
+- `RAPID_LATEST_STATE_RUNTIME=PASS`.
+- Next non-RTC safety gate: Emergency Stop no-load (NVS-affecting; requires explicit approval).
+- MAIN untouched.
