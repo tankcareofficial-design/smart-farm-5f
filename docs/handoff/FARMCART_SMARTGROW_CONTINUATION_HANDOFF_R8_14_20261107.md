@@ -2079,3 +2079,47 @@ Correction:
 - it requires exactly one ESP32 changed file
 - that one path must equal `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp`
 - all other APP0-only safety locks remain unchanged
+
+## APP0 scan-fix partial write failure — recovery required — 2026-11-08
+
+User executed `FLASH_FARMCART_R814_SCANFIX_APP0_ROM_APPROVAL_GATED.cmd COM7 FLASH_R814_SCANFIX_N16R8` at HEAD `e5bad623643e21521d6ec4b0dad144b820d0c564`.
+
+Passed gates:
+- source lock PASS
+- exact ESP32 diff scope PASS, only `WiFiTransport.cpp`
+- canonical 16MB/8MB N16R8 profile PASS
+- build PASS: APP_BYTES=1058368, APP_SHA256=`6422a5a129be823cb707a14e3af17682c8687517ea3c218d391c3c8f97b71fd0`
+- ROM chip ID, MAC `14:c1:9f:50:b9:64`, flash-id 16MB PASS on COM7 at 115200, no-stub/no-reset
+
+Actual flash failure (THIS ATTEMPT WROTE/ERASED APP0):
+- targeted APP0 only at `0x10000`
+- `esptool` reported erasing from 0x10000 through 0x112fff
+- write progressed to 11.9% (125952/1058368 bytes) before connection loss
+- automatic retry re-erased the same range, then progressed 5.9% (62464/1058368 bytes)
+- pySerial `Write timeout` terminated the operation
+- runner output `APP0_FLASH_STATUS=FAIL`
+- **APP0 MUST BE TREATED AS PARTIALLY ERASED/PROGRAMMED; BOOTABILITY NOT VERIFIED**
+- no full 16MB backup was made in this attempt
+- runner did not target NVS/OTADATA/partition table/bootloader or issue erase-all
+
+Safety state and required recovery:
+- external relay/pump/load must remain disconnected
+- do not treat current application as runnable; do not enter regular firmware tests yet
+- avoid repeatedly using the same unstable USB serial data path
+- first verify USB data cable, direct host port, host-side serial driver and power stability (esptool docs associate corrupted packets/timeouts with USB link and supply issues)
+- keep 115200 baud per project lock
+- if possible keep board in manual ROM download mode; otherwise reenter with BOOT held while USB power is applied
+- do not rely on `chip-id`/`flash-id` success as proof long transfers are stable
+- only attempt recovery APP0 write after transport issue is addressed, then require complete write+verify and reboot smoke before declaring recovery
+- if alternate direct cable/port does not stabilize transfers, evaluate separate hardware UART programmer instead of more loops
+
+Last confirmed previous full 16MB backup (before baseline R8.14 flash):
+- path `D:\FarmCart\backups\farmcart_r814_preflash_COM5_20261107_220605`
+- SHA256 `a3e74d26160e9b738cdb7d015edf1244dccb3143f90c0f12ad62b8dfb6f64802`
+- do not overwrite or erase this historical backup
+
+Current acceptance:
+- SCANFIX_FLASH=FAIL_PARTIAL_APP0
+- APP0_BOOT=UNVERIFIED
+- DEVICE_RUNTIME=BLOCKED
+- MAIN=UNTOUCHED
