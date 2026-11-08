@@ -465,6 +465,29 @@ class DeviceStore extends ChangeNotifier {
 
     var changed = false;
     for (var i = 0; i < _outputs.length; i++) {
+      if (controller.emergencyLatched) {
+        final output = _outputs[i];
+        if (output.isOn ||
+            output.requestedOn ||
+            output.runtimeState != 'off' ||
+            output.waitingReason.isNotEmpty ||
+            output.remainingSeconds != 0) {
+          _outputs[i] = output.copyWith(
+            isOn: false,
+            requestedOn: false,
+            runtimeState: 'off',
+            waitingReason: '',
+            remainingSeconds: 0,
+          );
+          changed = true;
+        }
+        final commandState = _commandStates[output.id];
+        if (commandState != null) {
+          commandState.latestDesiredState = null;
+        }
+        continue;
+      }
+
       if (_pendingDeviceIds.contains(_outputs[i].id)) continue;
       final relayIndex = _outputs[i].channel - 1;
       if (relayIndex >= 0 && relayIndex < controller.relays.length) {
@@ -492,6 +515,9 @@ class DeviceStore extends ChangeNotifier {
     }
 
     _lastCommandError = null;
+    for (final commandState in _commandStates.values) {
+      commandState.latestDesiredState = null;
+    }
     for (var index = 0; index < _outputs.length; index++) {
       _outputs[index] = _outputs[index].copyWith(
         isOn: false,
