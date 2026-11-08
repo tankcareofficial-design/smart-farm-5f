@@ -1650,3 +1650,31 @@ Next:
 - continue product acceptance primarily on the mobile app path
 - separately verify/contain automatic RTC sync and unexpected relay-OFF requests before load/pump testing
 - pump/load remains disconnected
+
+## Mobile direct-link stable; scan semantics + stale APK identified — 2026-11-08
+
+User clarified the Android controller connection was restored from previously saved controller data / URL rather than rediscovered by scan.
+
+Observed mobile evidence:
+- browser access to `http://192.168.4.1/api/device` remained stable during repeated refreshes
+- installed FarmCart app also remained connected via saved controller data
+- this still supports stable direct-IP AP transport from Android, but does NOT prove controller-discovery / Wi-Fi-scan behavior
+
+Installed app version mismatch:
+- screenshot shows app `0.8.41 • 5F R8.7 UI Hardening Hotfix`
+- current candidate Flutter source is version `0.8.14+137`
+- current R8.14 controller source does not auto-sync an invalid RTC during connect; it logs manual sync required
+- therefore screenshot log `RTC invalid (lost_power); syncing from phone` originates from stale installed APK behavior and is not evidence of current R8.14 app behavior
+
+Wi-Fi scan semantics/source:
+- Flutter `scanWifi()` calls controller endpoint `GET /api/wifi/scan`
+- this endpoint scans Wi-Fi networks that the ESP32 controller could join as STA; it is not the mechanism for finding the controller AP itself
+- controller reconnection from saved data uses the saved base URL/AP path
+- ESP32 `handleWifiScan()` currently calls `WiFi.scanNetworks(false, true)` synchronously inside the HTTP handler
+- this can stall SoftAP HTTP servicing during the scan window and must be treated as a separate scan-path defect/risk
+
+Next verification:
+- use Android browser direct to `http://192.168.4.1/api/wifi/scan` exactly once
+- capture returned JSON / behavior and avoid repeated scan refreshes
+- keep relay/load disconnected
+- after scan-path evidence, validate with current R8.14 APK before final mobile-app acceptance
