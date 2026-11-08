@@ -1871,3 +1871,32 @@ Next recovery step:
 - manually enter ESP32-S3 ROM download mode using BOOT(GPIO0) + EN/RST
 - after manual bootloader entry, run read-only esptool probe with `--before no-reset --after no-reset` on COM5 so esptool does not disturb the manually selected boot mode
 - only after chip-id and flash-id PASS should the approved flash operation resume
+
+## FarmCart re-enumerated on COM7; physical identity re-confirmed — 2026-11-08
+
+User probed COM7 after COM5 repeatedly failed with pySerial `Write timeout`.
+
+COM7 physical identity evidence:
+- esptool v5.3.1 connected successfully using normal stub path
+- chip: ESP32-S3 QFN56 rev0.2
+- embedded PSRAM: 8MB
+- MAC: `14:c1:9f:50:b9:64`
+- MAC exactly matches the previously established FarmCart controller identity
+- `flash-id` PASS
+- detected flash size: 16MB
+- flash manufacturer/device: c2 / 2018
+- flash bus: quad
+- flash voltage: 3.3V
+- esptool stub flasher ran successfully
+- `Hard resetting via RTS pin` completed normally
+
+Interpretation:
+- FarmCart controller has re-enumerated from historical COM5 to COM7
+- prior COM5 `Write timeout` was a host/USB/port enumeration state issue, not a controller identity or flash-capacity defect
+- COM7 is now the verified physical target for the already-approved R8.14 scan-fix flash
+
+Approval scope:
+- existing user approval `FLASH_R814_SCANFIX_N16R8` remains valid because the physical target is proven identical by MAC
+- firmware source, board profile, partition scheme and write scope are unchanged
+- MAIN remains untouched
+- relay/pump/load power must remain disconnected during flash
