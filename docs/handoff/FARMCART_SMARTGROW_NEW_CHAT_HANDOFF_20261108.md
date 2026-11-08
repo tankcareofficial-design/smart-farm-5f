@@ -689,3 +689,28 @@ Current continuation target: finish non-RTC, no-load acceptance with source/test
 - Pending **read-only** hardware evidence: GET `/api/device`, `/api/relays`, and `/api/v3/snapshot`. Confirm actual relays OFF, deleted test device profile absent from snapshot rules and runtime; expected profile name `FarmCart QA TEMP` only if that name was actually used. Snapshot returns current live rules loaded from Preferences-backed `scheduleRules`, but readback alone does **not** prove reboot retention.
 - `SAFE_DELETE_NOLOAD_PHYSICAL_BEHAVIOR=USER_CONFIRMED_PASS`; `SAFE_DELETE_CONTROLLER_READBACK=PENDING`; `SAFE_DELETE_POST_REBOOT_GHOST=NOT_AUTHORIZED`; `SAVE_SCHEDULE_RUNTIME=NOT_REPORTED`; `SAVE_CONDITION_RUNTIME=NOT_REPORTED`.
 - No further Relay ON, NVS write, RTC sync, flash, reboot, or external-load testing should be performed in the readback phase. No `main` merge.
+
+---
+
+## 24. 2026-11-08 Safe Delete no-load — physical OFF + live HTTP readback acceptance
+
+**Evidence received directly from user's Windows CMD, executing GET only:**
+
+```text
+MODE=READ_ONLY
+CONTROLLER=sf-64B9509FC114
+FIRMWARE=0.8.0-5f-r8.14-stability-1
+RELAY_ON_COUNT=0
+RULE_COUNT=5
+QA_TEMP_PRESENT=False
+REMAINING_RULES=พัดลม, พัดลม, ปั๊มน้ำ, วาล์วน้ำ, ปั๊มน้ำ
+REVISION=669
+```
+
+- This was produced by three real HTTP GETs to `http://192.168.4.1`: `/api/device`, `/api/relays`, and `/api/v3/snapshot`. The controller identity and firmware match the intended FarmCart test target.
+- Physical ON -> immediate OFF on Delete, profile disappearing from Android, and no automatic relay re-energization had previously been explicitly confirmed by the user (section 23).
+- The subsequent live controller readback gives `RELAY_ON_COUNT=0` across 8 relay entries and no snapshot rule **with name** `FarmCart QA TEMP` among five remaining rules. Treat this as `SAFE_DELETE_NOLOAD=PASS` for the tested temporary profile's observed physical OFF and current-state readback.
+- Scope caveats: this name-based test cannot exclude a deleted record under an unexpected name/deviceId or prove that *every* unrelated profile is unchanged; no baseline deviceId-rule-list diff was supplied. Do not label the name-based GET as a direct raw NVS dump. Do not infer that repeated display names imply duplicate device IDs.
+- `POST_REBOOT_GHOST_CHECK=NOT_TESTED_NOT_AUTHORIZED`, `RTC_RETENTION=FAIL_DEFERRED`, `REAL_LOAD_ACCEPTANCE=BLOCKED`, `SAVE_SCHEDULE_RUNTIME=NOT_REPORTED`, `SAVE_CONDITION_RUNTIME=NOT_REPORTED`.
+- No firmware flash, RTC write, reboot, real-load power connection, or main merge in this step. Last confirmed code HEAD before recording evidence: `28e058d361d2e0edf0150a4fc4af1b3093483506`.
+- Next gate: no-load Schedule Save and Condition Save persistence if not yet done. First obtain user observation; avoid recreating or operating an ON test profile solely to retest a passed Safe Delete gate. Check controller snapshot read-only for evidence and record independently.
