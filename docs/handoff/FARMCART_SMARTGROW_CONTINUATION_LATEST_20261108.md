@@ -216,3 +216,14 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - `RAPID_LATEST_STATE_RUNTIME=PASS`.
 - Next non-RTC safety gate: Emergency Stop no-load (NVS-affecting; requires explicit approval).
 - MAIN untouched.
+
+## Latest update: Emergency Stop no-load approved
+- User explicitly approved Emergency Stop no-load runtime testing.
+- NVS emergency latch write `true` is approved.
+- Reboot while latched is approved for persistence verification.
+- Emergency Release and NVS latch write `false` are approved at the end of the gate.
+- External pump/valve/actuator/load power must remain disconnected.
+- Acceptance requires: active relay forced OFF, ON blocked while latched, latch survives reboot, release succeeds, final all relays OFF.
+- `EMERGENCY_STOP_RUNTIME=NOT_YET_TESTED`.
+- `LOAD_ACCEPTANCE=BLOCKED`.
+- MAIN untouched.
