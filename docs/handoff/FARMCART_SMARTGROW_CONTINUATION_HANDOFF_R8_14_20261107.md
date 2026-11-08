@@ -2488,3 +2488,63 @@ Next acceptance client:
 - refresh/poll the same URL until `scanState=complete` and inspect `networks`
 - acceptance requires AP remains connected/responsive and network list is returned without the prior AP-disappearance behavior
 - keep relay/pump/load power disconnected
+
+## Android isolates real async-scan start failure; stale STA CONNECTING fix prepared — 2026-11-08
+
+Android direct-to-controller evidence after verified APP0 scan-fix flash:
+- phone connected directly to `SmartFarm-9FC114`; phone UI correctly reports no Internet, which is expected for local controller AP
+- `GET http://192.168.4.1/api/device` returned `ok=true`
+- runtime firmware confirmed: `0.8.0-5f-r8.14-stability-1`
+- device ID: `sf-64B9509FC114`
+- AP SSID field: `SmartFarm-9FC114`
+- AP IP: `192.168.4.1`
+- hardware profile: `smart_farm_8ch_v1`
+- stationConnected=false
+- then `GET http://192.168.4.1/api/wifi/scan` returned `ok=false`, `error=wifi_scan_failed`, message `Unable to start Wi-Fi scan.`
+
+This Android evidence removes the previously-known Windows RTL8188EU client instability from the scan-start failure and proves the scan start itself is failing in firmware.
+
+Root-cause evidence:
+- ESP-IDF documents that `esp_wifi_scan_start()` fails immediately with `ESP_ERR_WIFI_STATE` while STA is connecting
+- Arduino-ESP32 converts that failure to `WIFI_SCAN_FAILED (-2)`
+- Espressif Arduino issue #8916 reproduces the same AP+STA symptom after a failed STA connection and records collaborator-confirmed recovery by calling `WiFi.disconnect(false)` after the failed connection
+- current FarmCart `connectStation()` previously timed out and returned false without explicitly aborting the STA connecting state
+
+Source correction:
+- commit `ed7168c8b9b318c684412ad9e0baa6291ce1534d`
+- after `connectStation()` timeout/failure, call `WiFi.disconnect(false, false)` and delay 100ms before returning
+- in `handleWifiScan()`, if async start still returns `WIFI_SCAN_FAILED` and STA is not actually connected, perform one non-erasing disconnect + 100ms delay + one scan retry
+- established STA connection is not disconnected by scan recovery
+- SoftAP remains enabled
+- no NVS/credential erase added
+- API contract remains the async `scanning/scanState` contract from the first scan-fix
+
+Verification:
+- Smart Farm CI run #14 / ID `42456112148` for source head `ed7168c8...`
+- Flutter analyze/test: PASS
+- ESP32-S3 N16R8 compile: PASS
+- Android APK build: still in progress at latest check; Flutter source itself is unchanged by this firmware-only fix
+
+Prepared flash gate (NOT YET APPROVED):
+- `tools/windows/FLASH_FARMCART_R814_SCANFIX2_STA_STATE_APP0_NATIVE_USB_APPROVAL_GATED.cmd`
+- tool commit `74ee41b1d4e58d22c63582d328c2032eebbabd88`
+- source lock `ed7168c8b9b318c684412ad9e0baa6291ce1534d`
+- delta baseline `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- exact ESP32 delta must remain one file: `WiFiTransport.cpp`
+- APP0 only at 0x10000
+- COM5 native USB Serial/JTAG expected by physical MAC `14:c1:9f:50:b9:64`
+- 115200, usb-reset, no-stub, no-compress
+- NVS/OTADATA/partition table/bootloader untouched
+- erase-all NO
+- new approval token: `FLASH_R814_SCANFIX2_STA_STATE`
+- previous flash approval does NOT automatically authorize this new source SHA
+
+Current gates:
+- SCANFIX1_FLASH_VERIFY=PASS
+- ANDROID_DEVICE_API=PASS
+- SCANFIX1_ASYNC_SCAN_START=FAIL
+- ROOT_CAUSE_CLASS=STA_CONNECTING_STATE_BLOCKS_SCAN
+- SCANFIX2_SOURCE=PREPARED
+- SCANFIX2_ESP32_COMPILE=PASS
+- SCANFIX2_FLASH=NOT_APPROVED
+- MAIN=UNTOUCHED
