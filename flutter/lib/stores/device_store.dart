@@ -493,7 +493,13 @@ class DeviceStore extends ChangeNotifier {
 
     _lastCommandError = null;
     for (var index = 0; index < _outputs.length; index++) {
-      _outputs[index] = _outputs[index].copyWith(isOn: false);
+      _outputs[index] = _outputs[index].copyWith(
+        isOn: false,
+        requestedOn: false,
+        runtimeState: 'off',
+        waitingReason: '',
+        remainingSeconds: 0,
+      );
     }
     notifyListeners();
 
