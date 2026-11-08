@@ -1273,3 +1273,31 @@ Safety decision:
 - software relay safe-state is PASS
 - no-load physical relay acceptance may proceed
 - pump / actuator / external load power must remain disconnected until no-load relay switching and emergency-stop checks pass
+
+## Relay no-load test approved and runner prepared — 2026-11-08
+
+User explicitly approved relay hardware testing with no external load connected.
+
+Prepared tooling:
+- `tools/windows/TEST_FARMCART_R814_RELAYS_NOLOAD_APPROVAL_GATED.ps1`
+- `tools/windows/TEST_FARMCART_R814_RELAYS_NOLOAD_APPROVAL_GATED.cmd`
+- approval token: `TEST_RELAYS_NOLOAD_R814`
+
+Test scope:
+- preflight requires all 8 relays OFF and GPIO map exactly CH1..CH8 = 4,5,6,7,15,16,17,18
+- CH1 through CH8 are tested sequentially
+- each channel: POST ON -> GET verify ON -> short hold -> POST OFF -> GET verify OFF
+- final GET requires all relays OFF and all manual overrides cleared
+- no pump/valve/actuator/load power may be connected
+- no flash, RTC write, Wi-Fi config write, or main merge
+
+Fail-safe:
+- if any channel fails verification, runner attempts Emergency Stop
+- on failure Emergency Stop remains latched for review; do not release automatically
+
+Physical acceptance still requires user observation that each matching relay LED/click occurred in CH1..CH8 order.
+
+Current status:
+- RELAY_NOLOAD_APPROVAL=GRANTED
+- RELAY_NOLOAD_EXECUTION=NOT_YET_PERFORMED
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
