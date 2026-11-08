@@ -250,3 +250,13 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - No ESP32 reflash required.
 - Next: install APK and repeat E-stop UI runtime retest with load disconnected.
 - MAIN untouched.
+
+## Latest update: E-stop runtime gate PASS
+- Corrected Android app runtime retest PASS.
+- Physical relay OFF on E-stop PASS.
+- App switch auto-OFF and disabled while latched PASS.
+- E-stop state survives controller reboot PASS.
+- Release restores control while output remains OFF PASS.
+- No ESP32 reflash required.
+- `E_STOP_NOLOAD_GATE=PASS`.
+- MAIN untouched.
