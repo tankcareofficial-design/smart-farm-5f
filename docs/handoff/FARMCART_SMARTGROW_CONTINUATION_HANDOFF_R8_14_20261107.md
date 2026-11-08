@@ -1551,3 +1551,38 @@ Decision after survey:
 - if channel 1 is congested, test a fixed cleaner SoftAP channel in a candidate firmware only after approval
 - if RTL8188EU power/driver settings look suspicious, A/B test another client/adapter before firmware changes
 - pump/load remains disconnected
+
+## Windows WLAN/RF survey confirms severe link loss — 2026-11-08
+
+Read-only Windows WLAN/RF survey:
+- adapter: Realtek RTL8188EU Wireless LAN 802.11n USB 2.0
+- driver version: 1030.52.1216.2025
+- connected to SmartFarm-9FC114
+- channel 1
+- signal reported 100%
+- link speed 150 Mbps
+- only one visible WLAN in scan: SmartFarm-9FC114
+- advanced properties exposed: Bandwidth 20_40MHz, QoS enabled, Wireless Mode 802.11b/g/n
+- power-management details were not returned by the cmdlet
+
+Ping recheck:
+- sent 20, received 11, lost 9 = 45% packet loss
+- RTT min 10 ms, max 572 ms, avg 264 ms
+
+Interpretation:
+- channel congestion is not supported by current scan evidence
+- signal strength alone is not the issue (100% reported)
+- severe packet loss exists below HTTP
+- remaining main candidate classes: ESP32 SoftAP/power integrity vs RTL8188EU client compatibility/driver behavior
+
+Next isolation step:
+- power down ESP32
+- physically disconnect relay board/control/power wiring from ESP32
+- power ESP32 controller alone
+- reconnect Windows to SmartFarm AP
+- rerun the existing AP link-vs-HTTP diagnostic read-only
+- compare packet loss and HTTP success against the relay-connected baseline
+
+Safety:
+- external pump/valve/load power remains disconnected
+- no firmware patch yet
