@@ -1520,3 +1520,34 @@ Decision rule:
 - both stable => compare PowerShell HTTP-client behavior before firmware changes
 
 Load/pump power remains disconnected.
+
+## AP/RF link instability confirmed; Windows WLAN/RF survey prepared — 2026-11-08
+
+AP link-vs-HTTP diagnostic result:
+- Windows adapter: Realtek RTL8188EU 802.11n USB 2.0
+- connected to `SmartFarm-9FC114`, channel 1, reported signal 100%
+- ping: 14/30 PASS, 16/30 FAIL
+- curl root: 4/20 PASS, 16/20 FAIL
+- many curl failures were TCP connection timeouts before HTTP response
+- classification: `AP_OR_RF_LINK_UNSTABLE`
+
+Interpretation:
+- failure exists below the HTTP handler layer; ICMP itself is unreliable
+- do not patch individual WebServer routes yet
+- current candidate classes: ESP32 SoftAP RF/channel behavior, local 2.4 GHz interference, Windows RTL8188EU driver/power-management/client compatibility
+
+Source context:
+- firmware uses `WiFi.mode(WIFI_AP_STA)`
+- Wi-Fi sleep is disabled with `WiFi.setSleep(false)`
+- `WiFi.softAP(ssid,password)` does not explicitly set a channel; runtime currently shows channel 1
+
+Prepared read-only Windows/RF survey:
+- `tools/windows/RUN_FARMCART_R814_WINDOWS_WLAN_RF_SURVEY_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_WINDOWS_WLAN_RF_SURVEY_READONLY.cmd`
+- captures WLAN driver details, adapter power-management, advanced properties, surrounding BSSIDs/channels, ARP/route and a short ping recheck
+- no ESP/NVS/relay/RTC/Wi-Fi/flash writes
+
+Decision after survey:
+- if channel 1 is congested, test a fixed cleaner SoftAP channel in a candidate firmware only after approval
+- if RTL8188EU power/driver settings look suspicious, A/B test another client/adapter before firmware changes
+- pump/load remains disconnected
