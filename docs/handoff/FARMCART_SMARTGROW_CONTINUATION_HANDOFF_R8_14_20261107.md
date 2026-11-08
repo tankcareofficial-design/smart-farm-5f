@@ -2202,3 +2202,29 @@ Prioritize safe diagnostics:
 - no esptool read/write retry on current corrupt CH343 path until physical transport investigation yields evidence
 
 Recovery safety: APP0 remains partially erased/programmed; no reset into normal firmware as a verification substitute; bootloader ROM is independent; NVS/OTADATA/bootloader/partition preservation remains required.
+
+## Verified native USB target COM5 distinct from CH343 COM7 — 2026-11-08
+
+Latest Windows serial enumeration (user supplied):
+- COM3 CH343, USB VID:PID `1A86:55D3`, SER `5C94153873`, separate CH343 device
+- COM4 Espressif native USB `303A:1001`, SER `E8:F6:0A:B8:B7:0C`: user confirms this is their OTHER Waveshare ESP32-S3, not FarmCart
+- COM5 Espressif native USB Serial/JTAG `303A:1001`, SER `14:C1:9F:50:B9:64`: this is FarmCart's own native USB interface and MAC
+- previous COM7 CH343 `1A86:55D3`, SER `5C82118392`, accessed an ESP32-S3 with the SAME MAC `14:c1:9f:50:b9:64`; this was another access path into the FarmCart MCU
+
+COM5 read-only results:
+- standard `chip-id`: pySerial Windows `PermissionError(13)` device not functioning
+- standard `flash-id`: established ESP32-S3 QFN56 rev0.2, PSRAM 8MB, `USB mode: USB-Serial/JTAG`, MAC `14:c1:9f:50:b9:64`
+- esptool stub upload then failed with `Write timeout`, so flash-id did NOT complete
+- COM5 native USB should not be conflated with previously unstable COM7 CH343 UART path
+
+Action / interpretation:
+- no flash write occurred in this COM5 attempt
+- APP0 remains partially erased/programmed from previous COM7 write failure
+- avoid CH343 COM7 read/write retry loops; do not touch independent Waveshare COM4
+- attempt a single bounded recovery probe on FarmCart **native USB COM5**, not the CH343 path
+- manually enter ROM download mode while powering/reconnecting the physical USB interface associated with COM5 (BOOT held while USB is plugged in), then identify current VID/PID/serial/MAC
+- run `--chip esp32s3 -b 115200 --before no-reset --after no-reset --no-stub` only after ROM enumeration
+- first bound native USB flash-read to 64KB without any write; success does not alone certify 1MB write reliability
+- no erase-all or bootloader/NVS/OTADATA mutation permitted; APP0-only recovery remains required
+
+Reference: Espressif ESP32-S3 esptool troubleshooting on USB-Serial/JTAG, manual download and packet errors: https://docs.espressif.com/projects/esptool/en/latest/esp32s3/troubleshooting.html
