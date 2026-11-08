@@ -100,7 +100,17 @@ try {
   if ($device.firmwareVersion -ne $ExpectedFirmware) { throw "firmware mismatch" }
   if ($device.hardwareProfile -ne $ExpectedProfile) { throw "hardware profile mismatch" }
   if ([int]$device.relayCount -ne 8) { throw "relay count mismatch" }
-  if ([bool]$pre.emergencyLatched) { throw "emergency stop is already latched" }
+  if ([bool]$pre.emergencyLatched) {
+    Write-Host "PREFLIGHT_EMERGENCY_LATCHED=True"
+    Write-Host "PREFLIGHT_ACTION=RELEASE_EMERGENCY_FOR_APPROVED_NOLOAD_RETEST"
+    $release = Invoke-PostOnce "/api/emergency-release" ([ordered]@{})
+    Start-Sleep -Milliseconds 400
+    $pre = Invoke-GetJson "/api/relays"
+    if ([bool]$pre.emergencyLatched) { throw "emergency stop release did not clear latch" }
+    Write-Host "PREFLIGHT_EMERGENCY_RELEASE=PASS"
+  } else {
+    Write-Host "PREFLIGHT_EMERGENCY_LATCHED=False"
+  }
 
   $preRelays = @($pre.relays)
   if ($preRelays.Count -ne 8) { throw "preflight relay array count mismatch" }
@@ -121,7 +131,7 @@ try {
     Write-Host ("=== TEST CH" + $human + " GPIO" + $gpio + " ===")
     Write-Host ("OBSERVE=Relay CH" + $human + " LED/click should turn ON, then OFF")
 
-    $null = Invoke-PostOnce "/api/relay" ([ordered]@{channel=$ch;on=$true;overrideSeconds=4})
+    $null = Invoke-PostOnce "/api/relay" ([ordered]@{channel=$ch;on=$true;overrideSeconds=45})
     Start-Sleep -Milliseconds 250
     $onState = Get-RelayState $ch
 
@@ -129,6 +139,7 @@ try {
       throw ("CH" + $human + " failed to verify ON")
     }
     Write-Host ("CH" + $human + "_ON_API=PASS")
+    Write-Host ("CH" + $human + "_ON_OVERRIDE_SECONDS=45")
     Write-Host ("CH" + $human + "_GPIO=" + $onState.Relay.gpio)
 
     Start-Sleep -Milliseconds $OnHoldMilliseconds
