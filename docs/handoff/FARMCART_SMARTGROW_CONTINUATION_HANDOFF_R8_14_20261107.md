@@ -2637,3 +2637,35 @@ Current gates:
 - SCANFIX2_RUNTIME=NOT_YET_TESTED
 - WIFI_SCANFIX_RUNTIME=NOT_YET_PASS
 - MAIN=UNTOUCHED
+
+## Scan-fix2 runtime acceptance PASS on Android — 2026-11-08
+
+Android runtime acceptance after scan-fix2 APP0 flash:
+- phone remained connected to FarmCart local SoftAP (no Internet indication expected)
+- endpoint tested: `http://192.168.4.1/api/wifi/scan`
+- response observed: `ok=true`
+- `scanning=false`
+- `scanState=complete`
+- `count=1`
+- discovered network: SSID `Ratthaphum`, RSSI `-70`, secure `true`, channel `7`
+
+Interpretation:
+- async Wi-Fi scan now starts and completes successfully
+- prior `wifi_scan_failed / Unable to start Wi-Fi scan` defect is resolved on the physical ESP32-S3 controller
+- SoftAP remained reachable through scan completion because the Android browser received the final completed response while still connected to the controller AP
+- network discovery is functional and returns the expected 2.4 GHz SSID
+
+Acceptance:
+- SCANFIX2_FLASH=PASS
+- SCANFIX2_RUNTIME=PASS
+- WIFI_SCAN_ASYNC_START=PASS
+- WIFI_SCAN_COMPLETE=PASS
+- WIFI_NETWORK_DISCOVERY=PASS
+- WIFI_SCANFIX_RUNTIME=PASS
+- DEFECT_WIFI_SCAN_FAILED=CLOSED
+- MAIN=UNTOUCHED
+
+Safety / next:
+- relay/pump/load power should remain disconnected until the broader hardware/load acceptance gate is explicitly resumed
+- no further scan-fix flash is required
+- continue from current candidate branch and latest continuation snapshot
