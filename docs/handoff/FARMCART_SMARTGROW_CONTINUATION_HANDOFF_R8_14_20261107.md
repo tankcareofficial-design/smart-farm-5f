@@ -2000,3 +2000,32 @@ Next:
 - keep COM7 as the FarmCart target
 - at BAUD_LOCK=115200_ONLY run esptool chip-id and flash-id with `--before no-reset --after no-reset` while leaving the board in this state
 - do not reset or reconnect before the probe
+
+## COM7 manual power-on ROM entry PASS — 2026-11-08
+
+BOOT-held USB power-on recovery succeeded on the verified FarmCart controller.
+
+Read-only evidence at BAUD_LOCK=115200_ONLY:
+- esptool v5.3.1
+- COM7
+- `--before no-reset --after no-reset`
+- chip-id PASS
+- ESP32-S3 QFN56 rev0.2
+- PSRAM 8MB
+- MAC `14:c1:9f:50:b9:64`
+- stub flasher running
+- flash-id PASS
+- manufacturer c2 / device 2018
+- detected flash size 16MB
+- quad flash, 3.3V
+- esptool reported `Staying in bootloader` after both commands
+
+Interpretation:
+- ROM bootloader entry is now proven stable when BOOT is held during USB power-on
+- previous failures were caused by connection/reset state, not board identity, flash size, or scan-fix source
+- current device is intentionally left in bootloader state
+
+Next:
+- perform a 4KB read at 115200 using `--before no-reset --after no-reset`
+- if exact 4096-byte read passes, adapt the approved flash runner to preserve this no-reset bootloader state during backup/write
+- do not use the old reset-per-command behavior again
