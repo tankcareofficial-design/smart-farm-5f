@@ -1152,3 +1152,40 @@ Current status:
 - RTC_SYNC_EXECUTION=NOT_YET_PERFORMED
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - RUNTIME_ACCEPTANCE=NOT_YET_PASS
+
+## RTC sync semantic PASS; accuracy verifier prepared — 2026-11-08
+
+Observed approved RTC sync execution:
+- source lock and approval gate: PASS
+- Windows local time source at sync: 2026-11-08 08:32:57 +07:00
+- sync payload used dayOfWeek=7 (Sunday), matching Flutter Monday=1..Sunday=7 convention
+- POST `/api/v3/clock/sync` response timed out; no automatic POST retry was performed
+- subsequent GET `/api/v3/clock` proved the mutation succeeded:
+  - available=true
+  - valid=true
+  - source=ds3231
+  - quality=synchronized
+  - lostPower=false
+  - synchronized=true
+  - readFailures=0
+  - errorCode=none
+  - RTC time returned 2026-11-08 08:33:01
+
+Interpretation:
+- RTC sync semantic result = PASS
+- the runner's final `RTC_SYNC=FAIL` was caused only by its <=5 s PC-delta check being evaluated after an 8 s POST timeout + verification delay
+- the 11.1 s delta is not accepted as an accuracy result because that measurement method included request timeout latency
+- no second POST/resync has been performed
+
+Prepared read-only verifier:
+- `tools/windows/RUN_FARMCART_R814_RTC_VERIFY_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_RTC_VERIFY_READONLY.cmd`
+- samples RTC 5 times using GET only
+- compares each RTC sample against the midpoint of the HTTP request, not against a delayed post-timeout timestamp
+- verifies available/valid/source/lostPower/readFailures/errorCode, <=5 s absolute time delta and monotonic RTC progression
+
+Gate status:
+- RTC_SYNC_SEMANTIC=PASS
+- RTC_ACCURACY_CONTINUITY=NOT_YET_VERIFIED
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- RUNTIME_ACCEPTANCE=NOT_YET_PASS
