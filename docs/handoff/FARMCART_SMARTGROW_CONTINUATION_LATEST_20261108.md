@@ -166,3 +166,20 @@ After successful APP0 flash + hash verification:
 6. PASS requires async transition `scanning` -> `complete`, returned networks, and AP remains reachable.
 
 Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOUCHED`.
+
+## Latest update: Wi-Fi scan defect closed
+- Scan-fix2 source `ed7168c8b9b318c684412ad9e0baa6291ce1534d` is physically flashed and runtime accepted.
+- APP0 flash PASS, SHA256 `479002f5592a621723181b03b82f8677a4b8a7571b2bbe654801fc77b156edb8`, 1,058,448 bytes.
+- Android `GET http://192.168.4.1/api/wifi/scan` returned:
+  - `ok=true`
+  - `scanning=false`
+  - `scanState=complete`
+  - `count=1`
+  - network `Ratthaphum`, RSSI -70, secure true, channel 7
+- This closes the prior physical-runtime defect `wifi_scan_failed / Unable to start Wi-Fi scan`.
+- `WIFI_SCANFIX_RUNTIME=PASS`
+- `DEFECT_WIFI_SCAN_FAILED=CLOSED`
+- No more scan-fix flash is required.
+- Windows Realtek RTL8188EU path remains independently unstable and should not be used as authoritative controller/AP acceptance client.
+- MAIN remains untouched.
+- Keep relay/pump/load disconnected until broader hardware/load acceptance resumes.
