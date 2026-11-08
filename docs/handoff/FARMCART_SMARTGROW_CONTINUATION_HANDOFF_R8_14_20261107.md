@@ -1189,3 +1189,42 @@ Gate status:
 - RTC_ACCURACY_CONTINUITY=NOT_YET_VERIFIED
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - RUNTIME_ACCEPTANCE=NOT_YET_PASS
+
+## RTC retention failure after successful sync — 2026-11-08
+
+Read-only RTC verifier after the earlier successful sync produced a real retention failure:
+- five GET-only samples were collected
+- RTC remained physically available and I2C transport succeeded
+- every sample returned `valid=false`, `quality=lost_power`, `lostPower=true`, `readFailures=0`, `errorCode=lost_power`
+- date/time had reverted to 2000-01-01 and continued advancing from that reset value
+- RTC remained monotonic while currently powered
+- therefore the failure is not an I2C transport miss and not HTTP cache
+
+Source confirmation:
+- `GET /api/v3/clock` calls `ClockService::update()` before returning the snapshot, so each request reads the DS3231 again
+- `ClockService::setLocalTime()` had previously cleared OSF/lost-power and the subsequent GET proved `valid=true`, `quality=synchronized`, `lostPower=false`, `readFailures=0`, `errorCode=none`
+- later reappearance of `lostPower=true` together with reset date/time indicates the DS3231 lost effective timekeeping power after that successful sync
+- `synchronized` is a RAM flag set by `setLocalTime()` and is not cleared by a later lost-power read; therefore `synchronized=true + lostPower=true` is a diagnostic-state inconsistency, not proof that RTC is still synchronized
+
+Likely physical causes to verify before another RTC write:
+- RTC backup cell absent / depleted / ineffective
+- RTC VCC or GND intermittent / disconnected
+- module or connector contact issue
+- if the ESP32/RTC supply was intentionally power-cycled, loss of time is expected when backup power is not functioning
+
+Do NOT patch firmware or resync repeatedly yet.
+Next gate:
+1. verify DS3231 power wiring and backup-power condition
+2. after physical correction, perform one approved RTC sync
+3. verify valid synchronized time
+4. intentionally remove/reapply controller VCC only after confirming the RTC module's backup-power design is safe and functional
+5. verify RTC retained time and `lostPower=false` after reboot
+
+Gate status:
+- RTC_PHYSICAL_I2C=PASS
+- RTC_SYNC_SEMANTIC=PASS previously
+- RTC_RETENTION=FAIL
+- RTC_ACCURACY=BLOCKED_BY_RETENTION_FAILURE
+- HARDWARE_ACCEPTANCE=BLOCKED
+- RUNTIME_ACCEPTANCE=BLOCKED
+- MERGE_MAIN=BLOCKED
