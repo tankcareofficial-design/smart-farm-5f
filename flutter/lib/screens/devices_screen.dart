@@ -141,6 +141,7 @@ class DevicesScreen extends StatelessWidget {
                               device: device,
                               controllerConnected: store.controllerConnected,
                               commandPending: store.isCommandPending(device.id),
+                              emergencyLocked: store.emergencyLatched,
                               onStateChanged: (value) async {
                                 final success = await store.setOutputState(
                                   device.id,
