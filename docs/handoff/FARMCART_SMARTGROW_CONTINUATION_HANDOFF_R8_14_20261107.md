@@ -2875,3 +2875,38 @@ Verification status:
 - ESP32 reflash required: NO
 - new Android APK required for runtime UI retest: YES
 - MAIN untouched
+
+## E-stop Android UI fix CI PASS + APK ready — 2026-11-08
+
+Smart Farm CI #20 / run ID `42476651695` completed successfully for head `7db8340affe8964560004386966800eea8b9319b`.
+
+CI result:
+- Flutter analyze/test = PASS
+- ESP32-S3 N16R8 compile = PASS
+- Android demo APK = PASS
+
+APK artifact:
+- artifact ID `13615479234`
+- artifact name `farmcart-smartgrow-r8.14-demo-apk`
+- artifact ZIP digest `sha256:a067203e608c580e9329fcfec18c328a5d8e4649b55b13abf20153c2c77dfa6a`
+- extracted APK bytes `155572718`
+- extracted APK SHA256 `f9b02ed1226f70011207fc76a9ceb3d8fd31961e194a37c05d27befca2876eae`
+
+Runtime retest target:
+- no ESP32 reflash required
+- install/update Android APK
+- with external loads still disconnected, turn CH1 ON
+- trigger E-stop
+- physical CH1 must turn OFF
+- app output switch must move to OFF automatically and be disabled while emergency latch is active
+- reboot controller while latched; after reconnect switch must still show OFF and remain disabled
+- release E-stop; switch remains OFF but becomes enabled
+- one ON press after release must work without first needing an OFF press
+
+Current:
+- EMERGENCY_STOP_PHYSICAL_OFF=PASS
+- EMERGENCY_STOP_APP_UI_FIX_CI=PASS
+- EMERGENCY_STOP_APP_UI_RUNTIME_RETEST=NOT_YET_TESTED
+- ESP32_REFLASH_REQUIRED=NO
+- LOAD_ACCEPTANCE=BLOCKED
+- MAIN=UNTOUCHED
