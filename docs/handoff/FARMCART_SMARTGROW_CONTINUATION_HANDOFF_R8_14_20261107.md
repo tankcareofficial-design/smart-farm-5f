@@ -1966,3 +1966,18 @@ Next:
 - probe COM7 at 115200 only
 - use esptool `--before no-reset --after no-reset` so the manual ROM state is preserved during the read-only probe
 - resume approved scan-fix flash only after manual-ROM chip-id and flash-id pass
+
+## Manual BOOT+EN no-reset probe still no response; switch to BOOT-at-power-on ROM entry — 2026-11-08
+
+Manual BOOT+EN/RST attempt followed by esptool `--before no-reset --after no-reset` on COM7 at 115200 still failed for both chip-id and flash-id with `No serial data received`.
+
+Interpretation:
+- COM7 was previously proven as the same FarmCart controller by MAC and 16MB flash
+- current failure means the attempted reset sequence did not leave a responsive ROM loader on COM7
+- no flash/erase/NVS write occurred
+
+Next recovery method:
+- use BOOT held LOW from power-on / USB insertion rather than relying on the EN reset sequence
+- after enumeration, release BOOT and discover the actual COM port Windows assigns in ROM mode
+- keep esptool baud locked at 115200
+- perform read-only chip-id/flash-id before any write
