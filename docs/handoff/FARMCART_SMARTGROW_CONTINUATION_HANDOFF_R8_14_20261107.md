@@ -1732,3 +1732,26 @@ Verification status:
 - Android demo APK = still in progress at last check
 - FLASH=NOT_PERFORMED
 - MAIN=UNTOUCHED
+
+## Scan-fix CI PASS + dedicated flash gate prepared — 2026-11-08
+
+Smart Farm CI #13 / run ID 42441352416 completed successfully for source head `30ab9bbadcc601b4978d416efb985af84ba9145e`:
+- ESP32-S3 N16R8 compile = SUCCESS
+- Flutter analyze + test = SUCCESS
+- Android demo APK = SUCCESS
+
+APK artifact:
+- artifact ID `13602000738`
+- name `farmcart-smartgrow-r8.14-demo-apk`
+- digest `sha256:4745b9e18959236596569398d160955db30f17e4f23b63133164298702d6491c`
+
+Flash gating:
+- legacy R8.14 flash runner still locks old runtime SHA and must not be used for scan-fix
+- dedicated runner: `tools/windows/FLASH_FARMCART_R814_SCANFIX_N16R8_APPROVAL_GATED.cmd`
+- runtime source lock: `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- approval token: `FLASH_R814_SCANFIX_N16R8`
+- branch: `candidate/r8.14-stability-1`
+- canonical N16R8 FQBN preserved
+- full pre-flash backup remains enabled in the dedicated runner
+- FLASH=NOT_YET_APPROVED
+- MAIN=UNTOUCHED
