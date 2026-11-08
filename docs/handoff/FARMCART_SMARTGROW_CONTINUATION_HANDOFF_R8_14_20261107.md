@@ -2378,3 +2378,19 @@ Observed:
 - next gate is non-invasive serial runtime capture using `RUN_FARMCART_R814_SCANFIX_POSTFLASH_SMOKE_READONLY.cmd COM5`
 - runner performs no esptool access, no flash/NVS/relay/WiFi writes
 - objective: determine whether firmware boot banner/version/AP-start is present or whether runtime is failing before SoftAP starts
+
+## Multi-ESP32 USB contention confirmed by user observation — 2026-11-08
+
+User confirmed an important environmental factor:
+- two ESP32-class boards were connected to the same Windows host during troubleshooting
+- COM4 belongs to a separate Waveshare ESP32-S3
+- FarmCart native USB has serial/MAC-derived identifier `14:C1:9F:50:B9:64`
+- user reports the same kind of USB/COM instability has occurred during WQMS work when multiple ESP32 devices were connected
+- when the extra ESP32 device was unplugged, the problem disappeared
+
+Interpretation:
+- multi-device USB enumeration / COM re-enumeration is now the leading environmental cause of the confusing transport failures and port switching
+- this does not prove the two MCUs electrically interfere with each other; the likely issue is host-side port identity/reset/re-enumeration ambiguity while multiple Espressif USB devices are present
+- therefore FarmCart recovery/runtime verification must be performed with only the FarmCart ESP32-S3 connected
+- do not reflash: APP0 recovery write and hash verification already PASS
+- next gate is runtime/AP verification with the second ESP32 disconnected
