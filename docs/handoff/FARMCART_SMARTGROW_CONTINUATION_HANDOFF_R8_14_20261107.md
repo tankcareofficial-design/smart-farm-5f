@@ -2062,3 +2062,20 @@ Why this is safer here:
 - avoids the proven-pathological 16MB device-to-host read stream
 - avoids unnecessary rewrites of bootloader/partition/OTADATA for a one-file application source change
 - preserves persisted NVS and the established partition/boot metadata
+
+## APP0 runner source-scope gate false negative fixed — 2026-11-08
+
+First APP0-only runner attempt stopped before build/device access/write.
+
+Observed:
+- printed ESP32 scan-fix diff path was exactly `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp`
+- runner nevertheless emitted `ERROR=EXPECTED_SCANFIX_FILE_MISSING`
+- root cause was the Windows CMD `findstr /X` path-match gate, not source drift
+- no flash/erase/NVS/OTADATA/partition/bootloader write occurred
+
+Correction:
+- commit `6c855afb1e5694998e2443201a865f5e3799715e`
+- diff scope check now parses the diff list directly
+- it requires exactly one ESP32 changed file
+- that one path must equal `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp`
+- all other APP0-only safety locks remain unchanged
