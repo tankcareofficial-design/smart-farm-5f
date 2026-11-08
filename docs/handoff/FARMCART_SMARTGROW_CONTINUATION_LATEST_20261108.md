@@ -240,3 +240,13 @@ Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOU
 - No ESP32 reflash required for this app-only fix.
 - Runtime retest on new APK still pending.
 - MAIN untouched.
+
+## Latest update: E-stop UI fix APK ready
+- CI #20 run `42476651695` = SUCCESS.
+- head `7db8340affe8964560004386966800eea8b9319b`.
+- Flutter analyze/test PASS, ESP32 compile PASS, Android APK PASS.
+- APK artifact ID `13615479234`.
+- APK SHA256 `f9b02ed1226f70011207fc76a9ceb3d8fd31961e194a37c05d27befca2876eae`.
+- No ESP32 reflash required.
+- Next: install APK and repeat E-stop UI runtime retest with load disconnected.
+- MAIN untouched.
