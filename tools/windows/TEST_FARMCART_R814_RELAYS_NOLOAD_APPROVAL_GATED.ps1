@@ -53,22 +53,39 @@ function Get-RelayState([int]$Channel) {
   }
 }
 
-function Invoke-EmergencyStop {
+function Invoke-AllRelaysOffFailsafe {
   Write-Host ""
-  Write-Host "FAILSAFE=EMERGENCY_STOP_REQUEST"
-  try {
-    $null = Invoke-RestMethod -Method Post -Uri ($BaseUrl.TrimEnd("/") + "/api/emergency-stop") -Body "{}" -ContentType "application/json" -TimeoutSec $TimeoutSec -DisableKeepAlive
-    Write-Host "FAILSAFE_POST=RESPONSE_RECEIVED"
-  } catch {
-    Write-Host ("FAILSAFE_POST=RESPONSE_UNCERTAIN ERROR=" + $_.Exception.Message)
+  Write-Host "FAILSAFE=COMMAND_ALL_RELAYS_OFF"
+
+  for ($ch = 0; $ch -lt 8; $ch++) {
+    $human = $ch + 1
+    $verifiedOff = $false
+
+    for ($attempt = 1; $attempt -le 3 -and -not $verifiedOff; $attempt++) {
+      $null = Invoke-PostOnce "/api/relay" ([ordered]@{channel=$ch;on=$false;overrideSeconds=2})
+      Start-Sleep -Milliseconds 250
+      try {
+        $state = Get-RelayState $ch
+        if (-not [bool]$state.Relay.on) {
+          Write-Host ("FAILSAFE_CH" + $human + "_OFF=PASS TRY=" + $attempt)
+          $verifiedOff = $true
+        } else {
+          Write-Host ("FAILSAFE_CH" + $human + "_OFF=RETRY TRY=" + $attempt)
+        }
+      } catch {
+        Write-Host ("FAILSAFE_CH" + $human + "_VERIFY_RETRY TRY=" + $attempt + " ERROR=" + $_.Exception.Message)
+      }
+    }
+
+    if (-not $verifiedOff) {
+      Write-Host ("FAILSAFE_CH" + $human + "_OFF=UNVERIFIED")
+    }
   }
 
-  Start-Sleep -Milliseconds 400
   try {
     $r = Invoke-GetJson "/api/relays"
     $arr = @($r.relays)
     $on = @($arr | Where-Object { [bool]$_.on })
-    Write-Host ("FAILSAFE_EMERGENCY_LATCHED=" + $r.emergencyLatched)
     Write-Host ("FAILSAFE_ON_CHANNEL_COUNT=" + $on.Count)
     if ($on.Count -eq 0) {
       Write-Host "FAILSAFE_ALL_RELAYS_OFF=PASS"
@@ -76,8 +93,36 @@ function Invoke-EmergencyStop {
       Write-Host "FAILSAFE_ALL_RELAYS_OFF=FAIL"
     }
   } catch {
-    Write-Host ("FAILSAFE_VERIFY=UNAVAILABLE ERROR=" + $_.Exception.Message)
+    Write-Host ("FAILSAFE_FINAL_VERIFY=UNAVAILABLE ERROR=" + $_.Exception.Message)
   }
+}
+
+function Set-RelayDesiredVerified([int]$Channel, [bool]$DesiredOn, [int]$OverrideSeconds) {
+  $human = $Channel + 1
+  $target = if ($DesiredOn) { "ON" } else { "OFF" }
+
+  for ($attempt = 1; $attempt -le 3; $attempt++) {
+    $null = Invoke-PostOnce "/api/relay" ([ordered]@{
+      channel=$Channel
+      on=$DesiredOn
+      overrideSeconds=$OverrideSeconds
+    })
+
+    Start-Sleep -Milliseconds 250
+    try {
+      $state = Get-RelayState $Channel
+      if ([bool]$state.Relay.on -eq $DesiredOn) {
+        Write-Host ("CH" + $human + "_" + $target + "_API=PASS TRY=" + $attempt)
+        return $state
+      }
+
+      Write-Host ("CH" + $human + "_" + $target + "_API=NOT_REACHED TRY=" + $attempt)
+    } catch {
+      Write-Host ("CH" + $human + "_" + $target + "_VERIFY_RETRY TRY=" + $attempt + " ERROR=" + $_.Exception.Message)
+    }
+  }
+
+  throw ("CH" + $human + " failed to verify " + $target + " after 3 attempts")
 }
 
 Write-Host "=== FARMCART SMARTGROW R8.14 - RELAY NO-LOAD HARDWARE TEST ==="
@@ -102,12 +147,7 @@ try {
   if ([int]$device.relayCount -ne 8) { throw "relay count mismatch" }
   if ([bool]$pre.emergencyLatched) {
     Write-Host "PREFLIGHT_EMERGENCY_LATCHED=True"
-    Write-Host "PREFLIGHT_ACTION=RELEASE_EMERGENCY_FOR_APPROVED_NOLOAD_RETEST"
-    $release = Invoke-PostOnce "/api/emergency-release" ([ordered]@{})
-    Start-Sleep -Milliseconds 400
-    $pre = Invoke-GetJson "/api/relays"
-    if ([bool]$pre.emergencyLatched) { throw "emergency stop release did not clear latch" }
-    Write-Host "PREFLIGHT_EMERGENCY_RELEASE=PASS"
+    throw "emergency stop remains latched; explicit NVS-affecting release approval required"
   } else {
     Write-Host "PREFLIGHT_EMERGENCY_LATCHED=False"
   }
@@ -131,27 +171,13 @@ try {
     Write-Host ("=== TEST CH" + $human + " GPIO" + $gpio + " ===")
     Write-Host ("OBSERVE=Relay CH" + $human + " LED/click should turn ON, then OFF")
 
-    $null = Invoke-PostOnce "/api/relay" ([ordered]@{channel=$ch;on=$true;overrideSeconds=45})
-    Start-Sleep -Milliseconds 250
-    $onState = Get-RelayState $ch
-
-    if (-not [bool]$onState.Relay.on) {
-      throw ("CH" + $human + " failed to verify ON")
-    }
-    Write-Host ("CH" + $human + "_ON_API=PASS")
+    $onState = Set-RelayDesiredVerified $ch $true 45
     Write-Host ("CH" + $human + "_ON_OVERRIDE_SECONDS=45")
     Write-Host ("CH" + $human + "_GPIO=" + $onState.Relay.gpio)
 
     Start-Sleep -Milliseconds $OnHoldMilliseconds
 
-    $null = Invoke-PostOnce "/api/relay" ([ordered]@{channel=$ch;on=$false;overrideSeconds=2})
-    Start-Sleep -Milliseconds 250
-    $offState = Get-RelayState $ch
-
-    if ([bool]$offState.Relay.on) {
-      throw ("CH" + $human + " failed to verify OFF")
-    }
-    Write-Host ("CH" + $human + "_OFF_API=PASS")
+    $offState = Set-RelayDesiredVerified $ch $false 2
     Write-Host ("CH" + $human + "_TEST=PASS")
     Write-Host ""
     Start-Sleep -Milliseconds 500
@@ -186,13 +212,13 @@ catch {
   $failureReason = $_.Exception.Message
   Write-Host ""
   Write-Host ("RELAY_TEST_ERROR=" + $failureReason)
-  Invoke-EmergencyStop
+  Invoke-AllRelaysOffFailsafe
   Write-Host ""
   Write-Host "=== RELAY NO-LOAD RESULT ==="
   Write-Host "RELAY_NOLOAD_API_SEQUENCE=FAIL"
-  Write-Host "FAILSAFE=EMERGENCY_STOP_ATTEMPTED"
+  Write-Host "FAILSAFE=ALL_RELAYS_OFF_ATTEMPTED"
   Write-Host "PUMP_LOAD_POWER=KEEP_DISCONNECTED"
   Write-Host "HARDWARE_ACCEPTANCE=NOT_YET_PASS"
-  Write-Host "NEXT=Return complete output. Do not release emergency stop or connect load."
+  Write-Host "NEXT=Return complete output. Keep load disconnected."
   exit 51
 }
