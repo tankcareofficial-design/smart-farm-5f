@@ -144,3 +144,25 @@ After successful APP0 flash + hash verification:
 5. expected first state may be scanning=true/scanState=scanning
 6. refresh/poll until scanning=false/scanState=complete and inspect networks
 7. AP must remain reachable throughout
+
+## Latest update: scan-fix2 APP0 flash PASS
+- Approved scan-fix2 source: `ed7168c8b9b318c684412ad9e0baa6291ce1534d`
+- Physical flash executed successfully on COM5 native USB.
+- `APP0_RECOVERY_WRITE=PASS`
+- APP SHA256: `479002f5592a621723181b03b82f8677a4b8a7571b2bbe654801fc77b156edb8`
+- APP bytes: `1058448`
+- evidence dir: `D:\FarmCart\smart-farm-5f\tools\windows\\..\..\..\backups\farmcart_r814_scanfix2_sta_state_COM5_20261108_140539`
+- NVS / OTADATA / partition table / bootloader preserved.
+- erase-all NO.
+- Do NOT reflash.
+- Runtime scan acceptance remains pending.
+
+### Immediate next action
+1. Press EN/RST exactly once; do not press BOOT.
+2. Keep relay/pump/load power disconnected.
+3. Connect Android to `SmartFarm-9FC114` using `smartfarm123`.
+4. Verify `http://192.168.4.1/api/device`.
+5. Test `http://192.168.4.1/api/wifi/scan`.
+6. PASS requires async transition `scanning` -> `complete`, returned networks, and AP remains reachable.
+
+Current: `SCANFIX2_FLASH=PASS`, `WIFI_SCANFIX_RUNTIME=NOT_YET_PASS`, `MAIN=UNTOUCHED`.
