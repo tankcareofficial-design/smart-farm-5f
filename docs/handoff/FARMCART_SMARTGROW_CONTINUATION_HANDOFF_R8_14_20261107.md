@@ -1755,3 +1755,22 @@ Flash gating:
 - full pre-flash backup remains enabled in the dedicated runner
 - FLASH=NOT_YET_APPROVED
 - MAIN=UNTOUCHED
+
+## Scan-fix flash approval granted — 2026-11-08
+
+User explicitly approved flashing the R8.14 Wi-Fi scan-fix candidate.
+
+Approved flash scope:
+- dedicated runner: `tools/windows/FLASH_FARMCART_R814_SCANFIX_N16R8_APPROVAL_GATED.cmd`
+- approval token: `FLASH_R814_SCANFIX_N16R8`
+- source lock: `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- branch: `candidate/r8.14-stability-1`
+- target: physical ESP32-S3 N16R8 on COM5
+- canonical FQBN preserved: 16MB flash / OPI PSRAM / app3M_fat9M_16MB
+- full 16MB pre-flash backup required before write
+- relay board / pump / actuator / external load remain disconnected
+- MAIN=UNTOUCHED
+
+Approval status:
+- FLASH_R814_SCANFIX_N16R8=APPROVED
+- FLASH_EXECUTION=NOT_YET_PERFORMED
