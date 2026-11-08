@@ -2348,3 +2348,20 @@ Next:
 - exit bootloader with one EN/RST press
 - verify firmware boot and SmartFarm AP/runtime
 - then test `/api/wifi/scan` behavior and Flutter polling compatibility before reconnecting load hardware
+
+## Scan-fix postflash smoke runner corrected after APP0 recovery PASS — 2026-11-08
+
+Created `tools/windows/RUN_FARMCART_R814_SCANFIX_POSTFLASH_SMOKE_READONLY.cmd` at commit `3d61bb178264853c7b35aa817d490e57ff3774e6`.
+
+Purpose:
+- post-flash smoke for scan-fix source lock `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- no esptool access
+- no reset automation
+- no flash/NVS/WiFi config/relay writes
+- serial runtime capture on COM5 for 20s
+- passive Windows WLAN scan for `SmartFarm-*`
+- user performs exactly one physical EN/RST before runner
+- external relay/pump/load remains disconnected
+
+Reason:
+- legacy R8.14 postflash smoke runner was stale: it locked pre-scanfix runtime SHA `566cc4843...` and invoked generic esptool chip-id, which could reintroduce the transport/stub problem and false-fail the new scan-fix build.
