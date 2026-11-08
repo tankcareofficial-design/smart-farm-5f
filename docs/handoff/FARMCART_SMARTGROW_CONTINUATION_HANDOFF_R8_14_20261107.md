@@ -1330,3 +1330,41 @@ Current interpretation:
 - CH3..CH8: NOT YET TESTED
 - all relays safe OFF after fail-safe: PASS
 - relay hardware overall acceptance: NOT YET PASS
+
+## Relay CH3 HTTP loss diagnosis + NVS metadata correction — 2026-11-08
+
+Second no-load relay execution:
+- CH1 GPIO4: ON PASS, OFF PASS
+- CH2 GPIO5: ON PASS, OFF PASS
+- CH3 GPIO6: POST response timed out; immediate GET showed CH3 still OFF
+- because ON override window was already 45 seconds, this is evidence the POST command was not applied, not evidence of override expiry
+- fail-safe Emergency Stop POST also timed out; subsequent GET showed all relays OFF and emergencyLatched=false
+- therefore the emergency-stop request was also likely not applied; the safe OFF result came from relay state, not a latched emergency stop
+
+Interpretation:
+- CH1 software/API switching PASS
+- CH2 software/API switching PASS
+- CH3 hardware/software switching NOT YET VERIFIED; failure attributed to transient HTTP POST delivery/processing
+- CH4..CH8 NOT YET TESTED
+- all relays OFF after failed run PASS
+
+Important metadata correction:
+- `RelayManager::set()` persists relay state to Preferences/NVS when restore-after-power-loss is enabled
+- Emergency Stop/Release also writes the emergency latch to Preferences/NVS
+- previous runner labels claiming `NVS_WRITE=NO` were incorrect
+- relay test approval did cause relay-state persistence writes and one Emergency Stop/Release sequence in earlier runs
+- final verified relay state after each completed/failed run was OFF on all channels
+
+Tooling correction:
+- `959b26d28fc76e2d932f4b82fbefba9b14edb631`: state-aware idempotent relay command retry, no automatic Emergency Stop/Release, fail-safe commands all channels OFF
+- `dba3cba70345bfbed26463f19a2194ee8fbacea7`: wrapper now declares `NVS_WRITE=YES_RELAY_STATE_PERSISTENCE`
+- a future run must not auto-release an emergency latch; if latch is present, explicit NVS-affecting release approval is required
+
+Gate status:
+- RELAY_CH1_API=PASS
+- RELAY_CH2_API=PASS
+- RELAY_CH3_API=NOT_YET_VERIFIED
+- RELAY_CH4_TO_CH8=NOT_YET_TESTED
+- RELAY_FINAL_SAFE_OFF=PASS
+- RELAY_NOLOAD_OVERALL=NOT_YET_PASS
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
