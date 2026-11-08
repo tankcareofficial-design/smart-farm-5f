@@ -104,23 +104,47 @@ echo BOARD_PROFILE_LOCK=PASS
 
 echo.
 echo --- DEVICE IDENTITY GATE ---
+set "CHIP_ID_PASS=0"
 python -m esptool --port %PORT% chip-id > "%TEMP%\farmcart_scanfix_flash_chip.txt" 2>&1
 type "%TEMP%\farmcart_scanfix_flash_chip.txt"
 findstr /I /C:"ESP32-S3" "%TEMP%\farmcart_scanfix_flash_chip.txt" >nul
-if errorlevel 1 (
+if not errorlevel 1 set "CHIP_ID_PASS=1"
+
+if "!CHIP_ID_PASS!"=="0" (
+  echo DEVICE_CHIP_ID_FALLBACK=NO_STUB
+  python -m esptool --chip esp32s3 --port %PORT% -b 115200 --no-stub chip-id > "%TEMP%\farmcart_scanfix_flash_chip_nostub.txt" 2>&1
+  type "%TEMP%\farmcart_scanfix_flash_chip_nostub.txt"
+  findstr /I /C:"ESP32-S3" "%TEMP%\farmcart_scanfix_flash_chip_nostub.txt" >nul
+  if not errorlevel 1 set "CHIP_ID_PASS=1"
+)
+
+if "!CHIP_ID_PASS!"=="0" (
   echo ERROR=NOT_ESP32_S3
   popd
   exit /b 94
 )
+echo DEVICE_CHIP_ID=PASS
 
+set "FLASH_ID_PASS=0"
 python -m esptool --port %PORT% flash-id > "%TEMP%\farmcart_scanfix_flash_id.txt" 2>&1
 type "%TEMP%\farmcart_scanfix_flash_id.txt"
 findstr /I /C:"Detected flash size: 16MB" "%TEMP%\farmcart_scanfix_flash_id.txt" >nul
-if errorlevel 1 (
+if not errorlevel 1 set "FLASH_ID_PASS=1"
+
+if "!FLASH_ID_PASS!"=="0" (
+  echo DEVICE_FLASH_ID_FALLBACK=NO_STUB
+  python -m esptool --chip esp32s3 --port %PORT% -b 115200 --no-stub flash-id > "%TEMP%\farmcart_scanfix_flash_id_nostub.txt" 2>&1
+  type "%TEMP%\farmcart_scanfix_flash_id_nostub.txt"
+  findstr /I /C:"Detected flash size: 16MB" "%TEMP%\farmcart_scanfix_flash_id_nostub.txt" >nul
+  if not errorlevel 1 set "FLASH_ID_PASS=1"
+)
+
+if "!FLASH_ID_PASS!"=="0" (
   echo ERROR=FLASH_SIZE_NOT_16MB
   popd
   exit /b 95
 )
+echo DEVICE_FLASH_SIZE_16MB=PASS
 echo DEVICE_IDENTITY_GATE=PASS
 
 echo.
