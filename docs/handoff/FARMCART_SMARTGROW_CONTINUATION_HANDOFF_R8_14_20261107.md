@@ -2228,3 +2228,25 @@ Action / interpretation:
 - no erase-all or bootloader/NVS/OTADATA mutation permitted; APP0-only recovery remains required
 
 Reference: Espressif ESP32-S3 esptool troubleshooting on USB-Serial/JTAG, manual download and packet errors: https://docs.espressif.com/projects/esptool/en/latest/esp32s3/troubleshooting.html
+
+## Correct native COM5 recovery reset mode: esptool usb-reset — 2026-11-08
+
+After user supplied exact COM enumeration and R8.13 ZIP audit, correct transport distinction is now:
+- COM5 = FarmCart ESP32-S3 native USB Serial/JTAG, VID:PID 303A:1001, serial `14:C1:9F:50:B9:64`
+- COM7 = external WCH CH343 UART path into the same FarmCart ESP32-S3
+- COM4 = separate Waveshare ESP32-S3 owned by user; out of scope
+
+Important esptool correction:
+- previous COM5 recovery probes used `--before no-reset`, which is not the dedicated reset mode for native USB Serial/JTAG
+- esptool documents `--before usb-reset` specifically for USB-JTAG-Serial connections; normally autodetected, but explicit use is appropriate for this recovery state
+- R8.13 supplied source documentation confirms `USB CDC On Boot: Enabled` for ESP32-S3 N16R8; source `SERIAL_BAUD=115200` refers application/monitor serial, not proof of historical upload speed
+- user requires current diagnostics/recovery to remain at 115200; honor BAUD_LOCK=115200
+
+Next bounded recovery check:
+- no flash write yet
+- target COM5 only
+- use `--before usb-reset --after no-reset` at 115200 for chip-id and flash-id
+- if native USB identity/flash-id complete cleanly, perform one bounded native-USB transfer test before APP0 recovery; do not return to CH343 COM7 loops
+- APP0 remains partially programmed from prior COM7 write failure; NVS/OTADATA/partition/bootloader remain protected
+
+References: esptool ESP32-S3 Advanced Options (`usb-reset`) and Arduino-ESP32 USB CDC flashing docs.
