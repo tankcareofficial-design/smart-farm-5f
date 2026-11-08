@@ -1479,3 +1479,44 @@ Current gate:
 - RELAY_NOLOAD_HARDWARE=PASS
 - AP_HTTP_TRANSPORT_STABILITY=NOT_YET_TESTED
 - PUMP_LOAD_POWER=KEEP_DISCONNECTED
+
+## AP HTTP transport stability FAIL; link-vs-HTTP diagnostic prepared — 2026-11-08
+
+Read-only transport stability result:
+- 12 cycles x 5 endpoints = 60 GET requests
+- total PASS=38, FAIL=22, overall pass rate=63.3%
+- `/` root: 8/12 PASS (66.7%)
+- `/api/device`: 6/12 PASS (50.0%)
+- `/api/state`: 9/12 PASS (75.0%)
+- `/api/relays`: 5/12 PASS (41.7%)
+- `/api/v3/clock`: 10/12 PASS (83.3%)
+- successful requests also showed very high RTT outliers into multi-second range
+- failures are distributed across the root and all handlers, so evidence does not support an endpoint-specific handler defect
+
+Source review before patching:
+- `WiFiTransport::poll()` services `_server.handleClient()` each loop
+- station reconnect path is not active while station SSID is empty
+- `Protocol::poll()` is non-blocking over available serial bytes
+- `StateManager` sensor sampling cadence is 3 seconds; SHT31 conversion delay is 16 ms
+- `ClockService::update()` is throttled to 500 ms
+- no single reviewed handler explains 3–9 second latency
+
+Interpretation:
+- AP_HTTP_TRANSPORT_STABILITY=FAIL
+- current suspect class: AP/RF link instability OR WebServer/main-loop service starvation
+- do not patch firmware until link-layer evidence separates these classes
+
+Prepared diagnostic:
+- `tools/windows/RUN_FARMCART_R814_AP_LINK_VS_HTTP_DIAGNOSTIC_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_AP_LINK_VS_HTTP_DIAGNOSTIC_READONLY.cmd`
+- captures WLAN interface/link details
+- 30 ICMP ping checks to 192.168.4.1
+- 20 direct `curl.exe --noproxy *` root HTTP checks with connect/TTFB/total timing
+- read-only; no ESP/NVS/relay/RTC/Wi-Fi/flash writes
+
+Decision rule:
+- ping loss => AP/RF/client link issue first
+- ping stable but curl HTTP loss => ESP32 WebServer/main-loop issue
+- both stable => compare PowerShell HTTP-client behavior before firmware changes
+
+Load/pump power remains disconnected.
