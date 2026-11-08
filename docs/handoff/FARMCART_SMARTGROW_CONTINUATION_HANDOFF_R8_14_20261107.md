@@ -2596,3 +2596,44 @@ Continuation policy reaffirmed by user:
 - continue from latest branch/source/runtime evidence; never restart from stale baseline
 - preserve exact transport and safety constraints
 - if chat context rolls over, start next chat from this Handoff and latest GitHub state
+
+## Scan-fix2 STA-state APP0 flash PASS — 2026-11-08
+
+User executed the approved scan-fix2 APP0 native USB ROM flash.
+
+Result:
+- `APP0_RECOVERY_WRITE=PASS`
+- APP SHA256: `479002f5592a621723181b03b82f8677a4b8a7571b2bbe654801fc77b156edb8`
+- APP bytes: `1058448`
+- port: `COM5`
+- evidence dir: `D:\FarmCart\smart-farm-5f\tools\windows\\..\..\..\backups\farmcart_r814_scanfix2_sta_state_COM5_20261108_140539`
+- NVS preserved: YES
+- OTADATA preserved: YES
+- partition table preserved: YES
+- bootloader preserved: YES
+- erase-all: NO
+- post-write runtime: NOT YET TESTED
+
+Interpretation:
+- SCANFIX2_SOURCE=ed7168c8b9b318c684412ad9e0baa6291ce1534d
+- SCANFIX2_FLASH=PASS
+- APP0_WRITE=PASS
+- runtime acceptance remains pending
+- do not reflash
+
+Next exact runtime gate:
+1. keep relay/pump/load power disconnected
+2. press EN/RST exactly once; do not press BOOT
+3. connect Android to `SmartFarm-9FC114` / password `smartfarm123`
+4. open `http://192.168.4.1/api/device` and confirm runtime firmware/version/device
+5. open `http://192.168.4.1/api/wifi/scan`
+6. expected first response may be `scanning=true`, `scanState=scanning`
+7. refresh/poll same URL until `scanning=false`, `scanState=complete` with `networks`
+8. AP must remain reachable throughout
+
+Current gates:
+- SCANFIX2_CI=PASS
+- SCANFIX2_FLASH=PASS
+- SCANFIX2_RUNTIME=NOT_YET_TESTED
+- WIFI_SCANFIX_RUNTIME=NOT_YET_PASS
+- MAIN=UNTOUCHED
