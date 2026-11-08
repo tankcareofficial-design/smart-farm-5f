@@ -141,6 +141,7 @@ class DevicesScreen extends StatelessWidget {
                               device: device,
                               controllerConnected: store.controllerConnected,
                               commandPending: store.isCommandPending(device.id),
+                              emergencyLocked: store.emergencyLatched,
                               onStateChanged: (value) async {
                                 final success = await store.setOutputState(
                                   device.id,
@@ -233,7 +234,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
     final connected = widget.store.controllerConnected;
     final clockValid = widget.store.controllerClockValid;
     final hasClockValue = dateTime != null;
-    final online = hasClockValue && clockValid;
+    final online = connected;
     final time = hasClockValue
         ? '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}'
         : connected

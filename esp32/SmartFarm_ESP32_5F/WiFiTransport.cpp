@@ -127,6 +127,11 @@ bool WiFiTransport::connectStation(const String &ssid, const String &password,
   }
   Serial.printf("STA connection failed: %s status=%d\n", ssid.c_str(),
                 static_cast<int>(WiFi.status()));
+  // ESP-IDF refuses esp_wifi_scan_start() while STA is still in CONNECTING
+  // state. Abort the failed attempt without erasing credentials so a later
+  // provisioning scan can start while SoftAP remains available.
+  WiFi.disconnect(false, false);
+  delay(100);
   return false;
 }
 
@@ -365,15 +370,55 @@ void WiFiTransport::handleEmergencyRelease() {
 }
 
 void WiFiTransport::handleWifiScan() {
-  const int count = WiFi.scanNetworks(false, true);
+  int16_t scanStatus = WiFi.scanComplete();
+
+  // No scan is active/result-ready yet. Start an asynchronous scan so the
+  // SoftAP HTTP server can continue servicing clients while the radio scans.
+  if (scanStatus == WIFI_SCAN_FAILED) {
+    scanStatus = WiFi.scanNetworks(true, true);
+
+    // ESP-IDF returns ESP_ERR_WIFI_STATE when a scan is requested while STA
+    // is still connecting. Arduino maps that to WIFI_SCAN_FAILED. If there is
+    // no established STA connection, abort any stale/pending connection once
+    // and retry the async scan without dropping the SoftAP.
+    if (scanStatus == WIFI_SCAN_FAILED && WiFi.status() != WL_CONNECTED) {
+      WiFi.disconnect(false, false);
+      delay(100);
+      scanStatus = WiFi.scanNetworks(true, true);
+    }
+
+    if (scanStatus == WIFI_SCAN_FAILED) {
+      sendError(503, "wifi_scan_failed", "Unable to start Wi-Fi scan.");
+      return;
+    }
+  }
+
   JsonDocument response;
   response["ok"] = true;
+
+  if (scanStatus == WIFI_SCAN_RUNNING) {
+    response["scanning"] = true;
+    response["scanState"] = "scanning";
+    response["networks"].to<JsonArray>();
+    sendJson(200, response);
+    return;
+  }
+
+  if (scanStatus < 0) {
+    sendError(503, "wifi_scan_failed", "Wi-Fi scan failed.");
+    return;
+  }
+
+  response["scanning"] = false;
+  response["scanState"] = "complete";
+  response["count"] = scanStatus;
   JsonArray networks = response["networks"].to<JsonArray>();
-  for (int i = 0; i < count; ++i) {
+  for (int i = 0; i < scanStatus; ++i) {
     JsonObject item = networks.add<JsonObject>();
     item["ssid"] = WiFi.SSID(i);
     item["rssi"] = WiFi.RSSI(i);
     item["secure"] = WiFi.encryptionType(i) != WIFI_AUTH_OPEN;
+    item["channel"] = WiFi.channel(i);
   }
   WiFi.scanDelete();
   sendJson(200, response);
