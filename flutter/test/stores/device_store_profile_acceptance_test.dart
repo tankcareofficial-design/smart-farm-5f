@@ -149,6 +149,7 @@ void main() {
 
   test('delete keeps the ON device until controller acknowledges success', () async {
     final controller = _ProfileController();
+    controller.relays[0] = controller.relays[0].copyWith(on: true);
     final store = await _startStore(controller, _device(on: true));
     final firstGate = Completer<bool>();
     controller.deleteGate = firstGate;
