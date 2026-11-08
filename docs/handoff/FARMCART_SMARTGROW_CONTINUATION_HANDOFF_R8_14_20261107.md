@@ -1981,3 +1981,22 @@ Next recovery method:
 - after enumeration, release BOOT and discover the actual COM port Windows assigns in ROM mode
 - keep esptool baud locked at 115200
 - perform read-only chip-id/flash-id before any write
+
+## BOOT-held power-on changed COM7 enumeration to Unknown — 2026-11-08
+
+User performed BOOT-held USB power-on recovery as instructed.
+
+Observed enumeration:
+- `arduino-cli board list`: COM7 remains present but Board Name changed to `Unknown`
+- COM4 remains an ESP32 Family Device and is out of FarmCart scope
+- Win32_SerialPort query for VID_303A only returned COM4; COM7 is not exposed through that query in this state
+
+Interpretation:
+- COM7 descriptor/state changed after BOOT-held power-on
+- this is consistent with a ROM/bootloader enumeration change and is preferable to the prior nonresponsive application-mode state
+- no flash/erase/NVS write occurred
+
+Next:
+- keep COM7 as the FarmCart target
+- at BAUD_LOCK=115200_ONLY run esptool chip-id and flash-id with `--before no-reset --after no-reset` while leaving the board in this state
+- do not reset or reconnect before the probe
