@@ -88,16 +88,22 @@ echo FW_VERSION_LOCK=PASS
 set "DIFFLIST=%TEMP%\farmcart_scanfix_esp32_diff.txt"
 git diff --name-only %BASELINE_SOURCE_SHA% %SCANFIX_SOURCE_SHA% -- esp32 > "%DIFFLIST%"
 type "%DIFFLIST%"
-findstr /X /C:"esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp" "%DIFFLIST%" >nul || (
-  echo ERROR=EXPECTED_SCANFIX_FILE_MISSING
-  popd
-  exit /b 218
+set "DIFFCOUNT=0"
+set "DIFFPATH="
+for /f "usebackq delims=" %%L in ("%DIFFLIST%") do (
+  set /a DIFFCOUNT+=1
+  set "DIFFPATH=%%L"
 )
-for /f %%C in ('find /c /v "" ^< "%DIFFLIST%"') do set "DIFFCOUNT=%%C"
 if not "!DIFFCOUNT!"=="1" (
   echo ERROR=SCANFIX_ESP32_DIFF_SCOPE_NOT_SINGLE_APP_FILE COUNT=!DIFFCOUNT!
   popd
   exit /b 219
+)
+if /I not "!DIFFPATH!"=="esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp" (
+  echo ERROR=EXPECTED_SCANFIX_FILE_MISMATCH
+  echo ACTUAL_DIFF_PATH=!DIFFPATH!
+  popd
+  exit /b 218
 )
 echo SCANFIX_DIFF_SCOPE=PASS_ONLY_WIFI_TRANSPORT_CPP
 
