@@ -1119,3 +1119,36 @@ Acceptance interpretation:
 - no RTC time write has been performed yet
 - next mutation, if approved, is explicit POST `/api/v3/clock/sync` with local time payload
 - pump/actuator load power remains disconnected until relay hardware acceptance
+
+## RTC sync approved and runner prepared — 2026-11-08
+
+User explicitly approved RTC synchronization.
+
+Prepared tooling:
+- `tools/windows/SYNC_FARMCART_R814_RTC_APPROVAL_GATED.ps1`
+- `tools/windows/SYNC_FARMCART_R814_RTC_APPROVAL_GATED.cmd`
+- runner approval token: `SYNC_RTC_R814`
+
+Mutation scope:
+- writes DS3231 date/time only through POST `/api/v3/clock/sync`
+- flash write: NO
+- NVS write: NO
+- relay command: NO
+- Wi-Fi configuration write: NO
+- merge main: NO
+
+Safety/validation:
+- confirms candidate branch and runtime source lock
+- requires controller firmware/hardware profile match
+- requires DS3231 available before write
+- requires Windows local UTC offset exactly +07:00
+- day-of-week convention matches Flutter `DateTime.weekday`: Monday=1 ... Sunday=7
+- performs one POST only; no automatic POST retry after uncertain response
+- verifies RTC afterward by GET
+- PASS requires available=true, source=ds3231, valid=true, lostPower=false, synchronized=true, readFailures=0, errorCode=none and RTC time within 5 seconds of Windows local time
+
+Current status:
+- RTC_SYNC_APPROVAL=GRANTED
+- RTC_SYNC_EXECUTION=NOT_YET_PERFORMED
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- RUNTIME_ACCEPTANCE=NOT_YET_PASS
