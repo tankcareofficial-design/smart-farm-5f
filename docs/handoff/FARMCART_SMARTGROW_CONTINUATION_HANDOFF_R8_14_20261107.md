@@ -1800,3 +1800,31 @@ Next:
 Read-only tooling:
 - `tools/windows/RUN_FARMCART_R814_SCANFIX_ROM_IDENTITY_READONLY.ps1`
 - `tools/windows/RUN_FARMCART_R814_SCANFIX_ROM_IDENTITY_READONLY.cmd`
+
+## Reused proven no-stub flash recovery method — 2026-11-08
+
+User explicitly requested review of prior working history after the ROM identity helper failed.
+
+Historical working method confirmed:
+- previous R8.14 flash backup failure was localized to esptool stub reads
+- commit `fa4d3f9916639989325a2fe35872f266ca44791a` added direct-CMD ROM fallback:
+  `python -m esptool --chip esp32s3 --port %PORT% -b 115200 --no-stub read-flash --flash-size 16MB ...`
+- backup mode became `32x512KB_STUB_RETRY3_THEN_NO_STUB_RETRY3_BAUD115200`
+- that workflow later completed full 16MB backup and successful flash
+- recorded successful flash Handoff commit: `98df4b182a4dd41563a544b9e39694c4c097a617`
+
+Current failure explanation:
+- newly created PowerShell ROM identity helper printed esptool global help instead of executing chip-id
+- therefore `ROM_CHIP_ID=FAIL` was a test-runner defect, not hardware evidence
+- the PowerShell wrapper method is discarded for this gate
+
+Corrections:
+- `5fd22d21b4f28d80d8cd6ccbcc13f836eb0c329e`: scan-fix flash runner identity stage now retries with direct-CMD no-stub at 115200 when stub identity/flash-id fails
+- existing full-backup section already retained the proven per-chunk stub->no-stub fallback
+- `31bb65d5e3d71687a9c180ce01569e4340a1b1a0`: ROM identity read-only wrapper now invokes esptool directly from CMD rather than through the faulty PowerShell function
+
+Approval:
+- original user approval `FLASH_R814_SCANFIX_N16R8` remains in scope
+- only the transport/recovery strategy of the same approved operation changed
+- no new firmware source, partition profile, target port, or write scope was added
+- FLASH_WRITE remains not yet performed for scan-fix
