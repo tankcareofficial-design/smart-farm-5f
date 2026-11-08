@@ -23,6 +23,8 @@
 - [ ] Third consecutive transport miss invalidates RTC and blocks schedule.
 - [ ] Next coherent RTC read restores `valid=true` and resets `readFailures`.
 - [x] `lost_power` remains invalid until explicit sync. (physical DS3231 detected; runtime `available=true`, `valid=false`, `quality=lost_power`, `readFailures=0` on 2026-11-08)
+- [x] RTC explicit sync semantic result = PASS (`valid=true`, `quality=synchronized`, `lostPower=false`, `readFailures=0`, `errorCode=none`; POST response timed out but state was verified by GET)
+- [ ] RTC time accuracy/continuity read-only verification after sync
 - [ ] No automatic phone-time write occurs from transient RTC failure.
 - [ ] Observe RTC + Online state continuously for at least 10 minutes.
 
