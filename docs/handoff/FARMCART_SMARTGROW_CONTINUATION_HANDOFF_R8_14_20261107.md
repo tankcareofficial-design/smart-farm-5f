@@ -1925,3 +1925,23 @@ Next diagnostic:
 - new read-only 4KB flash-read transport probe tests stub and no-stub at 115200/57600/38400/19200
 - only a path/baud that can complete an exact 4096-byte read should be considered for further backup work
 - firmware flash approval remains granted but execution stays blocked until a reliable pre-write read strategy is demonstrated
+
+## Correction: FarmCart transport remains locked to 115200 only — 2026-11-08
+
+User corrected an invalid diagnostic change: FarmCart serial/esptool transport is project-locked to 115200 baud.
+
+Correction:
+- remove experimental 57600/38400/19200 probe paths
+- all flash read/backup/recovery diagnostics remain at 115200 only
+- existing historical successful backup method remains 32 x 512KB at 115200 with stub retry then no-stub fallback
+- no change to firmware source, FQBN, partition layout, board profile or approval scope
+
+Current physical target:
+- ESP32-S3 N16R8
+- Flash 16MB
+- PSRAM 8MB
+- MAC `14:c1:9f:50:b9:64`
+- currently enumerated as COM7
+- esptool 5.3.1
+- Arduino-ESP32 3.3.12
+- BAUD_LOCK=115200_ONLY
