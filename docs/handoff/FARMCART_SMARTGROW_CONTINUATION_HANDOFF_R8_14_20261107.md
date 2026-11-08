@@ -1244,3 +1244,32 @@ Scope impact:
 - RTC-dependent schedule/clock acceptance remains BLOCKED/DEFERRED
 - non-RTC acceptance may continue: AP/HTTP reachability, relay hardware no-load checks, manual relay ON/OFF, rapid command behavior, emergency-stop behavior, device edit/delete safe-off where they do not require valid RTC
 - overall R8.14 hardware/runtime acceptance and main merge remain blocked until the deferred RTC gate is resolved or explicitly waived later
+
+## Relay no-load precondition recheck PASS — 2026-11-08
+
+Read-only AP HTTP smoke was rerun before physical relay testing.
+
+Observed:
+- `/api/device`: first attempt timed out, second attempt PASS
+- `/api/state`: first attempt timed out, second attempt PASS
+- `/api/relays`: first attempt PASS
+- `/api/v3/clock`: first attempt PASS
+- firmware runtime: PASS
+- hardware profile runtime: PASS
+- relay count: 8 PASS
+- all relay states CH1..CH8: OFF
+- all relay overrides: inactive
+- emergency latched: false
+- AP HTTP smoke: PASS
+
+RTC remains deferred:
+- DS3231 detected
+- valid=false
+- quality=lost_power
+- readFailures=0
+- retention issue still suspected to be backup-battery/power related
+
+Safety decision:
+- software relay safe-state is PASS
+- no-load physical relay acceptance may proceed
+- pump / actuator / external load power must remain disconnected until no-load relay switching and emergency-stop checks pass
