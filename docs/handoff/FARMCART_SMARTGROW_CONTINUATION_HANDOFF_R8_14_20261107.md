@@ -2410,3 +2410,29 @@ Interpretation:
 - no reflash is warranted: APP0 write and esptool hash verification already PASS
 - next diagnostic: open CH343 COM7 at 115200 with DTR/RTS disabled, then press EN/RST once while capture is already active to catch setup boot banner
 - no esptool, no flash/NVS/relay/WiFi writes during this gate
+
+## Postflash runtime: SmartFarm AP PASS; proceed to Wi-Fi scan-fix acceptance — 2026-11-08
+
+Latest postflash smoke after verified APP0 recovery:
+- auto-port correctly identified FarmCart native USB COM5 by serial `14:C1:9F:50:B9:64`
+- ROM boot log seen: `rst:0x15 (USB_UART_CHIP_RESET), boot:0x28 (SPI_FAST_FLASH_BOOT)` and application entry `0x403c88b8`
+- application `Serial` banner/version was NOT seen on COM5 during capture
+- Windows passive Wi-Fi scan returned `SMARTFARM_AP_SCAN=PASS`
+
+Interpretation:
+- APP0 is booting far enough for SmartFarm SoftAP to be present; runtime is alive
+- absence of app Serial banner on COM5 is not currently a blocker for Wi-Fi scan-fix acceptance
+- do not reflash; FLASH/VERIFY already PASS
+
+Created dedicated read-only scan-fix runtime acceptance:
+- PowerShell: `tools/windows/RUN_FARMCART_R814_WIFI_SCANFIX_RUNTIME_READONLY.ps1` commit `b2a02dcbebd8dd6d92d49daa7bbfdd0daac4efb4`
+- wrapper: `tools/windows/RUN_FARMCART_R814_WIFI_SCANFIX_RUNTIME_READONLY.cmd` commit `d343c01161f8e98dcf1a664e04e20423b6ec67a1`
+- requires Windows connected to SmartFarm-* AP at 192.168.4.1
+- GET-only; no ESP/NVS/relay/Wi-Fi config/flash writes
+- validates `/api/device`
+- polls `/api/wifi/scan` up to 30 times at 350ms, matching Flutter compatibility behavior
+- while `scanState=scanning`, also GETs `/api/device` to prove HTTP remains responsive
+- requires eventual `scanState=complete` and post-scan `/api/device` PASS
+- emits final network list and `WIFI_SCANFIX_RUNTIME=PASS` only on full acceptance
+
+Next: connect Windows to visible SmartFarm-* (password `smartfarm123`) and run the dedicated scan-fix runtime wrapper. Keep relay/pump/load power disconnected.
