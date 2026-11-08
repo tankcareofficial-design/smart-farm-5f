@@ -2153,3 +2153,27 @@ Immediate safety & recovery policy:
 - next flash must be a single bounded APP0-only recovery with verified target identity and full completion + verification; preserve other partitions
 
 References checked: Espressif esptool ESP32-S3 Troubleshooting (Invalid head of packet, writing fails part-way, USB-Serial/JTAG transport/driver/power).
+
+## R8.13 REBASE 2 ZIP source audit; do not blame GPIO peripherals without evidence — 2026-11-08
+
+User supplied `SmartFarm_ESP32_5F_R8_13_REBASE_2(1).zip`; direct content inspection (103 files, no precompiled `.bin`/`.elf`, no `.cmd`/`.bat`/`.ps1`) completed.
+ZIP SHA256: `0e9333922da7895f6ce2d13042d01ea5c2eb1953bc72993aca31d638f9b39583`.
+
+Source-based facts:
+- `RELEASE_R8_13_REBASE_2.md`: prior version `0.8.0-5f-r8.13-rebase-2`, N16R8, Active HIGH, relays GPIO4/5/6/7/15/16/17/18, DS3231 SDA GPIO8 SCL GPIO9
+- `Config.h`: `SERIAL_BAUD = 115200`, `FACTORY_RESET_PIN=0`, WiFi provisioning marker 81202, AP port 80
+- `.ino`: `Serial.begin(SERIAL_BAUD)`; 115200 here refers to application serial/Serial Monitor, not an esptool upload-baud specification
+- `README_5E_TH.txt`: Arduino IDE board ESP32S3 Dev Module, Flash 16MB, OPI PSRAM, USB CDC On Boot Enabled; this is a historical checkpoint, not an exact current flash recipe
+- `WiFiTransport.cpp` R8.13 synchronous `WiFi.scanNetworks(false, true)`; R8.14 scan-fix code uses asynchronous scan status, unrelated to ROM flash transfer protocol
+- archive source does not assign GPIO19 or GPIO20 to relay/RTC/accessories; USB Serial/JTAG uses those pins on ESP32-S3 (per Espressif reference)
+- archive has no original compiled binary and no original flashing script/command; do not pretend the archive proves which transport/baud was used by historical successful upload
+
+Corrected diagnosis:
+- historical baseline R8.14 full flash PASS is documented, and this board ROM MAC/flash identity later passed
+- after multiple interrupted transfers, APP0 write is partially completed and recovery is necessary
+- observed failures happen inside ROM flash-read/write, before user application is running, so blaming current Wi-Fi scan-fix or RTC/relay GPIO wiring directly is not supported by available evidence
+- external wiring can matter indirectly via shared power/ground/USB/SPI interference, but the current log does not establish that as cause
+- keep user-established 115200 esptool diagnostic policy without conflating it with source `SERIAL_BAUD` constant
+- note Windows previously enumerated COM7 as Unknown while COM4 had Espressif VID_303A/PID_1001; exact COM7 USB VID/PID/driver remains unverified: inspect Windows USB descriptor before further invasive hardware actions
+- next action: **host-only** COM7 serial device VID/PID/hwid/driver inspection, with no esptool access, flash writes or retry loops
+- do not run the old approved flash runners until transport reliability is demonstrated
