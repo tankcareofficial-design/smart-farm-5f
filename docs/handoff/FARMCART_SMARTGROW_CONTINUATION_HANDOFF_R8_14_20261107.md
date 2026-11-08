@@ -1228,3 +1228,19 @@ Gate status:
 - HARDWARE_ACCEPTANCE=BLOCKED
 - RUNTIME_ACCEPTANCE=BLOCKED
 - MERGE_MAIN=BLOCKED
+
+## RTC retention deferred by user — 2026-11-08
+
+User chose to defer RTC retention investigation for now.
+
+Current RTC interpretation:
+- DS3231 physical I2C detection: PASS
+- explicit sync write: PASS semantically
+- retention after power interruption: FAIL
+- suspected physical cause: backup cell depleted / ineffective (not yet verified)
+- no further RTC write/resync will be performed until the hardware/battery is revisited
+
+Scope impact:
+- RTC-dependent schedule/clock acceptance remains BLOCKED/DEFERRED
+- non-RTC acceptance may continue: AP/HTTP reachability, relay hardware no-load checks, manual relay ON/OFF, rapid command behavior, emergency-stop behavior, device edit/delete safe-off where they do not require valid RTC
+- overall R8.14 hardware/runtime acceptance and main merge remain blocked until the deferred RTC gate is resolved or explicitly waived later
