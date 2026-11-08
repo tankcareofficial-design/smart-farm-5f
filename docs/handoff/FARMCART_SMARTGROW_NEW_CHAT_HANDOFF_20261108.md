@@ -666,3 +666,15 @@ Current continuation target: finish non-RTC, no-load acceptance with source/test
 - This approval **does not** mean hardware steps were executed. Physical controller is on the user's LAN; GitHub source and CI do not grant physical device access from this chat. `SAVE_SCHEDULE_APP_RUNTIME=NOT_YET_TESTED`, `SAVE_CONDITION_APP_RUNTIME=NOT_YET_TESTED`, `DELETE_ON_DEVICE_PHYSICAL_OFF=NOT_YET_TESTED`.
 - Next: user executes the approved manual Android test with a new `FarmCart QA TEMP` profile on an unused relay channel, validates app + controller snapshot and physical relay OFF, and returns evidence. Avoid Windows Realtek RTL8188EU as sole authority. Keep all actual external load power disconnected until a separately approved real-load gate.
 - RTC retention remains FAIL/DEFERRED; no schedule execution acceptance or v0.9 freeze yet. `main` remains untouched.
+
+---
+
+## 22. 2026-11-08 user-reported no-load Safe Delete runtime observation
+
+- Following explicit no-load Save/Delete approval and Android run instructions, user reports: **"โปรไฟล์หายและรีเลยืไม่กลับมาออน"** (profile disappeared; relay did not turn back ON).
+- This is **positive user-reported Android/physical observation** for deletion and no re-energization. Preserve it as evidence and do not downgrade it to NOT_TESTED.
+- **Do not yet claim full hardware Safe Delete PASS** solely from this message. It does not explicitly confirm: the selected relay was observed ON before Delete, immediate relay LED/click OFF transition, a direct GET `/api/relays` showing OFF, `/api/v3/snapshot` showing the rule missing, precise duration of stability, and identity/channel of the disposable device.
+- Runtime partial gates: `DELETE_PROFILE_ABSENT_UI=USER_REPORTED_PASS`; `DELETE_RELAY_NO_AUTO_REON=USER_REPORTED_PASS`; `DELETE_PHYSICAL_OFF_EDGE=UNCONFIRMED`; `DELETE_CONTROLLER_RULE_REMOVAL=UNVERIFIED_BY_GET`; `DELETE_NOLOAD_FULL_GATE=PENDING_EVIDENCE`.
+- No result yet supplied for `SAVE_SCHEDULE_APP_RUNTIME` or `SAVE_CONDITION_APP_RUNTIME`, so both remain NOT_REPORTED. No post-reboot ghost-state check was approved/performed.
+- Next: obtain one concise clarification on relay ON-before-delete and immediate physical OFF; then verify controller GET read-only `/api/relays` and `/api/v3/snapshot`. Keep all external load power disconnected; do not issue extra Relay ON, Flash, RTC sync, reboot, or real-load steps.
+- This entry documents observation only; no device was remotely accessed or modified from GitHub, and `main` remains untouched.
