@@ -1586,3 +1586,31 @@ Next isolation step:
 Safety:
 - external pump/valve/load power remains disconnected
 - no firmware patch yet
+
+## Relay-disconnected A/B still shows severe AP link loss — 2026-11-08
+
+Relay-isolation A/B was run with ESP32 controller alone and relay board physically disconnected.
+
+Baseline with relay connected:
+- ping PASS 14/30, FAIL 16/30
+- HTTP root PASS 4/20, FAIL 16/20
+
+ESP32-alone result:
+- ping PASS 18/30, FAIL 12/30
+- HTTP root PASS 6/20, FAIL 14/20
+- ping wall-time max 474.5 ms
+- successful HTTP total-time max 857.4 ms
+- classification remained `AP_OR_RF_LINK_UNSTABLE`
+
+Interpretation:
+- disconnecting relay board produced only a small improvement and did not remove severe loss
+- relay board/power interaction is therefore not supported as the primary root cause
+- remaining main candidate classes: Windows Realtek RTL8188EU client/driver compatibility vs ESP32 SoftAP behavior
+- no endpoint-specific or relay-specific firmware patch is justified yet
+
+Next preferred isolation:
+- A/B test the same SmartFarm AP from a second Wi-Fi client/device before changing firmware
+- if second client is stable, focus on RTL8188EU/Windows adapter
+- if second client is similarly unstable, focus on ESP32 SoftAP firmware/radio configuration
+
+Pump/load power remains disconnected.
