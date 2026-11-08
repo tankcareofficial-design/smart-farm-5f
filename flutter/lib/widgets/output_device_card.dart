@@ -12,6 +12,7 @@ class OutputDeviceCard extends StatelessWidget {
     required this.onDelete,
     this.commandPending = false,
     this.controllerConnected = false,
+    this.emergencyLocked = false,
   });
 
   final OutputDevice device;
@@ -20,6 +21,7 @@ class OutputDeviceCard extends StatelessWidget {
   final VoidCallback onDelete;
   final bool commandPending;
   final bool controllerConnected;
+  final bool emergencyLocked;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +177,8 @@ class OutputDeviceCard extends StatelessWidget {
                   value: commandPending
                       ? device.requestedOn
                       : device.requestedOn || active,
-                  onChanged: device.enabled ? onStateChanged : null,
+                  onChanged:
+                      device.enabled && !emergencyLocked ? onStateChanged : null,
                 ),
               ],
             ),
