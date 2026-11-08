@@ -1095,3 +1095,27 @@ Gate status remains:
 - new RTC state after physical connection: NOT YET VERIFIED
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - RUNTIME_ACCEPTANCE=NOT_YET_PASS
+
+## DS3231 physical detection and lost-power fail-safe PASS — 2026-11-08
+
+Runtime evidence from GET-only AP HTTP smoke after physically connecting DS3231:
+- all four GET endpoints passed on first try: `/api/device`, `/api/state`, `/api/relays`, `/api/v3/clock`
+- firmware runtime: `0.8.0-5f-r8.14-stability-1` PASS
+- hardware profile: `smart_farm_8ch_v1` PASS
+- all 8 relays remained OFF PASS
+- DS3231 detection: PASS
+  - available=true
+  - source=ds3231
+  - chipTemperatureC=28.75
+  - readFailures=0
+  - I2C address=0x68
+  - SDA=GPIO8 / SCL=GPIO9
+- RTC state: valid=false, quality=lost_power, lostPower=true, synchronized=false
+- RTC retained/default time observed as 2000-01-01, so this is correctly rejected as valid schedule time
+
+Acceptance interpretation:
+- RTC physical transport/detection is now PASS
+- `lost_power` fail-safe behavior is PASS: clock remains invalid until explicit time synchronization
+- no RTC time write has been performed yet
+- next mutation, if approved, is explicit POST `/api/v3/clock/sync` with local time payload
+- pump/actuator load power remains disconnected until relay hardware acceptance
