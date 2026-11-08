@@ -2297,3 +2297,54 @@ Dedicated runner:
 - no stub, no compression, no erase-all
 - NVS/OTADATA/partition table/bootloader untouched
 - existing user approval `FLASH_R814_SCANFIX_N16R8` remains in scope for this recovery of the same scan-fix firmware
+
+## APP0 native USB ROM recovery flash PASS — 2026-11-08
+
+Physical recovery flash completed successfully on FarmCart native USB COM5.
+
+Verified preflight:
+- transport: ESP32-S3 native USB Serial/JTAG
+- reset mode: `usb-reset`
+- esptool 5.3.1
+- baud: 115200
+- stub disabled
+- MAC: `14:c1:9f:50:b9:64`
+- flash size: 16MB
+- source lock PASS
+- scan-fix diff scope PASS: only `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp`
+- canonical N16R8 profile PASS
+
+Build:
+- APP bytes: 1,058,368
+- APP SHA256: `44a6acaf638003458ee5272f339b15edf64ffc0e5a6fa26d38f1002e8f52402f`
+
+Write result:
+- APP0 offset: `0x10000`
+- wrote 1,058,368 / 1,058,368 bytes
+- transfer time: 16.4 seconds
+- throughput: 516.7 kbit/s
+- esptool: `Verifying written data...`
+- esptool: `Hash of data verified.`
+- `APP0_RECOVERY_WRITE=PASS`
+- device remained in bootloader after write
+
+Preservation:
+- NVS preserved
+- OTADATA preserved
+- partition table preserved
+- bootloader preserved
+- erase-all NO
+
+Current gate status:
+- SCANFIX_FLASH=PASS
+- APP0_RECOVERY=PASS
+- FLASH_VERIFY=PASS
+- POSTWRITE_RUNTIME=NOT_YET_TESTED
+- WIFI_SCAN_RUNTIME=NOT_YET_TESTED
+- MAIN=UNTOUCHED
+
+Next:
+- leave external relay/pump/load power disconnected
+- exit bootloader with one EN/RST press
+- verify firmware boot and SmartFarm AP/runtime
+- then test `/api/wifi/scan` behavior and Flutter polling compatibility before reconnecting load hardware
