@@ -1900,3 +1900,28 @@ Approval scope:
 - firmware source, board profile, partition scheme and write scope are unchanged
 - MAIN remains untouched
 - relay/pump/load power must remain disconnected during flash
+
+## COM7 full-backup attempt is pathological; abort before write — 2026-11-08
+
+User reported the approved scan-fix runner was taking excessively long.
+
+Uploaded log evidence:
+- device identity gate PASS on COM7
+- MAC `14:c1:9f:50:b9:64`, PSRAM 8MB, flash 16MB
+- runner entered `FULL 16MB PRE-FLASH BACKUP: CHUNKED READ`
+- backup mode was 32 x 512KB, stub retry3 then no-stub retry3 at 115200
+- repeated errors included corrupt data, invalid packet heads, packet transfer stopped, write timeout, busy/non-functioning port, failed baud set and eventually repeated `No serial data received`
+- by uploaded log tail the runner had reached chunk 20/31
+- no `BACKUP_CHUNK_PASS=` or `BACKUP_CHUNK_PASS_NO_STUB=` was present in the uploaded log
+- no `FULL_FLASH_BACKUP=PASS` was present
+- no `FLASH WRITE START` was present
+
+Decision:
+- user may abort current runner with Ctrl+C immediately
+- abort is safe because write stage was never reached
+- do not repeat full 16MB backup under the same transport parameters
+
+Next diagnostic:
+- new read-only 4KB flash-read transport probe tests stub and no-stub at 115200/57600/38400/19200
+- only a path/baud that can complete an exact 4096-byte read should be considered for further backup work
+- firmware flash approval remains granted but execution stays blocked until a reliable pre-write read strategy is demonstrated
