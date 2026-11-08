@@ -1945,3 +1945,24 @@ Current physical target:
 - esptool 5.3.1
 - Arduino-ESP32 3.3.12
 - BAUD_LOCK=115200_ONLY
+
+## COM7 4KB transport probe failed; move to manual ROM download mode — 2026-11-08
+
+Read-only 4KB transport probe executed on verified FarmCart COM7 with BAUD_LOCK=115200_ONLY.
+
+Evidence:
+- stub read 0x8000 + 0x1000: FAIL at `Connecting...` with `No serial data received`
+- no-stub read 0x8000 + 0x1000: FAIL at `Connecting...` with `No serial data received`
+- no flash write, erase or NVS write occurred
+
+Interpretation:
+- failure occurs before flash-read transport begins
+- verified physical target remains COM7 / MAC `14:c1:9f:50:b9:64`
+- source/FQBN/flash-size are not implicated by this failure
+- automatic reset/download entry is not currently yielding a responsive ROM handshake
+
+Next:
+- manually enter ESP32-S3 ROM download mode using BOOT(GPIO0)+EN/RST
+- probe COM7 at 115200 only
+- use esptool `--before no-reset --after no-reset` so the manual ROM state is preserved during the read-only probe
+- resume approved scan-fix flash only after manual-ROM chip-id and flash-id pass
