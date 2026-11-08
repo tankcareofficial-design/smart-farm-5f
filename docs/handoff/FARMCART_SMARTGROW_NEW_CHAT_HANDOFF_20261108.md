@@ -653,3 +653,16 @@ Use evidence, exact SHAs, runtime state and hardware identity. Preserve all alre
 7. Keep `main` untouched; do not reflash scanfix2 or start R9 Remote before local-stable freeze.
 
 Current continuation target: finish non-RTC, no-load acceptance with source/test/runtime evidence, then investigate RTC battery retention; preserve all previously passed safety behavior.
+
+---
+
+## 21. 2026-11-08 Save / Safe Delete no-load approval and CI closure
+
+- User explicitly approved the next **Save / Safe Delete no-load** acceptance gate in the new chat, including writes to Preferences/NVS for **disposable test profiles only**. Existing production/user profiles must not be modified or deleted.
+- Scope is no-load; pump/valve/actuator/external load power remains physically disconnected. Physical controller identification required before POST. No flash, no RTC sync, no Wi-Fi re-provisioning, no reboot for ghost-state check, no merge to `main`.
+- Confirmed CI #23 (`42482499529`) = SUCCESS for exact head `1a3a0ce8d394720fde5d7c087ee85c72f53fe8fc`: Flutter analyze/test PASS, ESP32-S3 compile PASS, Android demo APK PASS.
+- Confirmed CI #24 (`42482679845`) = SUCCESS for exact head `ecab3667fe6bb2264cfa9a18dad45092032cc3c3`: Flutter analyze/test PASS, ESP32-S3 compile PASS, Android demo APK PASS.
+- Created controlled manual Android acceptance protocol in `docs/acceptance/FARMCART_R814_SAVE_DELETE_NOLOAD_GATE_20261108.md`, commit `91603103b3c183ca5598ce4ba2f38a965c781192`.
+- This approval **does not** mean hardware steps were executed. Physical controller is on the user's LAN; GitHub source and CI do not grant physical device access from this chat. `SAVE_SCHEDULE_APP_RUNTIME=NOT_YET_TESTED`, `SAVE_CONDITION_APP_RUNTIME=NOT_YET_TESTED`, `DELETE_ON_DEVICE_PHYSICAL_OFF=NOT_YET_TESTED`.
+- Next: user executes the approved manual Android test with a new `FarmCart QA TEMP` profile on an unused relay channel, validates app + controller snapshot and physical relay OFF, and returns evidence. Avoid Windows Realtek RTL8188EU as sole authority. Keep all actual external load power disconnected until a separately approved real-load gate.
+- RTC retention remains FAIL/DEFERRED; no schedule execution acceptance or v0.9 freeze yet. `main` remains untouched.
