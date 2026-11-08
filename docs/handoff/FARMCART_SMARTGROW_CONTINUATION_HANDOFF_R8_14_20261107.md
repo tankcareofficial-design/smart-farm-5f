@@ -2462,3 +2462,29 @@ Next gate:
 - it measures WLAN interface/route, 30 ICMP pings and 20 `curl.exe --noproxy *` root HTTP requests
 - no ESP/NVS/relay/RTC/Wi-Fi/flash writes
 - do not reflash; scan-fix firmware flash/verify/runtime version gates remain PASS
+
+## Windows RTL8188EU link instability reconfirmed after scan-fix flash — 2026-11-08
+
+Read-only AP link-vs-HTTP diagnostic after verified scan-fix flash:
+- Windows Wi-Fi adapter: Realtek RTL8188EU Wireless LAN 802.11n USB 2.0
+- connected SSID: `SmartFarm-9FC114`
+- BSSID: `16:c1:9f:50:b9:64`
+- channel 1, reported signal 100%, RX/TX 150 Mbps
+- ping: 13 PASS / 17 FAIL out of 30; average successful wall time 227.1 ms, max 486.5 ms
+- curl root HTTP: 6 PASS / 14 FAIL out of 20
+- successful HTTP total avg 1305.1 ms, max 2276 ms
+- classification from existing diagnostic: `AP_OR_RF_LINK_UNSTABLE`
+
+Interpretation:
+- this diagnostic did NOT invoke `/api/wifi/scan`, so the severe packet/HTTP loss exists independently of the scan-fix handler
+- this reproduces the historical Windows RTL8188EU client-path instability already documented before the scan-fix
+- do not patch or reflash scan-fix firmware based on this Windows result
+- Windows RTL8188EU is unsuitable as the acceptance client for the scan-fix
+
+Next acceptance client:
+- use Android phone connected directly to `SmartFarm-9FC114` (password `smartfarm123`)
+- first confirm `http://192.168.4.1/api/device` returns firmware `0.8.0-5f-r8.14-stability-1`
+- then call `http://192.168.4.1/api/wifi/scan`; first response may be async `scanState=scanning`
+- refresh/poll the same URL until `scanState=complete` and inspect `networks`
+- acceptance requires AP remains connected/responsive and network list is returned without the prior AP-disappearance behavior
+- keep relay/pump/load power disconnected
