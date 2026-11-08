@@ -1072,3 +1072,26 @@ Gate status:
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
 - RUNTIME_ACCEPTANCE=NOT_YET_PASS
 - MERGE_MAIN=BLOCKED
+
+## AP HTTP transient timeout hardening — 2026-11-08
+
+Observed during AP HTTP smoke:
+- Windows remained connected to `SmartFarm-*` AP
+- browser root `http://192.168.4.1` remained reachable
+- smoke script timed out specifically on `GET /api/relays`
+- because the root page was still served, this was not classified as controller/AP loss
+- the run did not reach `/api/v3/clock`; no RTC conclusion is valid from this failed attempt
+
+Tooling correction:
+- commit `f3187247d4d3ceb678a16f65781171932015c315`
+- each GET now uses `-DisableKeepAlive`
+- each endpoint retries up to 3 times
+- 350 ms spacing after success and 700 ms backoff after a failed attempt
+- still GET-only; no relay/Wi-Fi/NVS/flash write
+
+Gate status remains:
+- FLASH=PASS
+- prior AP_HTTP_RUNTIME=PASS evidence remains valid
+- new RTC state after physical connection: NOT YET VERIFIED
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- RUNTIME_ACCEPTANCE=NOT_YET_PASS
