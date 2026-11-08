@@ -6,13 +6,16 @@ import 'package:smart_farm/services/esp32_http_service.dart';
 class _FakeHttpService extends Esp32HttpService {
   _FakeHttpService() : super(timeout: const Duration(milliseconds: 50));
 
+  bool failDevice = false;
   bool failState = false;
   bool failClock = false;
   bool failSnapshot = false;
   bool failRelay = false;
 
   @override
-  Future<Map<String, dynamic>> getDevice() async => <String, dynamic>{
+  Future<Map<String, dynamic>> getDevice() async {
+    if (failDevice) throw const Esp32HttpException('device failed');
+    return <String, dynamic>{
         'ok': true,
         'deviceId': 'sf-test',
         'displayName': 'test',
@@ -26,6 +29,7 @@ class _FakeHttpService extends Esp32HttpService {
         'ssid': 'SmartFarm-test',
         'ip': '192.168.4.1',
       };
+  }
 
   @override
   Future<Map<String, dynamic>> getState() async {
@@ -140,6 +144,55 @@ void main() {
     expect(result, isFalse);
     expect(controller.connected, isTrue);
     expect(controller.consecutiveFailures, 0);
+    controller.dispose();
+  });
+
+  test('reachability needs three failures and recovers on first success', () async {
+    final http = _FakeHttpService();
+    final controller = SmartFarmController(
+      httpService: http,
+      pollInterval: const Duration(hours: 1),
+    );
+    await controller.connect();
+    expect(controller.connected, isTrue);
+
+    http.failState = true;
+    http.failDevice = true;
+    for (var failure = 1; failure <= 2; failure++) {
+      await controller.refreshState();
+      expect(controller.consecutiveFailures, failure);
+      expect(controller.connected, isTrue);
+    }
+
+    await controller.refreshState();
+    expect(controller.consecutiveFailures, 3);
+    expect(controller.connected, isFalse);
+
+    // /api/state remains broken, but /api/device proves the link recovered.
+    http.failDevice = false;
+    await controller.refreshState();
+    expect(controller.consecutiveFailures, 0);
+    expect(controller.connected, isTrue);
+    expect(controller.stateFailures, greaterThan(0));
+    controller.dispose();
+  });
+
+  test('clock and snapshot polling errors keep the link online', () async {
+    final http = _FakeHttpService();
+    final controller = SmartFarmController(
+      httpService: http,
+      pollInterval: const Duration(hours: 1),
+    );
+    await controller.connect();
+    http.failClock = true;
+    http.failSnapshot = true;
+
+    await controller.refreshState();
+
+    expect(controller.connected, isTrue);
+    expect(controller.consecutiveFailures, 0);
+    expect(controller.clockFailures, 1);
+    expect(controller.snapshotFailures, 1);
     controller.dispose();
   });
 }
