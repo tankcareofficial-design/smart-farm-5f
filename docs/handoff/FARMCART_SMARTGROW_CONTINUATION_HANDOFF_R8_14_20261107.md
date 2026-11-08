@@ -2727,3 +2727,30 @@ Important scope note:
 - external pump/valve/actuator/load power remains disconnected until remaining no-load safety gates are closed
 - Emergency Stop remains a separate NVS-affecting runtime gate
 - MAIN=UNTOUCHED
+
+## Android rapid latest-state runtime PASS — 2026-11-08
+
+User completed the defined rapid relay latest-state runtime regression on the current Android app and physical FarmCart controller after home-Wi-Fi provisioning.
+
+Defined sequence:
+- rapid relay intent: ON -> OFF -> ON -> OFF
+- final expected intent: OFF
+
+User result: PASS.
+
+Acceptance:
+- `RAPID_LATEST_STATE_RUNTIME=PASS`
+- final relay state followed the latest user intent (OFF)
+- no stale earlier command reasserted after the sequence
+- controller remained usable after the rapid sequence
+- this runtime result aligns with existing `DeviceStore.latestDesiredState` coalescing logic and CI tests
+
+Current non-RTC gate status:
+- WIFI_SCANFIX_RUNTIME=PASS
+- WIFI_PROVISIONING_TO_HOME_STA=PASS
+- POST_PROVISION_RELAY_CONTROL=PASS
+- RELAY_NOLOAD_HARDWARE=PASS
+- RAPID_LATEST_STATE_RUNTIME=PASS
+- EMERGENCY_STOP_RUNTIME=NOT_YET_ACCEPTED
+- LOAD_ACCEPTANCE=BLOCKED
+- MAIN=UNTOUCHED
