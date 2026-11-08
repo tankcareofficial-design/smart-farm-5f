@@ -2548,3 +2548,51 @@ Current gates:
 - SCANFIX2_ESP32_COMPILE=PASS
 - SCANFIX2_FLASH=NOT_APPROVED
 - MAIN=UNTOUCHED
+
+## Scan-fix2 STA-state flash approval granted — 2026-11-08
+
+User explicitly approved flashing the second R8.14 Wi-Fi scan correction after Android reproduced the firmware-level `wifi_scan_failed` condition.
+
+Approved source:
+- commit `ed7168c8b9b318c684412ad9e0baa6291ce1534d`
+- change scope: `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp` only relative to prior scan-fix baseline `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- purpose: clear stale STA CONNECTING state after failed STA connection and retry async scan once only when STA is not connected
+
+Verification before approval:
+- Smart Farm CI #14 / run ID `42456112148` = SUCCESS
+- head SHA `ed7168c8b9b318c684412ad9e0baa6291ce1534d`
+- ESP32-S3 N16R8 compile = PASS
+- Flutter analyze/test = PASS
+- Android demo APK job/workflow = PASS
+
+Approved flash runner:
+- `tools/windows/FLASH_FARMCART_R814_SCANFIX2_STA_STATE_APP0_NATIVE_USB_APPROVAL_GATED.cmd`
+- runner/tool commit `74ee41b1d4e58d22c63582d328c2032eebbabd88`
+- approval token `FLASH_R814_SCANFIX2_STA_STATE`
+
+Approved write scope:
+- physical FarmCart ESP32-S3 N16R8
+- MAC `14:c1:9f:50:b9:64`
+- expected native USB target COM5 when enumerated
+- 115200 only
+- `usb-reset`
+- `--no-stub`
+- `--no-compress`
+- APP0 only at `0x10000`
+- NVS untouched
+- OTADATA untouched
+- partition table untouched
+- bootloader untouched
+- erase-all NO
+- relay/pump/load power remains disconnected
+
+Approval status:
+- `FLASH_R814_SCANFIX2_STA_STATE=APPROVED`
+- `FLASH_EXECUTION=NOT_YET_PERFORMED`
+- MAIN=UNTOUCHED
+
+Continuation policy reaffirmed by user:
+- record material actions/results in GitHub Handoff
+- continue from latest branch/source/runtime evidence; never restart from stale baseline
+- preserve exact transport and safety constraints
+- if chat context rolls over, start next chat from this Handoff and latest GitHub state
