@@ -1851,3 +1851,23 @@ Current interpretation:
 - this points to current COM5/USB serial transport or port state rather than firmware source, flash size, or scan-fix code
 - next step should first restore the normal USB/COM connection state that previously allowed esptool stub connection, then rerun read-only identity
 - no flash write has occurred in the current scan-fix attempt
+
+## COM5 confirmed; advance to manual ROM download-mode probe — 2026-11-08
+
+User explicitly confirmed FarmCart controller is COM5. COM4 must not be used for FarmCart.
+
+Current Windows evidence:
+- COM4 and COM5 both enumerate as Espressif USB VID_303A PID_1001 interfaces, but user confirms FarmCart target is COM5
+- COM4 probe failed with Windows device/permission error and is out of scope
+- COM5 standard esptool `chip-id` and `flash-id` both fail at `Connecting...` with pySerial `Write timeout`
+- unplug/replug did not restore the previously working automatic esptool connection
+
+Interpretation:
+- failure is before flash read/write and before scan-fix firmware transfer
+- current evidence supports an auto-download/serial transport state issue, not flash-size mismatch or firmware-source defect
+- no scan-fix flash write has occurred
+
+Next recovery step:
+- manually enter ESP32-S3 ROM download mode using BOOT(GPIO0) + EN/RST
+- after manual bootloader entry, run read-only esptool probe with `--before no-reset --after no-reset` on COM5 so esptool does not disturb the manually selected boot mode
+- only after chip-id and flash-id PASS should the approved flash operation resume
