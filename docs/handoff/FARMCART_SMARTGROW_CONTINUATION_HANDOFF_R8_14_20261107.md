@@ -2029,3 +2029,36 @@ Next:
 - perform a 4KB read at 115200 using `--before no-reset --after no-reset`
 - if exact 4096-byte read passes, adapt the approved flash runner to preserve this no-reset bootloader state during backup/write
 - do not use the old reset-per-command behavior again
+
+## Scan-fix recovery pivot: APP0-only ROM flash, no full-flash backup loop — 2026-11-08
+
+Root-cause/workflow correction after repeated read-path failures:
+- full 16MB readback is abandoned for this scan-fix attempt; it is not a prerequisite for an application-only patch
+- scan-fix ESP32 source delta from baseline runtime lock `566cc4843...` to scan-fix source lock `30ab9bb...` is exactly one firmware application file: `esp32/SmartFarm_ESP32_5F/WiFiTransport.cpp`
+- no OTA runtime implementation was found in the firmware entrypoint or WiFi transport source
+- canonical partition layout remains app0 0x10000 / 0x300000 and app1 0x310000 / 0x300000
+- previous full Arduino upload established the baseline boot layout; no later OTA slot switch is recorded
+
+New approved-write strategy:
+- dedicated runner: `tools/windows/FLASH_FARMCART_R814_SCANFIX_APP0_ROM_APPROVAL_GATED.cmd`
+- existing approval token remains `FLASH_R814_SCANFIX_N16R8`
+- BAUD_LOCK=115200_ONLY
+- manual BOOT-held power-on ROM download mode required
+- esptool stub disabled with `--no-stub`
+- compression disabled with `--no-compress`
+- esptool reset toggling disabled before and after operation
+- only application partition APP0 at 0x10000 is written
+- NVS untouched
+- OTA data untouched
+- partition table untouched
+- bootloader untouched
+- erase-all NO
+- app binary size must remain below 0x300000
+- MAC must match `14:c1:9f:50:b9:64` and flash must report 16MB before write
+- esptool v5 automatic post-write verification is relied upon when technically feasible
+- device remains in bootloader after successful write; user performs one EN/RST after PASS
+
+Why this is safer here:
+- avoids the proven-pathological 16MB device-to-host read stream
+- avoids unnecessary rewrites of bootloader/partition/OTADATA for a one-file application source change
+- preserves persisted NVS and the established partition/boot metadata
