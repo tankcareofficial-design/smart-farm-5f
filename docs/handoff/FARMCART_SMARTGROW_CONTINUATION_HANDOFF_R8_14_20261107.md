@@ -2264,3 +2264,36 @@ Interpretation:
 - the next bounded diagnostic should therefore be ROM-only on COM5: `--before usb-reset --after no-reset --no-stub flash-id`
 - if ROM-only flash-id succeeds, use ROM-loader write path for the already-partial APP0 recovery; avoid stub and CH343 COM7
 - APP0 remains partially programmed; runtime tests blocked; main untouched
+
+## Native USB ROM no-stub flash-id PASS; APP0 recovery path unlocked — 2026-11-08
+
+User executed on FarmCart native USB COM5:
+`python -m esptool --chip esp32s3 --port COM5 -b 115200 --before usb-reset --after no-reset --no-stub flash-id`
+
+Result: PASS.
+- ESP32-S3 QFN56 rev0.2
+- PSRAM 8MB
+- USB mode: USB-Serial/JTAG
+- MAC: `14:c1:9f:50:b9:64`
+- flash manufacturer `c2`, device `2018`
+- detected flash size `16MB`
+- quad 4-line, 3.3V
+- command ended `Staying in bootloader.`
+- no stub upload was attempted and no timeout occurred
+
+Conclusion:
+- native COM5 ROM loader path is viable when using `usb-reset` plus `--no-stub` at project-locked 115200
+- prior COM5 failures were associated with port reconfiguration/stub upload; prior COM7 CH343 path had sustained-transfer corruption
+- proceed with one bounded APP0-only recovery write through COM5 native USB ROM loader; no full-flash backup/read loop
+
+Dedicated runner:
+- `tools/windows/FLASH_FARMCART_R814_SCANFIX_APP0_NATIVE_USB_RECOVERY.cmd`
+- single flash-id identity gate (no redundant chip-id)
+- expected MAC `14:c1:9f:50:b9:64`
+- native USB Serial/JTAG mode required
+- flash 16MB required
+- source and one-file scan-fix diff locks preserved
+- APP0 only at 0x10000
+- no stub, no compression, no erase-all
+- NVS/OTADATA/partition table/bootloader untouched
+- existing user approval `FLASH_R814_SCANFIX_N16R8` remains in scope for this recovery of the same scan-fix firmware
