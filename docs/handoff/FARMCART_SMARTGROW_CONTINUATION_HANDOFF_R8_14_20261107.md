@@ -2910,3 +2910,27 @@ Current:
 - ESP32_REFLASH_REQUIRED=NO
 - LOAD_ACCEPTANCE=BLOCKED
 - MAIN=UNTOUCHED
+
+## E-stop Android UI runtime retest PASS — 2026-11-08
+
+User retested the corrected Android app on the physical controller and reported PASS.
+
+Accepted behavior:
+- physical relay turns OFF under Emergency Stop
+- app output switch moves to OFF automatically
+- switch is disabled while emergency latch is active
+- after controller reboot while latched, emergency state remains active and output remains OFF
+- after Emergency Release, output remains OFF and switch is usable again
+- user can turn the relay ON again without first needing to manually toggle OFF
+
+Gate result:
+- EMERGENCY_STOP_PHYSICAL_OFF=PASS
+- EMERGENCY_STOP_LATCH_PERSISTENCE=PASS
+- EMERGENCY_STOP_APP_UI_RUNTIME=PASS
+- EMERGENCY_RELEASE_RUNTIME=PASS
+- E_STOP_NOLOAD_GATE=PASS
+- ESP32_REFLASH_REQUIRED=NO
+- MAIN=UNTOUCHED
+
+Next:
+- proceed to next pre-load acceptance gate; external pump/valve/actuator/load power remains disconnected until that gate is explicitly approved
