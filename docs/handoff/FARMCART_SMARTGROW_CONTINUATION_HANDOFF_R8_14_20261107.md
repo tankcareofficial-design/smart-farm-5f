@@ -1774,3 +1774,29 @@ Approved flash scope:
 Approval status:
 - FLASH_R814_SCANFIX_N16R8=APPROVED
 - FLASH_EXECUTION=NOT_YET_PERFORMED
+
+## Scan-fix flash attempt blocked at stub upload; no write performed — 2026-11-08
+
+Approved scan-fix flash attempt stopped before any backup/build/write stage.
+
+Observed:
+- branch/source/FW/profile locks PASS
+- COM5 connected and chip identified as ESP32-S3 QFN56 rev0.2
+- PSRAM reported 8MB
+- stub flasher upload failed with pySerial `Write timeout`
+- subsequent `flash-id` also failed to communicate
+- runner then emitted `ERROR=FLASH_SIZE_NOT_16MB` because flash-id output was unavailable; this is not evidence of an actual flash-size mismatch
+
+Safety interpretation:
+- FLASH_WRITE=NOT_PERFORMED
+- ERASE=NOT_PERFORMED
+- BACKUP_STAGE=NOT_REACHED
+- firmware on device remains the previous image
+
+Next:
+- run dedicated read-only ROM-loader identity gate with `--no-stub`
+- if ROM chip/flash identity passes, harden scan-fix flash runner with no-stub fallback before retrying approved flash
+
+Read-only tooling:
+- `tools/windows/RUN_FARMCART_R814_SCANFIX_ROM_IDENTITY_READONLY.ps1`
+- `tools/windows/RUN_FARMCART_R814_SCANFIX_ROM_IDENTITY_READONLY.cmd`
