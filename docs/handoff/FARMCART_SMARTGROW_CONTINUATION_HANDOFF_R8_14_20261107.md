@@ -2852,3 +2852,26 @@ Current gate status:
 - EMERGENCY_STOP_UI_RUNTIME_RETEST=NOT_YET_TESTED
 - ESP32_REFLASH_REQUIRED=NO
 - MAIN=UNTOUCHED
+
+## E-stop Android UI behavior correction completed in source — 2026-11-08
+
+Follow-up UX correction after identifying stale requested-state behavior:
+- desired design is now explicit: E-stop forces all output switches visually OFF and disables them while emergency latch is active; after release all outputs remain OFF and switches become enabled again
+- user should NOT need to press OFF first after releasing E-stop
+
+Source commits:
+- `c73e4e2cc0dbad2c200d2a8b631c2cff170dd8d7`: add `emergencyLocked` to `OutputDeviceCard` and disable switch while latched
+- `24fbabe33521290bfc59762f77c4d5011d4ab131`: pass `DeviceStore.emergencyLatched` into output controls
+- `7db8340affe8964560004386966800eea8b9319b`: widget regression tests verify switch disabled during latch and re-enabled after release
+
+Combined app fix also includes:
+- stale `requestedOn` clearing on E-stop
+- reconnect/reboot reconciliation while emergency latch persists
+- queued latest desired state invalidation during emergency latch
+
+Verification status:
+- CI #20 / run ID `42476651695` started on head `7db8340affe8964560004386966800eea8b9319b`
+- full CI result pending at latest check
+- ESP32 reflash required: NO
+- new Android APK required for runtime UI retest: YES
+- MAIN untouched
