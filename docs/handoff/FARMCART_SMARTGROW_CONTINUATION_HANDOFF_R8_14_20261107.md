@@ -1700,3 +1700,35 @@ Next read-only band isolation:
 - if `Ratthaphum` is absent there, likely 5 GHz-only from the current location/config and ESP32 zero-result is expected
 
 No firmware patch/flash yet.
+
+## 2.4 GHz confirmed; async Wi-Fi scan fix prepared — 2026-11-08
+
+User confirmed `Ratthaphum` is a 2.4 GHz network.
+
+Root cause in current scan handler:
+- current firmware called synchronous `WiFi.scanNetworks(false, true)` inside the HTTP request handler
+- Arduino-ESP32 scan API may return negative status values such as `WIFI_SCAN_RUNNING` or `WIFI_SCAN_FAILED`
+- previous handler did not distinguish negative scan status from a legitimate zero-network result and could incorrectly reply `ok=true, networks=[]`
+- synchronous scanning can also block SoftAP HTTP servicing for the scan duration
+
+Candidate source fix:
+- firmware commit `7d78acd51977e2835f68768ad211638840db367d`
+- `GET /api/wifi/scan` now starts an asynchronous scan when no result is ready
+- response exposes `scanning` / `scanState`
+- true scan-start failure returns HTTP 503 `wifi_scan_failed`
+- completed scan returns `count`, SSID, RSSI, security and channel
+- scan result storage is deleted only after completed results are serialized
+
+Flutter compatibility fix:
+- app commit `30ab9bbadcc601b4978d416efb985af84ba9145e`
+- `scanWifi()` polls asynchronous scan state up to 30 times at 350 ms intervals
+- legacy firmware responses without `scanning=true` still parse normally
+- timeout is surfaced as `wifi_scan_timeout`
+
+Verification status:
+- Smart Farm CI run #13 / ID 42441352416 started on head `30ab9bba...`
+- Flutter analyze + test = PASS
+- ESP32 N16R8 compile = still in progress at last check
+- Android demo APK = still in progress at last check
+- FLASH=NOT_PERFORMED
+- MAIN=UNTOUCHED
