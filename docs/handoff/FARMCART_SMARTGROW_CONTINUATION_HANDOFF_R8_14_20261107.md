@@ -2123,3 +2123,33 @@ Current acceptance:
 - APP0_BOOT=UNVERIFIED
 - DEVICE_RUNTIME=BLOCKED
 - MAIN=UNTOUCHED
+
+## Recovery blocker: 64KB ROM read fails at 1KB; stop USB-Serial/JTAG retries — 2026-11-08
+
+Latest user evidence after APP0 partial-write incident:
+- COM7 (manual BOOT-held ROM download mode), `--before no-reset --after no-reset --no-stub`, BAUD=115200
+- chip-id PASS, ESP32-S3 rev0.2, PSRAM 8MB, MAC `14:c1:9f:50:b9:64`
+- attempted read only: `read-flash --flash-size 16MB 0x10000 0x10000` (64KB)
+- read progressed only to `0x00010400`, 1,024/65,536 bytes (1.6%)
+- esptool failed: `Invalid head of packet (0x6F): Possible serial noise or corruption`
+- no valid 64KB recovery backup was produced; no write occurred in this probe
+
+Evidence-based diagnosis:
+- ROM connectivity and physical identity work, but sustained transfer across current native USB-Serial/JTAG interface is unreliable
+- earlier attempts failed identically for stub and ROM no-stub flash reads; APP0 write failed after partial erase/program
+- likely areas for investigation per Espressif esptool troubleshooting: USB data cable, native USB interface/host driver, physical connection, power stability, attached circuit interference
+- root cause not yet isolated; do not claim flash chip defective or firmware regression causes this serial framing error
+
+Immediate safety & recovery policy:
+- STOP repeated esptool flash-read / write attempts through this unstable COM7 USB path
+- retain prior full backup: `D:\FarmCart\backups\farmcart_r814_preflash_COM5_20261107_220605` (historical 16MB, SHA256 a3e74d26160e9b738cdb7d015edf1244dccb3143f90c0f12ad62b8dfb6f64802)
+- retain newly compiled APP image: SHA256 `6422a5a129be823cb707a14e3af17682c8687517ea3c218d391c3c8f97b71fd0`, 1,058,368 bytes
+- do not erase NVS / OTADATA / partition table / bootloader or use erase-all
+- physical relay/pump/load stays disconnected
+- APP0 remains partially erased/programmed and is not considered bootable
+- troubleshoot hardware connection / 3.3V power and isolate board from external wiring first; no more blind retry loops
+- if USB Serial/JTAG transport remains unreliable, use a verified dedicated USB-to-UART TTL (3.3V logic) via UART0, default ESP32-S3 GPIO43 TX0 / GPIO44 RX0, with common ground, BOOT-held manual ROM entry, and 115200 baud
+- do not wire or energize unverified board pinouts; confirm actual board labels/photo before using external UART
+- next flash must be a single bounded APP0-only recovery with verified target identity and full completion + verification; preserve other partitions
+
+References checked: Espressif esptool ESP32-S3 Troubleshooting (Invalid head of packet, writing fails part-way, USB-Serial/JTAG transport/driver/power).
