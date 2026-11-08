@@ -30,7 +30,7 @@
 
 ## Regression
 
-- [ ] Manual relay ON/OFF still works.
+- [x] Manual relay ON/OFF still works. (CH1..CH8 API ON/OFF PASS; user physically confirmed matching LED/click in order on 2026-11-08; no external load connected)
 - [ ] Rapid relay commands finish at the latest requested state.
 - [ ] Edit schedule/condition Save still works.
 - [ ] Delete an ON device: relay is OFF before profile disappears.
