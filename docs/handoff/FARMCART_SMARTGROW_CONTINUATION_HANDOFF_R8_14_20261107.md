@@ -1391,3 +1391,45 @@ Approval status:
 - NVS_RELAY_STATE_WRITE=APPROVED
 - RELAY_NOLOAD_RETEST=APPROVED
 - EXECUTION=NOT_YET_PERFORMED
+
+## Relay no-load API sequence PASS — 2026-11-08
+
+Approved NVS-aware relay no-load retest completed successfully at API/state level.
+
+Observed sequence:
+- preflight: all relays OFF PASS
+- GPIO map PASS: CH1..CH8 = 4,5,6,7,15,16,17,18
+- CH1 ON/OFF PASS
+- CH2 ON/OFF PASS
+- CH3 ON/OFF PASS
+- CH4 ON/OFF PASS
+- CH5 ON/OFF PASS after one state-aware retry on ON
+- CH6 ON/OFF PASS
+- CH7 ON/OFF PASS
+- CH8 ON PASS after two state-aware retries; OFF PASS after one retry
+
+Final state:
+- `RELAY_NOLOAD_API_SEQUENCE=PASS`
+- `ALL_RELAYS_OFF_FINAL=PASS`
+- `ALL_OVERRIDES_CLEARED_FINAL=PASS`
+- `FINAL_ON_CHANNEL_COUNT=0`
+- `FINAL_ACTIVE_OVERRIDE_COUNT=0`
+- `FINAL_EMERGENCY_LATCHED=False`
+- NVS relay-state persistence was explicitly approved for this run
+
+Important remaining evidence:
+- physical LED/click observation is still required from the user for CH1..CH8 in order
+- therefore relay no-load software/API gate = PASS
+- physical relay hardware gate = PENDING USER OBSERVATION
+
+Network observation:
+- intermittent HTTP GET/POST timeouts still occurred
+- state-aware retry recovered all commands and final state safely
+- this remains a runtime transport-quality issue to investigate separately before load/pump acceptance
+
+Current status:
+- RELAY_NOLOAD_API=PASS
+- RELAY_NOLOAD_PHYSICAL=PENDING_USER_CONFIRMATION
+- RELAY_FINAL_SAFE_OFF=PASS
+- HARDWARE_ACCEPTANCE=NOT_YET_PASS
+- PUMP_LOAD_POWER=KEEP_DISCONNECTED
