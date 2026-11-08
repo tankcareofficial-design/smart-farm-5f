@@ -1828,3 +1828,26 @@ Approval:
 - only the transport/recovery strategy of the same approved operation changed
 - no new firmware source, partition profile, target port, or write scope was added
 - FLASH_WRITE remains not yet performed for scan-fix
+
+## Historical flash-method correction after memory review — 2026-11-08
+
+Memory/history review after current `--no-stub chip-id` also failed with pySerial `Write timeout`:
+
+Confirmed prior successful FarmCart R8.14 path:
+- target COM5
+- esptool v5.3.1 standard connection/stub path successfully identified ESP32-S3
+- flash-id successfully reported 16MB
+- esptool output included hard reset via RTS
+- backup strategy used 32 x 512KB chunks at 115200 with retries
+- `--no-stub` was introduced as a fallback for failed flash-read chunks, not as the original initial-connect method
+- final historical flash completed with full 16MB backup and `FLASH_STATUS=PASS`
+
+Important correction:
+- no retrieved historical evidence shows manual BOOT/RESET was required for the successful flash
+- therefore manual BOOT should not be treated as the known prior solution
+
+Current interpretation:
+- current failure occurs before flash read/write: both stub and direct ROM no-stub attempts encounter serial `Write timeout` while connecting
+- this points to current COM5/USB serial transport or port state rather than firmware source, flash size, or scan-fix code
+- next step should first restore the normal USB/COM connection state that previously allowed esptool stub connection, then rerun read-only identity
+- no flash write has occurred in the current scan-fix attempt
