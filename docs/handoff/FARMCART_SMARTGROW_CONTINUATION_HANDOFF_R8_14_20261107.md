@@ -1368,3 +1368,26 @@ Gate status:
 - RELAY_FINAL_SAFE_OFF=PASS
 - RELAY_NOLOAD_OVERALL=NOT_YET_PASS
 - HARDWARE_ACCEPTANCE=NOT_YET_PASS
+
+## NVS relay-state write approval granted — 2026-11-08
+
+User explicitly approved continuing the relay no-load test with the firmware's real NVS side effect:
+- relay ON/OFF commands may persist relay state through `RelayManager::set()`
+- final safe target remains all relays OFF
+- automatic Emergency Stop/Release remains disabled in the test harness to avoid emergency-latch Preferences writes
+
+Approved scope:
+- CH1..CH8 no-load relay switching only
+- state-aware retry after HTTP POST uncertainty
+- GET verification after each desired state
+- fail-safe = command all relay channels OFF and verify
+- pump / valve / actuator / external load power remains disconnected
+- FLASH_WRITE=NO
+- RTC_WRITE=NO
+- WIFI_CONFIG_WRITE=NO
+- MERGE_MAIN=NO
+
+Approval status:
+- NVS_RELAY_STATE_WRITE=APPROVED
+- RELAY_NOLOAD_RETEST=APPROVED
+- EXECUTION=NOT_YET_PERFORMED
