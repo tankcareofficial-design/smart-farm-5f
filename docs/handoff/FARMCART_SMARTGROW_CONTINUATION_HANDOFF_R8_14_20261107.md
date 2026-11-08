@@ -2177,3 +2177,28 @@ Corrected diagnosis:
 - note Windows previously enumerated COM7 as Unknown while COM4 had Espressif VID_303A/PID_1001; exact COM7 USB VID/PID/driver remains unverified: inspect Windows USB descriptor before further invasive hardware actions
 - next action: **host-only** COM7 serial device VID/PID/hwid/driver inspection, with no esptool access, flash writes or retry loops
 - do not run the old approved flash runners until transport reliability is demonstrated
+
+## COM7 CH343 USB-UART positively identified; test native USB alternative — 2026-11-08
+
+NEW VERIFIED Windows USB evidence:
+- `COM7 USB-Enhanced-SERIAL CH343`, VID:PID `1A86:55D3`, serial `5C82118392`, WCH manufacturer `wch.cn`, Windows service `CH343SER_A64`, PnP status `OK`
+- `COM4 USB Serial Device`, VID:PID `303A:1001`, serial `E8:F6:0A:B8:B7:0C`, Microsoft provider; an Espressif native USB interface
+- earlier COM7 esptool chip ID matched controller MAC `14:c1:9f:50:b9:64`, proving COM7 -> actual FarmCart MCU
+- earlier assumption that COM7 was ESP32-S3 native USB Serial/JTAG was WRONG; it is a CH343 USB-to-UART bridge
+- Windows CH343 driver VERSION is not yet known; `CH343SER_A64` is a service name, not a driver version
+
+Relevant sourced hardware possibility (UNCONFIRMED for FarmCart):
+- Waveshare ESP32-S3-DEV-KIT-N16R8 family FAQ documents CH334 USB hub that can enumerate a CH343 USB-to-UART COM port and an ESP32-S3 native USB COM port from the same physical USB cable
+- therefore COM4 and COM7 *might* belong to the same physical board; they must NOT be assumed same or different without a physically observed unplug enumeration comparison
+
+Prioritize safe diagnostics:
+- with external relay/pump/load power isolated, unplug ONLY the FarmCart USB cable and run `arduino-cli board list` to see whether COM4 disappears alongside COM7
+- reconnect with BOOT held to restore ROM mode, then re-enumerate
+- if COM4 also disappeared/reappeared, it is likely the same board's native Espressif USB and could provide an alternate recovery transport, but confirm ESP32 MAC on that port before any write
+- if COM4 remained, it belongs to a separate device; stop probing it as FarmCart
+- if COM7 remains the only FarmCart path, inspect signed CH343 driver version using Win32_PnPSignedDriver and consider official WCH CH343SER driver update after review
+- official WCH `CH343SER.EXE` supports Windows 10; source: https://www.wch.cn/downloads/CH343SER_EXE.html
+- separate ESP32 application SERIAL_BAUD=115200 from physical CH343 driver selection; honor 115200-only esptool project diagnostics as directed
+- no esptool read/write retry on current corrupt CH343 path until physical transport investigation yields evidence
+
+Recovery safety: APP0 remains partially erased/programmed; no reset into normal firmware as a verification substitute; bootloader ROM is independent; NVS/OTADATA/bootloader/partition preservation remains required.
