@@ -1614,3 +1614,39 @@ Next preferred isolation:
 - if second client is similarly unstable, focus on ESP32 SoftAP firmware/radio configuration
 
 Pump/load power remains disconnected.
+
+## Cross-client A/B: mobile stable, RTL8188EU path implicated — 2026-11-08
+
+Cross-client A/B evidence from user:
+- ESP32 controller remained standalone (relay/load still disconnected)
+- Android phone connected directly to `SmartFarm-9FC114`
+- browser `/api/device` remained responsive during repeated refreshes
+- FarmCart app Controller/Advanced pages remained connected during repeated refreshes
+- app reported consecutive failures = 0
+- app showed controller firmware `0.8.0-5f-r8.14-stability-1` and IP `192.168.4.1`
+- observed controller response time in app approximately 1042 ms
+- `/api/device` showed `wifiClientCount=2` during the observation
+
+Interpretation:
+- severe loss previously reproduced specifically through Windows Realtek RTL8188EU path
+- same ESP32 SoftAP was qualitatively stable from Android phone
+- evidence now supports `WINDOWS_RTL8188EU_CLIENT_PATH_UNSTABLE` rather than a global ESP32 SoftAP failure
+- do not patch ESP32 SoftAP channel/WebServer based on the Windows-only failure
+
+Important observation from app diagnostics screenshot:
+- app log displayed `RTC invalid (lost_power); syncing from phone`
+- app log also displayed two `POST /api/relay CH=3 ON=false` entries
+- these actions must be treated separately from the read-only browser A/B; they may mutate RTC and relay-state persistence depending on the actual request path
+- do not infer a hardware relay defect from these log entries
+
+Current transport classification:
+- MOBILE_DIRECT_AP_QUALITATIVE=PASS
+- WINDOWS_RTL8188EU_AP_LINK=FAIL
+- ESP32_GLOBAL_AP_FAILURE=NOT_SUPPORTED_BY_CURRENT_EVIDENCE
+- HTTP_ENDPOINT_HANDLER_DEFECT=NOT_SUPPORTED_BY_CURRENT_EVIDENCE
+
+Next:
+- treat RTL8188EU/Windows as a host-side debug compatibility issue
+- continue product acceptance primarily on the mobile app path
+- separately verify/contain automatic RTC sync and unexpected relay-OFF requests before load/pump testing
+- pump/load remains disconnected
