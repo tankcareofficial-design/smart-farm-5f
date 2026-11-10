@@ -19,6 +19,12 @@ void main() {
     expect(find.byKey(const Key('irrigation-delivery')), findsOneWidget);
     expect(find.byKey(const Key('irrigation-add-zone')), findsOneWidget);
     expect(find.byKey(const Key('irrigation-pump-channel')), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('irrigation-controller-apply-disabled')),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pumpAndSettle();
     expect(
       tester.widget<FilledButton>(
         find.byKey(const Key('irrigation-controller-apply-disabled')),

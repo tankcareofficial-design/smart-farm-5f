@@ -68,7 +68,9 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
 
   void _addZone() {
     if (_plan.zones.length >=
-        (_plan.delivery == WaterDelivery.valveOnly ? 8 : 7)) return;
+        (_plan.delivery == WaterDelivery.valveOnly ? 8 : 7)) {
+      return;
+    }
     var index = 1;
     while (_plan.zones.any((zone) => zone.id == 'zone-$index')) {
       index++;
