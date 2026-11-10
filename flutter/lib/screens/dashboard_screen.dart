@@ -185,6 +185,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       'ควบคุมอุปกรณ์ทั่วไปได้ ไม่จำเป็นต้องปลูกผักหรือมีเซ็นเซอร์',
                       'Control any connected device without a crop or sensor.',
                     ),
+                    actionLabel: context.l10n.text(
+                      'ดูอุปกรณ์',
+                      'View devices',
+                    ),
+                    onAction: () => widget.onNavigate(1),
                   ),
                   const SizedBox(height: 10),
                   Card(
