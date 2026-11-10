@@ -241,8 +241,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       title: Text(
                         context.l10n.text(
-                          'ดูพรีเซ็ตสำหรับปลูกผัก',
-                          'Explore crop presets',
+                          'ชุดค่าแนะนำสำหรับปลูกผัก',
+                          'Crop growing recommendations',
                         ),
                         style: const TextStyle(fontWeight: FontWeight.w900),
                       ),
