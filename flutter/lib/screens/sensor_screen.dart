@@ -35,7 +35,11 @@ class SensorScreen extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (_) => SensorSetupDialog(store: store, existing: existing),
+      builder: (_) => SensorSetupDialog(
+        store: store,
+        existing: existing,
+        canSave: () => controller?.connected ?? true,
+      ),
     );
   }
 
@@ -78,7 +82,7 @@ class SensorScreen extends StatelessWidget {
       child: AnimatedBuilder(
         animation: Listenable.merge(<Listenable>[
           store,
-          if (controller != null) controller!,
+          ?controller,
         ]),
         builder: (BuildContext context, Widget? child) {
           return Scaffold(

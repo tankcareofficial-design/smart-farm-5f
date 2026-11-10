@@ -5,10 +5,19 @@ import '../models/sensor_config.dart';
 import '../stores/sensor_store.dart';
 
 class SensorSetupDialog extends StatefulWidget {
-  const SensorSetupDialog({super.key, required this.store, this.existing});
+  const SensorSetupDialog({
+    super.key,
+    required this.store,
+    this.existing,
+    this.canSave,
+  });
 
   final SensorStore store;
   final SensorConfig? existing;
+
+  /// Recheck connectivity when the form is actually committed, since the
+  /// local Controller can disconnect after this sheet has been opened.
+  final bool Function()? canSave;
 
   @override
   State<SensorSetupDialog> createState() => _SensorSetupDialogState();
@@ -73,6 +82,18 @@ class _SensorSetupDialogState extends State<SensorSetupDialog> {
   }
 
   void _save() {
+    if (widget.canSave != null && !widget.canSave!()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('sensor-save-controller-offline-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: บันทึกเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมแล้วลองใหม่',
+            'Control box offline: cannot save sensor. Reconnect the control box and retry.',
+          )),
+        ),
+      );
+      return;
+    }
     final String name = _nameController.text.trim();
     if (name.isEmpty) {
       return;
@@ -247,6 +268,7 @@ class _SensorSetupDialogState extends State<SensorSetupDialog> {
                 ),
                 const SizedBox(height: 20),
                 FilledButton.icon(
+                  key: const Key('sensor-config-save'),
                   onPressed: _save,
                   icon: const Icon(Icons.save_rounded),
                   label: Text(
