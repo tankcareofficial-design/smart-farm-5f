@@ -60,6 +60,33 @@ Future<DeviceStore> _startStore(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('manual device saves without crop preset or installed sensor', () async {
+    final controller = _ProfileController();
+    final device = _device().copyWith(
+      name: 'Independent light',
+      type: OutputDeviceType.light,
+      mode: OutputControlMode.manual,
+      schedule: const DeviceScheduleConfig(enabled: false),
+      condition: const DeviceConditionConfig(enabled: false),
+    );
+    final store = await _startStore(controller, device);
+
+    expect(await store.updateOutput(device), isTrue);
+    final saved = controller.savedProfiles.single;
+    final trigger = saved['trigger'] as Map<String, dynamic>;
+    final schedule = trigger['schedule'] as Map<String, dynamic>;
+    final conditions = saved['conditions'] as List<dynamic>;
+    expect(saved['deviceType'], 'light');
+    expect(saved['controlMode'], 'manual');
+    expect(schedule['enabled'], isFalse);
+    expect(conditions, isEmpty);
+    expect(store.outputs.single.mode, OutputControlMode.manual);
+    expect(store.outputs.single.type, OutputDeviceType.light);
+
+    store.dispose();
+    controller.dispose();
+  });
+
   test('edit schedule saves the window before updating local device', () async {
     final controller = _ProfileController();
     final device = _device();
