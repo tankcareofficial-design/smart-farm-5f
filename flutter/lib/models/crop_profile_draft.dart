@@ -34,7 +34,7 @@ class CropProfileDraft {
   String displayName(CropProfile source, {required bool isThai}) {
     final name = source.name(isThai: isThai);
     if (!isCustomized(source)) return name;
-    return isThai ? '${name} (มีการปรับแต่ง)' : '${name} (Customized)';
+    return isThai ? '$name (มีการปรับแต่ง)' : '$name (Customized)';
   }
 
   Map<String, Object?> toJson() => <String, Object?>{
