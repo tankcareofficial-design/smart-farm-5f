@@ -47,6 +47,7 @@ class CropProfileDraft {
   }
 
   Map<String, Object?> toJson() => <String, Object?>{
+    'draftVersion': 2,
     'cropId': cropId,
     'temperatureMinC': temperatureMinC,
     'temperatureMaxC': temperatureMaxC,
