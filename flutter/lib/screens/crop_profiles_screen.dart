@@ -64,7 +64,7 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          l10n.text('พรีเซ็ตพืชผัก', 'Crop presets'),
+          l10n.text('ชุดค่าแนะนำการปลูก', 'Crop recommendations'),
           style: const TextStyle(fontWeight: FontWeight.w900),
         ),
       ),
@@ -74,8 +74,8 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
         children: <Widget>[
           _Notice(
             text: l10n.text(
-              'ตัวอย่างพรีเซ็ต: ยังไม่สั่งปั๊ม รีเลย์ หรือบันทึกค่าไปยัง Controller',
-              'Preset preview: no pump/relay commands or controller writes.',
+              'เลือกผักเพื่อดูค่าแนะนำ แล้วปรับเองได้เหมือน EQ · ยังไม่สั่งอุปกรณ์',
+              'Choose a crop to load editable suggested values. No device commands.',
             ),
           ),
           const SizedBox(height: 16),
@@ -123,7 +123,7 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 leading: CircleAvatar(child: Icon(_icon(crop.group))),
                 title: Text(
-                  (_drafts[crop.id] ?? CropProfileDraft(cropId: crop.id))
+                  (_drafts[crop.id] ?? CropProfileDraft.fromRecommendation(crop))
                       .displayName(crop, isThai: l10n.isThai),
                   style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
@@ -183,7 +183,7 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
   void initState() {
     super.initState();
     _draft = widget.initialDraft ??
-        CropProfileDraft(cropId: widget.profile.id);
+        CropProfileDraft.fromRecommendation(widget.profile);
   }
 
   Future<void> _customize() async {
@@ -281,16 +281,16 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
             icon: const Icon(Icons.edit_note_rounded),
             label: Text(
               l10n.text(
-                'ปรับแต่งและบันทึกแบบร่าง',
-                'Customize and save draft',
+                'ปรับค่าได้ด้วยตัวเอง',
+                'Adjust values manually',
               ),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.text(
-              'ปรับแต่งได้โดยไม่เปลี่ยนพรีเซ็ตต้นฉบับ และยังไม่สั่งอุปกรณ์',
-              'Draft edits do not overwrite the original preset or control equipment.',
+              'ปรับค่าได้โดยไม่เปลี่ยนต้นฉบับ · ยังไม่ได้ส่งค่าไปกล่องควบคุม',
+              'Custom values keep the original recommendation and do not control hardware.',
             ),
             style: Theme.of(context).textTheme.bodySmall,
           ),
