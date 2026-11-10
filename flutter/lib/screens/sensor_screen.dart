@@ -40,6 +40,17 @@ class SensorScreen extends StatelessWidget {
   }
 
   Future<void> _delete(BuildContext context, SensorConfig config) async {
+    if (controller != null && !controller!.connected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ก่อน',
+            'Controller offline: reconnect ESP32 before deleting a sensor.',
+          )),
+        ),
+      );
+      return;
+    }
     final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
@@ -216,8 +227,11 @@ class SensorScreen extends StatelessWidget {
                                 ),
                                 trailing: Switch(
                                   value: config.enabled,
-                                  onChanged: (bool value) =>
-                                      store.setSensorEnabled(config.id, value),
+                                  onChanged: controller != null &&
+                                          !controller!.connected
+                                      ? null
+                                      : (bool value) =>
+                                          store.setSensorEnabled(config.id, value),
                                 ),
                               ),
                               Padding(
