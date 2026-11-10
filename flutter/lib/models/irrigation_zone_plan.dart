@@ -134,7 +134,9 @@ class IrrigationPlan {
   }) {
     final issues = <IrrigationIssue>[];
     if (zones.isEmpty) issues.add(const IrrigationIssue('no_zones'));
-    if (zones.length > 7) issues.add(const IrrigationIssue('too_many_zones'));
+    if (zones.length > (delivery == WaterDelivery.valveOnly ? 8 : 7)) {
+      issues.add(const IrrigationIssue('too_many_zones'));
+    }
     if (delivery == WaterDelivery.pumpDirect && zones.length > 1) {
       issues.add(const IrrigationIssue('direct_pump_one_zone_only'));
     }
@@ -206,7 +208,7 @@ class IrrigationPlan {
       if (entry is! Map) throw const FormatException('invalid zone');
       return IrrigationZone.fromJson(Map<String, Object?>.from(entry));
     }).toList(growable: false);
-    if (parsed.isEmpty || parsed.length > 7) {
+    if (parsed.isEmpty || parsed.length > 8) {
       throw const FormatException('invalid zone count');
     }
     final mode = data['delivery'] as String?;
