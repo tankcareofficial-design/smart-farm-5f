@@ -26,7 +26,7 @@ class DevicesScreen extends StatelessWidget {
         SnackBar(
           key: const Key('controller-offline-action-warning'),
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุม ในหน้าตั้งค่าก่อน',
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่าก่อน',
             'Controller offline: connect the control box in Settings before adding or editing devices.',
           )),
         ),
@@ -53,7 +53,7 @@ class DevicesScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุม แล้วลองใหม่',
+            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมแล้วลองใหม่',
             'Controller offline: cannot delete a device. Connect the control box and retry.',
           )),
         ),
@@ -310,9 +310,9 @@ class _Esp32ClockState extends State<_Esp32Clock> {
           children: [
             Text(
               !hasClockValue
-                  ? context.l10n.text('เวลาจากคอนโทรลเลอร์', 'Controller time')
+                  ? context.l10n.text('เวลาจากกล่องควบคุม', 'Controller time')
                   : clockValid
-                  ? context.l10n.text('เวลาจากคอนโทรลเลอร์', 'Controller time')
+                  ? context.l10n.text('เวลาจากกล่องควบคุม', 'Controller time')
                   : context.l10n.text(
                       'เวลา DS3231 ยังไม่ยืนยัน',
                       'DS3231 time is unverified',
@@ -453,7 +453,7 @@ class _ControllerStatusBanner extends StatelessWidget {
             child: Text(
               !connected
                   ? context.l10n.text(
-                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุม ในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
+                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
                       'Controller offline: device changes and commands unavailable. Connect the control box in Settings. Crop guides still work offline.',
                     )
                   : message ?? context.l10n.text(
