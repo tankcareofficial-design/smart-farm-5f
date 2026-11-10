@@ -210,22 +210,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         style: const TextStyle(fontWeight: FontWeight.w900),
                       ),
                       subtitle: Text(
-                        context.l10n.text(
-                          'หลอดไฟ พัดลม ปั๊ม หรืออุปกรณ์อื่น · เปิด-ปิดเองได้ ไม่ต้องมีเซ็นเซอร์',
-                          'Lights, fans, pumps and more · manual control without sensors',
-                        ),
+                        widget.store.controllerConnected
+                            ? context.l10n.text(
+                                'หลอดไฟ พัดลม ปั๊ม หรืออุปกรณ์อื่น · เปิด-ปิดเองได้ ไม่ต้องมีเซ็นเซอร์',
+                                'Lights, fans, pumps and more · manual control without sensors',
+                              )
+                            : context.l10n.text(
+                                'กล่องควบคุมออฟไลน์ · เชื่อมต่อ ESP32 ก่อนเพิ่มอุปกรณ์',
+                                'Controller offline · connect ESP32 before adding devices',
+                              ),
                       ),
-                      trailing: const Icon(Icons.add_circle_outline_rounded),
-                      onTap: () => showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        useSafeArea: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (_) => OutputDeviceDialog(
-                          store: widget.store,
-                          sensorStore: widget.sensorStore,
-                        ),
+                      trailing: Icon(
+                        widget.store.controllerConnected
+                            ? Icons.add_circle_outline_rounded
+                            : Icons.wifi_off_rounded,
                       ),
+                      onTap: () {
+                        if (!widget.store.controllerConnected) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              key: const Key('dashboard-controller-offline-warning'),
+                              content: Text(context.l10n.text(
+                                'ยังเพิ่มอุปกรณ์ไม่ได้ เพราะกล่องควบคุมออฟไลน์ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า',
+                                'Cannot add a device while the controller is offline. Connect ESP32 in Settings.',
+                              )),
+                            ),
+                          );
+                          return;
+                        }
+                        showModalBottomSheet<void>(
+                          context: context,
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (_) => OutputDeviceDialog(
+                            store: widget.store,
+                            sensorStore: widget.sensorStore,
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 8),
