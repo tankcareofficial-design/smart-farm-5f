@@ -49,6 +49,17 @@ class DevicesScreen extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, OutputDevice device) async {
+    if (!store.controllerConnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 แล้วลองใหม่',
+            'Controller offline: cannot delete a device. Connect ESP32 and retry.',
+          )),
+        ),
+      );
+      return;
+    }
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
