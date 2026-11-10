@@ -21,6 +21,7 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
   CropGroup? _group;
   final CropDraftRepository _repository = CropDraftRepository();
   Map<String, CropProfileDraft> _drafts = <String, CropProfileDraft>{};
+  String? _selectedCropId;
 
   @override
   void initState() {
@@ -30,7 +31,13 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
 
   Future<void> _loadDrafts() async {
     final drafts = await _repository.load();
-    if (mounted) setState(() => _drafts = drafts);
+    final selected = await _repository.loadSelectedCropId();
+    if (mounted) {
+      setState(() {
+        _drafts = drafts;
+        _selectedCropId = selected;
+      });
+    }
   }
 
   Future<bool> _saveDraft(CropProfileDraft draft) async {
@@ -54,6 +61,12 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
       );
     }
     return ok;
+  }
+
+  Future<bool> _selectCrop(String id) async {
+    final saved = await _repository.saveSelectedCropId(id);
+    if (saved && mounted) setState(() => _selectedCropId = id);
+    return saved;
   }
 
   @override
@@ -128,7 +141,15 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
                       .displayName(crop, isThai: l10n.isThai),
                   style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
-                subtitle: Text(_groupName(context, crop.group)),
+                subtitle: Text(
+                  [
+                    _groupName(context, crop.group),
+                    if (crop.referenceClimate.hasTemperatureRange)
+                      '${crop.referenceClimate.temperatureMinC!.toInt()}–${crop.referenceClimate.temperatureMaxC!.toInt()} °C',
+                    if (_selectedCropId == crop.id)
+                      l10n.text('เลือกไว้ในมือถือ', 'Selected on phone'),
+                  ].join(' · '),
+                ),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push<void>(
                   MaterialPageRoute<void>(
@@ -136,6 +157,8 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
                       profile: crop,
                       initialDraft: _drafts[crop.id],
                       onDraftSaved: _saveDraft,
+                      isSelected: _selectedCropId == crop.id,
+                      onSelected: _selectCrop,
                     ),
                   ),
                 ),
@@ -168,10 +191,14 @@ class CropProfileDetailScreen extends StatefulWidget {
     required this.profile,
     this.initialDraft,
     this.onDraftSaved,
+    this.isSelected = false,
+    this.onSelected,
   });
   final CropProfile profile;
   final CropProfileDraft? initialDraft;
   final Future<bool> Function(CropProfileDraft)? onDraftSaved;
+  final bool isSelected;
+  final Future<bool> Function(String)? onSelected;
 
   @override
   State<CropProfileDetailScreen> createState() => _CropProfileDetailScreenState();
@@ -179,12 +206,14 @@ class CropProfileDetailScreen extends StatefulWidget {
 
 class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
   late CropProfileDraft _draft;
+  late bool _selected;
 
   @override
   void initState() {
     super.initState();
     _draft = widget.initialDraft ??
         CropProfileDraft.fromRecommendation(widget.profile);
+    _selected = widget.isSelected;
   }
 
   Future<void> _customize() async {
