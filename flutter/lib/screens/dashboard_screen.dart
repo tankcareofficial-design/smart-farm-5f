@@ -216,8 +216,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 'Lights, fans, pumps and more · manual control without sensors',
                               )
                             : context.l10n.text(
-                                'กล่องควบคุมออฟไลน์ · เชื่อมต่อ กล่องควบคุม ก่อนเพิ่มอุปกรณ์',
-                                'Controller offline · connect control box before adding devices',
+                                'กล่องควบคุมออฟไลน์ · เชื่อมต่อกล่องควบคุม ก่อนเพิ่มอุปกรณ์',
+                                'Controller offline · connect the control box before adding devices',
                               ),
                       ),
                       trailing: Icon(
@@ -231,8 +231,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             SnackBar(
                               key: const Key('dashboard-controller-offline-warning'),
                               content: Text(context.l10n.text(
-                                'ยังเพิ่มอุปกรณ์ไม่ได้ เพราะกล่องควบคุมออฟไลน์ กรุณาเชื่อมต่อ กล่องควบคุม ในหน้าตั้งค่า',
-                                'Cannot add a device while the controller is offline. Connect control box in Settings.',
+                                'ยังเพิ่มอุปกรณ์ไม่ได้ เพราะกล่องควบคุมออฟไลน์ กรุณาเชื่อมต่อกล่องควบคุม ในหน้าตั้งค่า',
+                                'Cannot add a device while the controller is offline. Connect the control box in Settings.',
                               )),
                             ),
                           );
