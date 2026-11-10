@@ -235,6 +235,22 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
     if (mounted) setState(() => _draft = edited);
   }
 
+  Future<void> _selectRecommendation() async {
+    final choose = widget.onSelected;
+    if (choose == null) return;
+    final ok = await choose(widget.profile.id);
+    if (!mounted) return;
+    if (ok) {
+      setState(() => _selected = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.text(
+          'เลือกค่าแนะนำไว้ในมือถือแล้ว · ยังไม่ได้ส่งไปอุปกรณ์',
+          'Recommendation selected on this phone, not sent to equipment.',
+        ))),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final profile = widget.profile;
@@ -267,7 +283,7 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${_groupName(context, profile.group)} · Crop Profile v${profile.schemaVersion}',
+                          '${_groupName(context, profile.group)} · ${l10n.text('ชุดค่าแนะนำ', 'Crop guide')}',
                         ),
                       ],
                     ),
@@ -279,8 +295,8 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
           const SizedBox(height: 12),
           _Notice(
             text: l10n.text(
-              'ยังไม่พร้อมควบคุมอุปกรณ์: ต้องตรวจแหล่งข้อมูล สอบเทียบเซนเซอร์และวัสดุปลูก และยืนยันขีดจำกัดปั๊มก่อน',
-              'Not ready for automatic control: verify references, calibrate sensors/media, and validate pump limits first.',
+              'ค่าแนะนำเลือกและปรับได้ในมือถือ · ยังไม่สั่งปั๊มหรือรีเลย์ ต้องสอบเทียบเซนเซอร์ก่อนใช้กับอุปกรณ์จริง',
+              'Select or edit guidance on this phone. No pump or relay commands until sensor calibration and safety verification.',
             ),
           ),
           const SizedBox(height: 16),
@@ -298,6 +314,17 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
           const SizedBox(height: 8),
           CropReferenceValues(profile: profile, draft: _draft),
           const SizedBox(height: 16),
+          FilledButton.icon(
+            key: const Key('crop-select-local'),
+            onPressed: widget.onSelected == null ? null : _selectRecommendation,
+            icon: Icon(_selected ? Icons.check_circle_rounded : Icons.check_rounded),
+            label: Text(
+              _selected
+                  ? context.l10n.text('เลือกชุดนี้แล้ว', 'Selected on this phone')
+                  : context.l10n.text('เลือกใช้ชุดค่าแนะนำนี้', 'Choose these recommendations'),
+            ),
+          ),
+          const SizedBox(height: 8),
           OutlinedButton.icon(
             key: const Key('crop-customize-button'),
             onPressed: _customize,
