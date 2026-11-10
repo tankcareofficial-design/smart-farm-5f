@@ -71,6 +71,32 @@ void main() {
         isTrue);
   });
 
+  test('old phone drafts inherit new recommendations without losing notes', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      CropDraftRepository.storageKey:
+          '{"water_spinach":{"cropId":"water_spinach","temperatureMinC":null,"temperatureMaxC":null,"note":"ปลูกในกระถาง"}}',
+    });
+    final old = (await CropDraftRepository().load())['water_spinach']!;
+    expect(old.temperatureMinC, 25);
+    expect(old.temperatureMaxC, 30);
+    expect(old.note, 'ปลูกในกระถาง');
+    final crop = CropProfileCatalog.byId('water_spinach')!;
+    expect(old.displayName(crop, isThai: true),
+        'ผักบุ้งจีน (มีการปรับแต่ง)');
+
+    const cleared = CropProfileDraft(
+      cropId: 'water_spinach',
+      temperatureMinC: null,
+      temperatureMaxC: 30,
+    );
+    expect(await CropDraftRepository().save(<String, CropProfileDraft>{
+      'water_spinach': cleared,
+    }), isTrue);
+    final newer = (await CropDraftRepository().load())['water_spinach']!;
+    expect(newer.temperatureMinC, isNull);
+    expect(newer.temperatureMaxC, 30);
+  });
+
   testWidgets('EQ-like choice prefills temperature and stays on phone', (
     tester,
   ) async {
