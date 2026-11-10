@@ -15,7 +15,7 @@ void main() {
 
   test('unmodified original displays plain crop name in Thai/English', () {
     final crop = CropProfileCatalog.byId('water_spinach')!;
-    const draft = CropProfileDraft(cropId: 'water_spinach');
+    final draft = CropProfileDraft.fromRecommendation(crop);
     expect(draft.isCustomized(crop), false);
     expect(draft.displayName(crop, isThai: true), 'ผักบุ้งจีน');
     expect(draft.displayName(crop, isThai: false), 'Water spinach');
@@ -44,7 +44,7 @@ void main() {
   test('reset removes customization suffix and stays preview-only', () {
     final crop = CropProfileCatalog.byId('water_spinach')!;
     const changed = CropProfileDraft(cropId: 'water_spinach', note: 'ระเบียง');
-    const reset = CropProfileDraft(cropId: 'water_spinach');
+    final reset = CropProfileDraft.fromRecommendation(crop);
     expect(changed.isCustomized(crop), true);
     expect(reset.isCustomized(crop), false);
     expect(reset.displayName(crop, isThai: true), 'ผักบุ้งจีน');
