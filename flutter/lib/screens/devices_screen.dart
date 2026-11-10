@@ -20,8 +20,20 @@ class DevicesScreen extends StatelessWidget {
     required this.sensorStore,
   });
 
-  Future<void> _showDeviceDialog(BuildContext context, {OutputDevice? device}) {
-    return showModalBottomSheet<void>(
+  Future<void> _showDeviceDialog(BuildContext context, {OutputDevice? device}) async {
+    if (!store.controllerConnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('controller-offline-action-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่าก่อน',
+            'Controller offline: connect ESP32 in Settings before adding or editing devices.',
+          )),
+        ),
+      );
+      return;
+    }
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -114,8 +126,23 @@ class DevicesScreen extends StatelessWidget {
               ],
             ),
             body: devices.isEmpty
-                ? _EmptyDeviceView(
-                    onAddPressed: () => _showDeviceDialog(context),
+                ? Column(
+                    children: <Widget>[
+                      if (!store.controllerConnected ||
+                          store.lastCommandError != null)
+                        _ControllerStatusBanner(
+                          connected: store.controllerConnected,
+                          message: store.lastCommandError,
+                          onDismiss: store.lastCommandError == null
+                              ? null
+                              : store.clearCommandError,
+                        ),
+                      Expanded(
+                        child: _EmptyDeviceView(
+                          onAddPressed: () => _showDeviceDialog(context),
+                        ),
+                      ),
+                    ],
                   )
                 : Column(
                     children: [
@@ -413,11 +440,15 @@ class _ControllerStatusBanner extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              message ??
-                  context.l10n.text(
-                    'กล่องควบคุมไม่ได้เชื่อมต่อ กรุณาตรวจสอบการเชื่อมต่อก่อนใช้งาน',
-                    'Controller is offline. Connect ESP32 in Settings before control.',
-                  ),
+              !connected
+                  ? context.l10n.text(
+                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
+                      'Controller offline: device changes and commands unavailable. Connect ESP32 in Settings. Crop guides still work offline.',
+                    )
+                  : message ?? context.l10n.text(
+                      'ไม่สามารถดำเนินการล่าสุดได้ กรุณาตรวจสอบสถานะกล่องควบคุม',
+                      'The last operation failed. Check controller status.',
+                    ),
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
