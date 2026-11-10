@@ -39,7 +39,7 @@ void main() {
         temperatureMinC: 22,
         note: 'ทดลองในโรงเรือน',
       );
-      const reset = CropProfileDraft(cropId: 'water_spinach');
+      final reset = CropProfileDraft.fromRecommendation(source);
       expect(edited.isCustomized(source), isTrue);
       expect(edited.displayName(source, isThai: true),
           'ผักบุ้งจีน (มีการปรับแต่ง)');
