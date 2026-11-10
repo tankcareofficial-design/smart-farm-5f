@@ -148,8 +148,8 @@ class _PairControllerScreenState extends State<PairControllerScreen> {
               : const Icon(Icons.wifi_find_rounded),
           label: Text(
             _text(
-              'เชื่อมต่อและให้ ESP32 สแกน Wi-Fi',
-              'Connect and ask ESP32 to scan Wi-Fi',
+              'เชื่อมต่อและให้ กล่องควบคุม สแกน Wi-Fi',
+              'Connect and ask control box to scan Wi-Fi',
             ),
           ),
           style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(54)),
