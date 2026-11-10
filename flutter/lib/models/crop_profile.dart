@@ -38,6 +38,35 @@ class CropControlTargets {
       cooldownSeconds == null;
 }
 
+/// Evidence-based cultivation reference, NOT a device-control threshold.
+/// Values represent air conditions for the source's stated setting/stage.
+class CropClimateReference {
+  const CropClimateReference({
+    this.temperatureMinC,
+    this.temperatureMaxC,
+    this.sourceTitleTh = '',
+    this.sourceTitleEn = '',
+    this.sourceUrl = '',
+    this.contextTh = '',
+    this.contextEn = '',
+  });
+
+  final double? temperatureMinC;
+  final double? temperatureMaxC;
+  final String sourceTitleTh;
+  final String sourceTitleEn;
+  final String sourceUrl;
+  final String contextTh;
+  final String contextEn;
+
+  bool get hasTemperatureRange =>
+      temperatureMinC != null && temperatureMaxC != null;
+  String sourceTitle({required bool isThai}) =>
+      isThai ? sourceTitleTh : sourceTitleEn;
+  String context({required bool isThai}) =>
+      isThai ? contextTh : contextEn;
+}
+
 class CropProfile {
   const CropProfile({
     required this.id,
@@ -50,6 +79,7 @@ class CropProfile {
     required this.lightNoteEn,
     this.schemaVersion = 1,
     this.targets = const CropControlTargets(),
+    this.referenceClimate = const CropClimateReference(),
     this.sourceReferences = const <String>[],
   });
 
@@ -63,6 +93,10 @@ class CropProfile {
   final String lightNoteTh;
   final String lightNoteEn;
   final CropControlTargets targets;
+
+  /// Source-backed starting values for an editable phone-only guide.
+  /// Never copy these to an actuator without a separate validated workflow.
+  final CropClimateReference referenceClimate;
 
   /// Empty until actual agricultural references have been reviewed.
   final List<String> sourceReferences;
