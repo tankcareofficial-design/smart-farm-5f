@@ -7,6 +7,7 @@ import '../services/farm_health_engine.dart';
 import '../stores/device_store.dart';
 import '../stores/sensor_store.dart';
 import '../stores/settings_store.dart';
+import 'crop_profiles_screen.dart';
 import '../widgets/dashboard/dashboard_data_widgets.dart';
 import '../widgets/dashboard/dashboard_overview_widgets.dart';
 import '../widgets/dashboard/live_datetime_header.dart';
@@ -172,6 +173,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     onSensorsPressed: () => widget.onNavigate(2),
                     onSettingsPressed: () => widget.onNavigate(3),
                     onEmergencyOffPressed: () => _handleEmergency(context),
+                  ),
+                  const SizedBox(height: 18),
+                  Card(
+                    child: ListTile(
+                      key: const Key('open-crop-presets'),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      leading: const CircleAvatar(
+                        child: Icon(Icons.eco_rounded),
+                      ),
+                      title: Text(
+                        context.l10n.text(
+                          'พรีเซ็ตพืชผัก',
+                          'Crop presets',
+                        ),
+                        style: const TextStyle(fontWeight: FontWeight.w900),
+                      ),
+                      subtitle: Text(
+                        context.l10n.text(
+                          'เลือกชนิดผักและดูคำแนะนำ · ยังไม่สั่งอุปกรณ์',
+                          'Browse crop guidance · no device commands',
+                        ),
+                      ),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () => Navigator.of(context).push<void>(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const CropProfilesScreen(),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 18),
                   DashboardSectionHeader(
