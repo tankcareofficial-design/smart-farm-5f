@@ -67,7 +67,8 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
   }
 
   void _addZone() {
-    if (_plan.zones.length >= 7) return;
+    if (_plan.zones.length >=
+        (_plan.delivery == WaterDelivery.valveOnly ? 8 : 7)) return;
     var index = 1;
     while (_plan.zones.any((zone) => zone.id == 'zone-$index')) {
       index++;
@@ -350,7 +351,9 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
               )),
               TextButton.icon(
                 key: const Key('irrigation-add-zone'),
-                onPressed: count >= 7 ? null : _addZone,
+                onPressed: count >=
+                    (_plan.delivery == WaterDelivery.valveOnly ? 8 : 7)
+                    ? null : _addZone,
                 icon: const Icon(Icons.add_rounded),
                 label: Text(context.l10n.text('เพิ่มโซน', 'Add zone')),
               ),
