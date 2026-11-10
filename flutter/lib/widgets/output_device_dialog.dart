@@ -612,8 +612,8 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
         _stepTitle(
           context.l10n.text('เลือกรูปแบบการทำงาน', 'Choose control mode'),
           context.l10n.text(
-            'เลือกโหมดก่อน แล้วกดถัดไปเพื่อตั้งค่ารายละเอียด',
-            'Choose a mode, then continue to configure it',
+            'ไม่ต้องใช้พรีเซ็ตผัก เลือกควบคุมเอง ตั้งเวลา หรือใช้เซ็นเซอร์ก็ได้',
+            'No crop preset needed: choose Manual, Schedule, or Sensor control',
           ),
         ),
         const SizedBox(height: 16),
@@ -622,8 +622,8 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
           icon: Icons.touch_app_rounded,
           title: context.l10n.text('ควบคุมเอง', 'Manual control'),
           subtitle: context.l10n.text(
-            'เปิดหรือปิดจากหน้าอุปกรณ์',
-            'Turn it on or off from the device page',
+            'สำหรับหลอดไฟ พัดลม และอุปกรณ์ทั่วไป ไม่ต้องมีเซ็นเซอร์',
+            'For lights, fans, and general devices. No sensors required',
           ),
           onTap: () => _selectMode(OutputControlMode.manual),
         ),
@@ -633,8 +633,8 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
           icon: Icons.alarm_rounded,
           title: context.l10n.text('ตั้งเวลา', 'Schedule'),
           subtitle: context.l10n.text(
-            'หน้าถัดไปเลือกวัน เวลาเปิด และเวลาปิด',
-            'Next, choose days, start time, and stop time',
+            'เลือกวันและเวลาเองได้ ไม่ต้องเลือกชนิดผัก',
+            'Set days and on/off times without choosing a crop',
           ),
           onTap: () => _selectMode(OutputControlMode.schedule),
         ),
@@ -644,8 +644,8 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
           icon: Icons.sensors_rounded,
           title: context.l10n.text('ตามเซ็นเซอร์', 'Sensor condition'),
           subtitle: context.l10n.text(
-            'หน้าถัดไปเลือกเซ็นเซอร์และกฎการทำงาน',
-            'Next, choose a sensor and its rule',
+            'ใช้ได้เมื่อมีเซ็นเซอร์ติดตั้งแล้วเท่านั้น',
+            'Available after a sensor has been installed',
           ),
           onTap: _availableSensors.isEmpty
               ? null
