@@ -142,7 +142,7 @@ class _CropProfileDraftEditorState extends State<CropProfileDraftEditor> {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      l10n.text('ปรับแต่งพรีเซ็ต', 'Customize preset'),
+                      l10n.text('ปรับชุดค่าแนะนำ', 'Adjust recommended values'),
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
@@ -155,8 +155,8 @@ class _CropProfileDraftEditorState extends State<CropProfileDraftEditor> {
               ),
               const SizedBox(height: 8),
               Text(l10n.text(
-                'บันทึกเป็นแบบร่างในโทรศัพท์ ไม่สั่งปั๊ม รีเลย์ หรือระบบอัตโนมัติ',
-                'Phone-only draft: does not command pumps, relays, or automation.',
+                'เมื่อเลือกผัก ค่าแนะนำจะเติมให้แล้ว ปรับเองได้ทุกช่อง · บันทึกเฉพาะในมือถือ ไม่สั่งอุปกรณ์',
+                'Recommended values are prefilled. Edit freely; save on phone only, without device commands.',
               )),
               const SizedBox(height: 18),
               _field(
@@ -200,9 +200,9 @@ class _CropProfileDraftEditorState extends State<CropProfileDraftEditor> {
                       key: const Key('crop-draft-reset'),
                       onPressed: () => Navigator.pop(
                         context,
-                        CropProfileDraft(cropId: widget.profile.id),
+                        CropProfileDraft.fromRecommendation(widget.profile),
                       ),
-                      child: Text(l10n.text('คืนค่าเดิม', 'Reset preset')),
+                      child: Text(l10n.text('คืนค่าแนะนำ', 'Restore recommendation')),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -210,7 +210,7 @@ class _CropProfileDraftEditorState extends State<CropProfileDraftEditor> {
                     child: FilledButton(
                       key: const Key('crop-draft-save'),
                       onPressed: _save,
-                      child: Text(l10n.text('บันทึกแบบร่าง', 'Save draft')),
+                      child: Text(l10n.text('บันทึกค่าที่ปรับ', 'Save adjustments')),
                     ),
                   ),
                 ],
