@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
         settingsStore: widget.settingsStore,
       ),
       DevicesScreen(store: deviceStore, sensorStore: sensorStore),
-      SensorScreen(store: sensorStore),
+      SensorScreen(store: sensorStore, controller: farmController),
       SettingsScreen(store: widget.settingsStore, controller: farmController),
     ];
 
