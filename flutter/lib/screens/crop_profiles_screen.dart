@@ -63,8 +63,8 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
           const SizedBox(height: 14),
           Text(
             l10n.text(
-              'พบ ' + crops.length.toString() + ' รายการ',
-              crops.length.toString() + ' crops',
+              'พบ ${crops.length} รายการ',
+              '${crops.length} crops',
             ),
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -79,7 +79,7 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
           for (final crop in crops) ...<Widget>[
             Card(
               child: ListTile(
-                key: Key('crop-profile-' + crop.id),
+                key: Key('crop-profile-${crop.id}'),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 leading: CircleAvatar(child: Icon(_icon(crop.group))),
@@ -151,9 +151,7 @@ class CropProfileDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          _groupName(context, profile.group) +
-                              ' · Crop Profile v' +
-                              profile.schemaVersion.toString(),
+                          '${_groupName(context, profile.group)} · Crop Profile v${profile.schemaVersion}',
                         ),
                       ],
                     ),
