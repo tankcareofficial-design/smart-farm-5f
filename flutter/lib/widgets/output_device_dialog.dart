@@ -181,8 +181,8 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
         SnackBar(
           key: const Key('device-save-controller-offline-warning'),
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังบันทึกอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 แล้วลองอีกครั้ง',
-            'Controller offline: device cannot be saved. Reconnect ESP32 and retry.',
+            'กล่องควบคุมออฟไลน์: ยังบันทึกอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม แล้วลองอีกครั้ง',
+            'Controller offline: device cannot be saved. Reconnect control box and retry.',
           )),
         ),
       );
