@@ -19,11 +19,20 @@ class CropProfileDraft {
   final double? humidityMaxPercent;
   final String note;
 
+  /// Load a source-backed recommendation into editable fields just as an
+  /// equalizer preset fills its sliders. This is an in-app configuration only.
+  factory CropProfileDraft.fromRecommendation(CropProfile source) =>
+      CropProfileDraft(
+        cropId: source.id,
+        temperatureMinC: source.referenceClimate.temperatureMinC,
+        temperatureMaxC: source.referenceClimate.temperatureMaxC,
+      );
+
   bool isCustomized(CropProfile source) {
     if (source.id != cropId) {
       throw ArgumentError.value(cropId, 'cropId', 'Mismatched crop preset');
     }
-    final baseline = source.targets;
+    final baseline = source.referenceClimate;
     return temperatureMinC != baseline.temperatureMinC ||
         temperatureMaxC != baseline.temperatureMaxC ||
         humidityMinPercent != baseline.humidityMinPercent ||
