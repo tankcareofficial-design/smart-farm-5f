@@ -40,5 +40,7 @@ class ClockService {
   bool readRtc();
   bool readTemperature();
   bool probe() const;
+  bool recordReadFailure(const char *errorCode, bool deviceMissing);
   void updateQuality();
+  static constexpr uint8_t kTransientFailureThreshold = 3;
 };

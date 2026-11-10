@@ -30,7 +30,7 @@ class SmartFarmApp extends StatelessWidget {
 
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Smart Farm+',
+          title: 'Smartfarm+',
           theme: SFTheme.light,
           darkTheme: SFTheme.dark,
           themeMode: switch (settings.themeMode) {

@@ -99,8 +99,8 @@ class DevicesScreen extends StatelessWidget {
                   ),
                   Text(
                     context.l10n.text(
-                      'จัดการรีเลย์ ปั๊ม วาล์ว และอุปกรณ์',
-                      'Manage relays, pumps, valves and devices',
+                      'หลอดไฟ พัดลม ปั๊ม และอุปกรณ์ทั่วไป · ไม่บังคับพรีเซ็ต',
+                      'Lights, fans, pumps and general devices · presets optional',
                     ),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
@@ -141,6 +141,7 @@ class DevicesScreen extends StatelessWidget {
                               device: device,
                               controllerConnected: store.controllerConnected,
                               commandPending: store.isCommandPending(device.id),
+                              emergencyLocked: store.emergencyLatched,
                               onStateChanged: (value) async {
                                 final success = await store.setOutputState(
                                   device.id,
@@ -233,7 +234,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
     final connected = widget.store.controllerConnected;
     final clockValid = widget.store.controllerClockValid;
     final hasClockValue = dateTime != null;
-    final online = hasClockValue && clockValid;
+    final online = connected;
     final time = hasClockValue
         ? '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}'
         : connected
@@ -352,8 +353,8 @@ class _EmptyDeviceView extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.text(
-                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smart Farm Pro',
-                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smart Farm Pro',
+                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smartfarm+',
+                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smartfarm+',
               ),
               textAlign: TextAlign.center,
               style: TextStyle(
