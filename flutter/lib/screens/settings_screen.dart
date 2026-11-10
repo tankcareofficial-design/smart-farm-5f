@@ -123,15 +123,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           'เชื่อมต่อบัญชีแล้ว',
                           'Account connected',
                         )
-                      : context.l10n.text('ใช้งานแบบออฟไลน์', 'Offline mode'),
+                      : context.l10n.text(
+                          'ยังไม่มีบัญชีคลาวด์ · ใช้งานผ่าน Wi-Fi/LAN ได้',
+                          'Cloud account not enabled · local Wi-Fi/LAN still works',
+                        ),
                   onTap: () => _showComingSoon(
                     title: context.l10n.text(
                       'แผนการเข้าถึงระยะไกล',
                       'Remote-access roadmap',
                     ),
                     message: context.l10n.text(
-                      'ระบบปัจจุบันทำงานผ่านเครือข่ายภายในและยังทำงานอัตโนมัติได้เมื่อแอปออฟไลน์ การเข้าถึงผ่านอินเทอร์เน็ต บัญชีผู้ใช้ และการยืนยันตัวตนที่ปลอดภัยจะเพิ่มในเวอร์ชันอนาคต',
-                      'The current system uses the local network and continues automation while the app is offline. Internet access, user accounts, and secure authentication are planned for a future release',
+                      'ปัจจุบันเชื่อมต่อ ESP32 ผ่าน Wi-Fi/LAN ได้โดยไม่ต้องใช้อินเทอร์เน็ต ในรุ่นถัดไปมีแผนเพิ่มล็อกอินด้วย Supabase Auth และบริการคลาวด์ผ่าน Cloudflare โดยยังไม่เปิดใช้งานจริง',
+                      'ESP32 works on local Wi-Fi/LAN without Internet. Supabase Auth login and Cloudflare services are planned for a later release and are not yet active.',
                     ),
                   ),
                 ),
