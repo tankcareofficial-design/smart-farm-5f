@@ -9,6 +9,23 @@ import '../models/crop_profile_draft.dart';
 /// AutomationEngine; never apply these fields to a real relay.
 class CropDraftRepository {
   static const storageKey = 'crop_profile_drafts_v1';
+  static const selectedCropKey = 'crop_selected_reference_v1';
+
+  /// Only the chosen in-app reference; never an ESP32 rule or profile.
+  Future<String?> loadSelectedCropId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cropId = prefs.getString(selectedCropKey);
+    return cropId != null && CropProfileCatalog.byId(cropId) != null
+        ? cropId
+        : null;
+  }
+
+  Future<bool> saveSelectedCropId(String cropId) async {
+    if (CropProfileCatalog.byId(cropId) == null) return false;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(selectedCropKey, cropId);
+  }
+
 
   Future<Map<String, CropProfileDraft>> load() async {
     final prefs = await SharedPreferences.getInstance();
