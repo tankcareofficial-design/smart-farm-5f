@@ -50,6 +50,12 @@ void main() {
     await tester.tap(find.byKey(const Key('crop-profile-tomato')));
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('crop-apply-disabled')),
+      180,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pumpAndSettle();
     final apply = tester.widget<FilledButton>(
       find.byKey(const Key('crop-apply-disabled')),
     );
