@@ -133,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       'Remote-access roadmap',
                     ),
                     message: context.l10n.text(
-                      'ปัจจุบันเชื่อมต่อ กล่องควบคุม ผ่าน Wi-Fi/LAN ได้โดยไม่ต้องใช้อินเทอร์เน็ต ในรุ่นถัดไปมีแผนเพิ่มล็อกอินด้วย Supabase Auth และบริการคลาวด์ผ่าน Cloudflare โดยยังไม่เปิดใช้งานจริง',
+                      'ปัจจุบันเชื่อมต่อกล่องควบคุมผ่าน Wi-Fi/LAN ได้โดยไม่ต้องใช้อินเทอร์เน็ต ในรุ่นถัดไปมีแผนเพิ่มล็อกอินด้วย Supabase Auth และบริการคลาวด์ผ่าน Cloudflare โดยยังไม่เปิดใช้งานจริง',
                       'Control box works on local Wi-Fi/LAN without Internet. Supabase Auth login and Cloudflare services are planned for a later release and are not yet active.',
                     ),
                   ),
