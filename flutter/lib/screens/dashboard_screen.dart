@@ -12,6 +12,7 @@ import '../widgets/dashboard/dashboard_data_widgets.dart';
 import '../widgets/dashboard/dashboard_overview_widgets.dart';
 import '../widgets/dashboard/live_datetime_header.dart';
 import '../widgets/dashboard/quick_actions_card.dart';
+import '../widgets/output_device_dialog.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({
@@ -175,6 +176,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     onEmergencyOffPressed: () => _handleEmergency(context),
                   ),
                   const SizedBox(height: 18),
+                  DashboardSectionHeader(
+                    title: context.l10n.text(
+                      'เลือกวิธีเริ่มใช้งาน',
+                      'Choose how to start',
+                    ),
+                    subtitle: context.l10n.text(
+                      'ควบคุมอุปกรณ์ทั่วไปได้ ไม่จำเป็นต้องปลูกผักหรือมีเซ็นเซอร์',
+                      'Control any connected device without a crop or sensor.',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Card(
+                    child: ListTile(
+                      key: const Key('open-manual-device'),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      leading: const CircleAvatar(
+                        child: Icon(Icons.lightbulb_outline_rounded),
+                      ),
+                      title: Text(
+                        context.l10n.text(
+                          'เพิ่มอุปกรณ์ทั่วไป',
+                          'Add a general device',
+                        ),
+                        style: const TextStyle(fontWeight: FontWeight.w900),
+                      ),
+                      subtitle: Text(
+                        context.l10n.text(
+                          'หลอดไฟ พัดลม ปั๊ม หรืออุปกรณ์อื่น · เปิด-ปิดเองได้ ไม่ต้องมีเซ็นเซอร์',
+                          'Lights, fans, pumps and more · manual control without sensors',
+                        ),
+                      ),
+                      trailing: const Icon(Icons.add_circle_outline_rounded),
+                      onTap: () => showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) => OutputDeviceDialog(
+                          store: widget.store,
+                          sensorStore: widget.sensorStore,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Card(
                     child: ListTile(
                       key: const Key('open-crop-presets'),
@@ -187,15 +236,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       title: Text(
                         context.l10n.text(
-                          'พรีเซ็ตพืชผัก',
-                          'Crop presets',
+                          'ดูพรีเซ็ตสำหรับปลูกผัก',
+                          'Explore crop presets',
                         ),
                         style: const TextStyle(fontWeight: FontWeight.w900),
                       ),
                       subtitle: Text(
                         context.l10n.text(
-                          'เลือกชนิดผักและดูคำแนะนำ · ยังไม่สั่งอุปกรณ์',
-                          'Browse crop guidance · no device commands',
+                          'ตัวช่วยเสริมสำหรับแปลงผัก · ไม่บังคับใช้',
+                          'Optional guidance for vegetable growing',
                         ),
                       ),
                       trailing: const Icon(Icons.chevron_right_rounded),
