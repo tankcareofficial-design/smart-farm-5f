@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/localization/app_localizations.dart';
+import '../controllers/smart_farm_controller.dart';
 import '../models/sensor_config.dart';
 import '../models/sensor_model.dart';
 import '../stores/sensor_store.dart';
@@ -8,11 +9,28 @@ import '../widgets/sensor_card.dart';
 import '../widgets/sensor_setup_dialog.dart';
 
 class SensorScreen extends StatelessWidget {
-  const SensorScreen({super.key, required this.store});
+  const SensorScreen({
+    super.key,
+    required this.store,
+    this.controller,
+  });
 
   final SensorStore store;
+  final SmartFarmController? controller;
 
   void _openSetup(BuildContext context, {SensorConfig? existing}) {
+    if (controller != null && !controller!.connected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('sensor-controller-offline-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า',
+            'Controller offline: connect ESP32 before adding or editing sensors.',
+          )),
+        ),
+      );
+      return;
+    }
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -47,7 +65,10 @@ class SensorScreen extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return SafeArea(
       child: AnimatedBuilder(
-        animation: store,
+        animation: Listenable.merge(<Listenable>[
+          store,
+          if (controller != null) controller!,
+        ]),
         builder: (BuildContext context, Widget? child) {
           return Scaffold(
             appBar: AppBar(
@@ -80,6 +101,23 @@ class SensorScreen extends StatelessWidget {
                 : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
                     children: <Widget>[
+                      if (controller != null && !controller!.connected) ...<Widget>[
+                        Card(
+                          key: const Key('sensor-controller-offline-banner'),
+                          child: ListTile(
+                            leading: const Icon(Icons.wifi_off_rounded),
+                            title: Text(context.l10n.text(
+                              'กล่องควบคุมออฟไลน์',
+                              'Controller offline',
+                            )),
+                            subtitle: Text(context.l10n.text(
+                              'เชื่อมต่อ ESP32 ก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
+                              'Connect ESP32 before changing sensors · existing saved information remains viewable.',
+                            )),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
