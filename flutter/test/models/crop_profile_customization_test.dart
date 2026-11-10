@@ -94,7 +94,11 @@ void main() {
       find.byKey(const Key('crop-custom-note')),
       'ปลูกในกระถาง',
     );
-    await tester.ensureVisible(find.byKey(const Key('crop-draft-save')));
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('crop-draft-save')),
+      180,
+      scrollable: find.byType(Scrollable).last,
+    );
     await tester.tap(find.byKey(const Key('crop-draft-save')));
     await tester.pumpAndSettle();
 
