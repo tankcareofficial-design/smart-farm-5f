@@ -41,9 +41,19 @@ class CropDraftRepository {
           continue;
         }
         try {
-          final draft = CropProfileDraft.fromJson(
-            Map<String, Object?>.from(entry.value as Map),
-          );
+          final rawDraft =
+              Map<String, Object?>.from(entry.value as Map);
+          final original = CropProfileCatalog.byId(key)!;
+          // The previous preview had no recommendation values. Carry old
+          // edits forward while filling only previously absent fields.
+          // Version 2 preserves explicit cleared fields verbatim.
+          if (rawDraft['draftVersion'] == null) {
+            rawDraft['temperatureMinC'] ??=
+                original.referenceClimate.temperatureMinC;
+            rawDraft['temperatureMaxC'] ??=
+                original.referenceClimate.temperatureMaxC;
+          }
+          final draft = CropProfileDraft.fromJson(rawDraft);
           if (draft.cropId == key) result[key] = draft;
         } on FormatException {
           // Preserve other crops when one local draft is corrupt.
