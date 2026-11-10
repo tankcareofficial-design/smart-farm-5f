@@ -35,8 +35,8 @@ class CropProfileDraft {
     final baseline = source.referenceClimate;
     return temperatureMinC != baseline.temperatureMinC ||
         temperatureMaxC != baseline.temperatureMaxC ||
-        humidityMinPercent != baseline.humidityMinPercent ||
-        humidityMaxPercent != baseline.humidityMaxPercent ||
+        humidityMinPercent != source.targets.humidityMinPercent ||
+        humidityMaxPercent != source.targets.humidityMaxPercent ||
         note.trim().isNotEmpty;
   }
 
