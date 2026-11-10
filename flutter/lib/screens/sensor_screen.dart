@@ -24,8 +24,8 @@ class SensorScreen extends StatelessWidget {
         SnackBar(
           key: const Key('sensor-controller-offline-warning'),
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า',
-            'Controller offline: connect ESP32 before adding or editing sensors.',
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม ในหน้าตั้งค่า',
+            'Controller offline: connect control box before adding or editing sensors.',
           )),
         ),
       );
@@ -44,8 +44,8 @@ class SensorScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ก่อน',
-            'Controller offline: reconnect ESP32 before deleting a sensor.',
+            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม ก่อน',
+            'Controller offline: reconnect control box before deleting a sensor.',
           )),
         ),
       );
@@ -122,8 +122,8 @@ class SensorScreen extends StatelessWidget {
                               'Controller offline',
                             )),
                             subtitle: Text(context.l10n.text(
-                              'เชื่อมต่อ ESP32 ก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
-                              'Connect ESP32 before changing sensors · existing saved information remains viewable.',
+                              'เชื่อมต่อ กล่องควบคุม ก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
+                              'Connect control box before changing sensors · existing saved information remains viewable.',
                             )),
                           ),
                         ),
@@ -177,7 +177,7 @@ class SensorScreen extends StatelessWidget {
                                 Text(
                                   context.l10n.text(
                                     'กดเพิ่มเซ็นเซอร์ เลือกชนิดและช่องต่อ ระบบจะแสดงค่าเมื่อเสียบเซ็นเซอร์จริง',
-                                    'Add a sensor and map its input. No reading is shown until ESP32 sends live data.',
+                                    'Add a sensor and map its input. No reading is shown until control box sends live data.',
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -199,7 +199,7 @@ class SensorScreen extends StatelessWidget {
                             subtitle: Text(
                               context.l10n.text(
                                 'ตั้งค่าเซ็นเซอร์แล้ว แต่กล่องควบคุมยังไม่ได้รับข้อมูล',
-                                'Sensors are configured, but ESP32 has not reported readings yet.',
+                                'Sensors are configured, but control box has not reported readings yet.',
                               ),
                             ),
                           ),
