@@ -26,6 +26,13 @@ For R8.15 current UI, only Controller reachability is authoritative: do NOT clai
 6. **Offline synchronization**: distinguish *read/edit saved to phone* from *accepted by controller* and *synced to cloud*; define conflict resolution and audit timestamps. Cloud metadata changes must not silently override local emergency mode.
 7. **Implementation phases**: R8.15 offline UX warning & tests -> separately reviewed Auth/UI prototype -> Supabase schema/RLS tests -> Workers API -> mutually authenticated device transport -> remote and offline UAT. No cloud keys, URLs, service-role tokens, or passwords in GitHub source.
 
+## Language and terminology decision (2026-11-10)
+
+- **All user-visible Thai UI labels and explanations must say `กล่องควบคุม`**, not `ESP32`. User-facing English equivalents should say `control box` (or `controller` where context requires).
+- Engineering-only terminology remains unchanged: ESP32-S3, firmware target, GPIO, source names, API fields, Wi-Fi chipset specification, hardware reports and code comments.
+- Examples: `กล่องควบคุมออฟไลน์`, `เชื่อมต่อกล่องควบคุมในหน้าตั้งค่า`, `เวลาและวันที่จากกล่องควบคุม`.
+- This terminology rule is independent of the future Cloudflare + Supabase login roadmap.
+
 ## UX copy rules
 
 - “กล่องควบคุมออฟไลน์ — เพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า”
