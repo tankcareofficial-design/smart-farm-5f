@@ -353,8 +353,8 @@ class _EmptyDeviceView extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.text(
-                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smart Farm Pro',
-                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smart Farm Pro',
+                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smartfarm+',
+                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smartfarm+',
               ),
               textAlign: TextAlign.center,
               style: TextStyle(
