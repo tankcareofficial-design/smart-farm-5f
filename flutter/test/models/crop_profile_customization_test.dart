@@ -95,7 +95,6 @@ void main() {
       find.byKey(const Key('crop-customize-button')),
       180,
       scrollable: find.byType(Scrollable).last,
-      alignment: 0.45,
     );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('crop-customize-button')));
@@ -128,7 +127,6 @@ void main() {
       find.byKey(const Key('crop-customize-button')),
       180,
       scrollable: find.byType(Scrollable).last,
-      alignment: 0.45,
     );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('crop-customize-button')));
