@@ -19,7 +19,15 @@ void main() {
       for (final profile in CropProfileCatalog.profiles) {
         expect(profile.schemaVersion, 1);
         expect(profile.targets.isUnconfigured, isTrue, reason: profile.id);
-        expect(profile.sourceReferences, isEmpty, reason: profile.id);
+        if (profile.referenceClimate.hasTemperatureRange) {
+          expect(profile.sourceReferences,
+              contains(profile.referenceClimate.sourceUrl));
+          expect(profile.referenceClimate.sourceUrl, startsWith('https://'));
+          expect(profile.referenceClimate.temperatureMinC!,
+              lessThan(profile.referenceClimate.temperatureMaxC!));
+        } else {
+          expect(profile.sourceReferences, isEmpty, reason: profile.id);
+        }
         expect(profile.canApplyToController, isFalse, reason: profile.id);
       }
     });
@@ -41,6 +49,28 @@ void main() {
       expect(reset.displayName(source, isThai: true), 'ผักบุ้งจีน');
       expect(source.targets.isUnconfigured, isTrue);
       expect(CropProfileCatalog.byId('water_spinach'), same(source));
+    });
+
+    test('selected crop prefills verified reference values like an EQ preset', () {
+      final lettuce = CropProfileCatalog.byId('lettuce')!;
+      final recommended = CropProfileDraft.fromRecommendation(lettuce);
+      expect(lettuce.referenceClimate.hasTemperatureRange, isTrue);
+      expect(recommended.temperatureMinC, 10);
+      expect(recommended.temperatureMaxC, 20);
+      expect(recommended.humidityMinPercent, isNull);
+      expect(recommended.isCustomized(lettuce), isFalse);
+
+      const edited = CropProfileDraft(
+        cropId: 'lettuce',
+        temperatureMinC: 13,
+        temperatureMaxC: 20,
+      );
+      expect(edited.isCustomized(lettuce), isTrue);
+      expect(edited.displayName(lettuce, isThai: true),
+          'ผักสลัด / ผักกาดหอม (มีการปรับแต่ง)');
+      expect(CropProfileDraft.fromRecommendation(lettuce)
+          .isCustomized(lettuce), isFalse);
+      expect(lettuce.targets.isUnconfigured, isTrue);
     });
 
     test('search matches Thai and English without touching controller', () {
