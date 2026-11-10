@@ -3,6 +3,8 @@ name: Smart Farm CI
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [candidate/r8.15-crop-profile-preview-20261110]
   workflow_dispatch:
 
 permissions:
