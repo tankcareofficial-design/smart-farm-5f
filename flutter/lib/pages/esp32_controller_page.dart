@@ -224,7 +224,7 @@ class _StandaloneSetupCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               context.l10n.text(
-                'เชื่อมต่อมือถือกับ Wi-Fi ของ กล่องควบคุม ก่อน แล้วจึงกดเชื่อมต่อ Controller',
+                'เชื่อมต่อมือถือกับ Wi-Fi ของกล่องควบคุมก่อน แล้วจึงกดเชื่อมต่อ Controller',
                 'Connect your phone to the control box Wi-Fi first, then connect the controller.',
               ),
             ),
@@ -569,8 +569,8 @@ class _ControllerAdvancedPageState extends State<_ControllerAdvancedPage> {
                   ),
                   subtitle: Text(
                     context.l10n.text(
-                      'เวอร์ชันนี้ควบคุมผ่านเครือข่ายภายใน โดย กล่องควบคุม เป็นผู้ตัดสินใจและทำงานอัตโนมัติได้แม้แอปไม่ได้เชื่อมต่อ ส่วนการควบคุมผ่านอินเทอร์เน็ตจะเพิ่มผ่านเราเตอร์และบริการที่ปลอดภัยในเวอร์ชันอนาคต',
-                      'This version uses local-network control. control box remains authoritative and continues automation when the app is disconnected. Secure internet access through the farm router and a remote service is planned for a future release.',
+                      'เวอร์ชันนี้ควบคุมผ่านเครือข่ายภายใน โดยกล่องควบคุมเป็นผู้ตัดสินใจและทำงานอัตโนมัติได้แม้แอปไม่ได้เชื่อมต่อ ส่วนการควบคุมผ่านอินเทอร์เน็ตจะเพิ่มผ่านเราเตอร์และบริการที่ปลอดภัยในเวอร์ชันอนาคต',
+                      'This version uses local-network control. The control box remains authoritative and continues automation when the app is disconnected. Secure internet access through the farm router and a remote service is planned for a future release.',
                     ),
                   ),
                   isThreeLine: true,
