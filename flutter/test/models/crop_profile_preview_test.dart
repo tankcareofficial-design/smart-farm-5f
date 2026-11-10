@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_farm/data/crop_profile_catalog.dart';
 import 'package:smart_farm/models/crop_profile.dart';
+import 'package:smart_farm/models/crop_profile_draft.dart';
 import 'package:smart_farm/screens/crop_profiles_screen.dart';
 
 void main() {
@@ -21,6 +22,25 @@ void main() {
         expect(profile.sourceReferences, isEmpty, reason: profile.id);
         expect(profile.canApplyToController, isFalse, reason: profile.id);
       }
+    });
+
+    test('customized crop keeps source identity and reset restores plain label', () {
+      final source = CropProfileCatalog.byId('water_spinach')!;
+      const edited = CropProfileDraft(
+        cropId: 'water_spinach',
+        temperatureMinC: 22,
+        note: 'ทดลองในโรงเรือน',
+      );
+      const reset = CropProfileDraft(cropId: 'water_spinach');
+      expect(edited.isCustomized(source), isTrue);
+      expect(edited.displayName(source, isThai: true),
+          'ผักบุ้งจีน (มีการปรับแต่ง)');
+      expect(edited.displayName(source, isThai: false),
+          'Water spinach (Customized)');
+      expect(reset.isCustomized(source), isFalse);
+      expect(reset.displayName(source, isThai: true), 'ผักบุ้งจีน');
+      expect(source.targets.isUnconfigured, isTrue);
+      expect(CropProfileCatalog.byId('water_spinach'), same(source));
     });
 
     test('search matches Thai and English without touching controller', () {
