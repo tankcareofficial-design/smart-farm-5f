@@ -174,6 +174,20 @@ class _OutputDeviceDialogState extends State<OutputDeviceDialog> {
 
   Future<void> _save() async {
     FocusScope.of(context).unfocus();
+    // Recheck reachability at commit time. The ESP32 may disconnect after the
+    // wizard was opened; never silently store an unsent device as configured.
+    if (!widget.store.controllerConnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('device-save-controller-offline-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังบันทึกอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 แล้วลองอีกครั้ง',
+            'Controller offline: device cannot be saved. Reconnect ESP32 and retry.',
+          )),
+        ),
+      );
+      return;
+    }
     final name = _nameController.text.trim();
     if (name.isEmpty || name.length > 30) {
       setState(() => _currentStep = 1);
