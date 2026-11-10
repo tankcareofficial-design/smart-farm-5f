@@ -6,6 +6,7 @@ import '../models/crop_profile.dart';
 import '../models/crop_profile_draft.dart';
 import '../services/crop_draft_repository.dart';
 import '../widgets/crop_profile_draft_editor.dart';
+import '../widgets/crop_reference_values.dart';
 
 /// Preview-only offline catalog: intentionally contains no Controller calls.
 class CropProfilesScreen extends StatefulWidget {
@@ -266,14 +267,7 @@ class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
             description: profile.lightNote(isThai: l10n.isThai),
           ),
           const SizedBox(height: 8),
-          _GuidanceCard(
-            icon: Icons.tune_rounded,
-            title: l10n.text('ค่าเป้าหมายสำหรับควบคุม', 'Control targets'),
-            description: l10n.text(
-              'อุณหภูมิ ความชื้นดิน ความชื้นอากาศ เวลาเดินปั๊ม และเวลาพักปั๊ม: ยังไม่กำหนด',
-              'Temperature, soil/air humidity, pump runtime and cooldown: unset.',
-            ),
-          ),
+          CropReferenceValues(profile: profile, draft: _draft),
           const SizedBox(height: 16),
           OutlinedButton.icon(
             key: const Key('crop-customize-button'),
