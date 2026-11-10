@@ -122,6 +122,10 @@ void main() {
       180,
       scrollable: find.byType(Scrollable).last,
     );
+    await tester.drag(
+      find.byKey(const Key('crop-profile-detail')),
+      const Offset(0, -160),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('crop-customize-button')));
     await tester.pumpAndSettle();
@@ -153,6 +157,10 @@ void main() {
       find.byKey(const Key('crop-customize-button')),
       180,
       scrollable: find.byType(Scrollable).last,
+    );
+    await tester.drag(
+      find.byKey(const Key('crop-profile-detail')),
+      const Offset(0, -160),
     );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('crop-customize-button')));
