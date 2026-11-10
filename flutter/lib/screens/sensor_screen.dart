@@ -24,7 +24,7 @@ class SensorScreen extends StatelessWidget {
         SnackBar(
           key: const Key('sensor-controller-offline-warning'),
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุม ในหน้าตั้งค่า',
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่า',
             'Controller offline: connect the control box before adding or editing sensors.',
           )),
         ),
@@ -44,7 +44,7 @@ class SensorScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุม ก่อน',
+            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมก่อน',
             'Controller offline: reconnect the control box before deleting a sensor.',
           )),
         ),
@@ -122,7 +122,7 @@ class SensorScreen extends StatelessWidget {
                               'Controller offline',
                             )),
                             subtitle: Text(context.l10n.text(
-                              'เชื่อมต่อกล่องควบคุม ก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
+                              'เชื่อมต่อกล่องควบคุมก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
                               'Connect the control box before changing sensors · existing saved information remains viewable.',
                             )),
                           ),
