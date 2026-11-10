@@ -71,6 +71,46 @@ void main() {
         isTrue);
   });
 
+  testWidgets('EQ-like choice prefills temperature and stays on phone', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: CropProfilesScreen()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('crop-profile-lettuce')));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('10–20 °C'), findsWidgets);
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('crop-select-local')),
+      180,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.byKey(const Key('crop-select-local')));
+    await tester.pumpAndSettle();
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString(CropDraftRepository.selectedCropKey), 'lettuce');
+
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('crop-customize-button')),
+      180,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.byKey(const Key('crop-customize-button')));
+    await tester.pumpAndSettle();
+    final minTemp = tester.widget<TextFormField>(
+      find.byKey(const Key('crop-temperature-min')),
+    );
+    final maxTemp = tester.widget<TextFormField>(
+      find.byKey(const Key('crop-temperature-max')),
+    );
+    expect(minTemp.controller!.text, '10.0');
+    expect(maxTemp.controller!.text, '20.0');
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('edited profile label updates in details and crop list', (
     tester,
   ) async {
