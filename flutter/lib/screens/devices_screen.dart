@@ -26,8 +26,8 @@ class DevicesScreen extends StatelessWidget {
         SnackBar(
           key: const Key('controller-offline-action-warning'),
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่าก่อน',
-            'Controller offline: connect ESP32 in Settings before adding or editing devices.',
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม ในหน้าตั้งค่าก่อน',
+            'Controller offline: connect control box in Settings before adding or editing devices.',
           )),
         ),
       );
@@ -53,8 +53,8 @@ class DevicesScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.text(
-            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 แล้วลองใหม่',
-            'Controller offline: cannot delete a device. Connect ESP32 and retry.',
+            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม แล้วลองใหม่',
+            'Controller offline: cannot delete a device. Connect control box and retry.',
           )),
         ),
       );
@@ -294,7 +294,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
           );
 
     return Semantics(
-      label: context.l10n.text('เวลาและวันที่จาก ESP32', 'ESP32 date and time'),
+      label: context.l10n.text('เวลาและวันที่จาก กล่องควบคุม', 'Control box date and time),
       child: Container(
         constraints: const BoxConstraints(minWidth: 88),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -453,8 +453,8 @@ class _ControllerStatusBanner extends StatelessWidget {
             child: Text(
               !connected
                   ? context.l10n.text(
-                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ ESP32 ในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
-                      'Controller offline: device changes and commands unavailable. Connect ESP32 in Settings. Crop guides still work offline.',
+                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อ กล่องควบคุม ในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
+                      'Controller offline: device changes and commands unavailable. Connect control box in Settings. Crop guides still work offline.',
                     )
                   : message ?? context.l10n.text(
                       'ไม่สามารถดำเนินการล่าสุดได้ กรุณาตรวจสอบสถานะกล่องควบคุม',
