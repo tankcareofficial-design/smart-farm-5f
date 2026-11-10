@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     const SizedBox(height: 28),
                     Text(
-                      'Smart Farm+',
+                      'Smartfarm+',
                       style: SFTextStyles.display.copyWith(
                         color: isDark ? colors.onSurface : SFColors.primaryDark,
                       ),
