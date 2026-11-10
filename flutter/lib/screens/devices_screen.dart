@@ -99,8 +99,8 @@ class DevicesScreen extends StatelessWidget {
                   ),
                   Text(
                     context.l10n.text(
-                      'จัดการรีเลย์ ปั๊ม วาล์ว และอุปกรณ์',
-                      'Manage relays, pumps, valves and devices',
+                      'หลอดไฟ พัดลม ปั๊ม และอุปกรณ์ทั่วไป · ไม่บังคับพรีเซ็ต',
+                      'Lights, fans, pumps and general devices · presets optional',
                     ),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
