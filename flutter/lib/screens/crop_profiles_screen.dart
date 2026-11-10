@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../core/localization/app_localizations.dart';
 import '../data/crop_profile_catalog.dart';
 import '../models/crop_profile.dart';
+import '../models/crop_profile_draft.dart';
+import '../services/crop_draft_repository.dart';
+import '../widgets/crop_profile_draft_editor.dart';
 
 /// Preview-only offline catalog: intentionally contains no Controller calls.
 class CropProfilesScreen extends StatefulWidget {
@@ -15,6 +18,42 @@ class CropProfilesScreen extends StatefulWidget {
 class _CropProfilesScreenState extends State<CropProfilesScreen> {
   String _query = '';
   CropGroup? _group;
+  final CropDraftRepository _repository = CropDraftRepository();
+  Map<String, CropProfileDraft> _drafts = <String, CropProfileDraft>{};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDrafts();
+  }
+
+  Future<void> _loadDrafts() async {
+    final drafts = await _repository.load();
+    if (mounted) setState(() => _drafts = drafts);
+  }
+
+  Future<bool> _saveDraft(CropProfileDraft draft) async {
+    final profile = CropProfileCatalog.byId(draft.cropId);
+    if (profile == null) return false;
+    final next = Map<String, CropProfileDraft>.of(_drafts);
+    if (draft.isCustomized(profile)) {
+      next[draft.cropId] = draft;
+    } else {
+      next.remove(draft.cropId);
+    }
+    final ok = await _repository.save(next);
+    if (!mounted) return false;
+    if (ok) {
+      setState(() => _drafts = next);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.text(
+          'บันทึกแบบร่างไม่สำเร็จ', 'Unable to save draft',
+        ))),
+      );
+    }
+    return ok;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +123,19 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 leading: CircleAvatar(child: Icon(_icon(crop.group))),
                 title: Text(
-                  crop.name(isThai: l10n.isThai),
+                  (_drafts[crop.id] ?? CropProfileDraft(cropId: crop.id))
+                      .displayName(crop, isThai: l10n.isThai),
                   style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
                 subtitle: Text(_groupName(context, crop.group)),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () => Navigator.of(context).push<void>(
                   MaterialPageRoute<void>(
-                    builder: (_) => CropProfileDetailScreen(profile: crop),
+                    builder: (_) => CropProfileDetailScreen(
+                      profile: crop,
+                      initialDraft: _drafts[crop.id],
+                      onDraftSaved: _saveDraft,
+                    ),
                   ),
                 ),
               ),
@@ -117,16 +161,58 @@ class _CropProfilesScreenState extends State<CropProfilesScreen> {
       );
 }
 
-class CropProfileDetailScreen extends StatelessWidget {
-  const CropProfileDetailScreen({super.key, required this.profile});
-
+class CropProfileDetailScreen extends StatefulWidget {
+  const CropProfileDetailScreen({
+    super.key,
+    required this.profile,
+    this.initialDraft,
+    this.onDraftSaved,
+  });
   final CropProfile profile;
+  final CropProfileDraft? initialDraft;
+  final Future<bool> Function(CropProfileDraft)? onDraftSaved;
+
+  @override
+  State<CropProfileDetailScreen> createState() => _CropProfileDetailScreenState();
+}
+
+class _CropProfileDetailScreenState extends State<CropProfileDetailScreen> {
+  late CropProfileDraft _draft;
+
+  @override
+  void initState() {
+    super.initState();
+    _draft = widget.initialDraft ??
+        CropProfileDraft(cropId: widget.profile.id);
+  }
+
+  Future<void> _customize() async {
+    final edited = await showModalBottomSheet<CropProfileDraft>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) => SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.85,
+        child: CropProfileDraftEditor(
+          profile: widget.profile,
+          initial: _draft,
+        ),
+      ),
+    );
+    if (!mounted || edited == null) return;
+    final saver = widget.onDraftSaved;
+    if (saver != null && !await saver(edited)) return;
+    if (mounted) setState(() => _draft = edited);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final profile = widget.profile;
     final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(profile.name(isThai: l10n.isThai))),
+      appBar: AppBar(
+        title: Text(_draft.displayName(profile, isThai: l10n.isThai)),
+      ),
       body: ListView(
         key: const Key('crop-profile-detail'),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
@@ -146,7 +232,7 @@ class CropProfileDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          profile.name(isThai: l10n.isThai),
+                          _draft.displayName(profile, isThai: l10n.isThai),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 4),
@@ -187,6 +273,26 @@ class CropProfileDetailScreen extends StatelessWidget {
               'อุณหภูมิ ความชื้นดิน ความชื้นอากาศ เวลาเดินปั๊ม และเวลาพักปั๊ม: ยังไม่กำหนด',
               'Temperature, soil/air humidity, pump runtime and cooldown: unset.',
             ),
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
+            key: const Key('crop-customize-button'),
+            onPressed: _customize,
+            icon: const Icon(Icons.edit_note_rounded),
+            label: Text(
+              l10n.text(
+                'ปรับแต่งและบันทึกแบบร่าง',
+                'Customize and save draft',
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.text(
+              'ปรับแต่งได้โดยไม่เปลี่ยนพรีเซ็ตต้นฉบับ และยังไม่สั่งอุปกรณ์',
+              'Draft edits do not overwrite the original preset or control equipment.',
+            ),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 20),
           FilledButton.icon(
