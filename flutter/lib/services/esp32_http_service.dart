@@ -61,14 +61,28 @@ class Esp32HttpService {
   }
 
   Future<List<WifiNetwork>> scanWifi() async {
-    final data = await _getJson('/api/wifi/scan');
-    final raw = data['networks'];
-    if (raw is! List) return const <WifiNetwork>[];
-    return raw
-        .whereType<Map>()
-        .map((item) => WifiNetwork.fromJson(Map<String, dynamic>.from(item)))
-        .where((network) => network.ssid.isNotEmpty)
-        .toList();
+    const maxPolls = 30;
+    for (var poll = 0; poll < maxPolls; poll++) {
+      final data = await _getJson('/api/wifi/scan');
+      if (data['scanning'] == true) {
+        await Future<void>.delayed(const Duration(milliseconds: 350));
+        continue;
+      }
+
+      final raw = data['networks'];
+      if (raw is! List) return const <WifiNetwork>[];
+      return raw
+          .whereType<Map>()
+          .map((item) => WifiNetwork.fromJson(Map<String, dynamic>.from(item)))
+          .where((network) => network.ssid.isNotEmpty)
+          .toList();
+    }
+
+    throw const Esp32HttpException(
+      'การสแกน Wi-Fi ใช้เวลานานเกินไป กรุณาลองใหม่',
+      errorCode: 'wifi_scan_timeout',
+      path: '/api/wifi/scan',
+    );
   }
 
   Future<Map<String, dynamic>> connectWifi({

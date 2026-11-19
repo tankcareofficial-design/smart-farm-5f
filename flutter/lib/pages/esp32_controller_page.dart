@@ -58,7 +58,7 @@ class _Esp32ControllerPageState extends State<Esp32ControllerPage> {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(context.l10n.text('Controller', 'Controller')),
+                Text(context.l10n.text('กล่องควบคุม', 'Control box')),
                 Text(
                   '${AppInfo.version} • ${AppInfo.edition}',
                   style: const TextStyle(fontSize: 12),
@@ -224,8 +224,8 @@ class _StandaloneSetupCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               context.l10n.text(
-                'เชื่อมต่อมือถือกับ Wi-Fi ของ ESP32 ก่อน แล้วจึงกดเชื่อมต่อ Controller',
-                'Connect your phone to the ESP32 Wi-Fi first, then connect the controller.',
+                'เชื่อมต่อมือถือกับ Wi-Fi ของกล่องควบคุมก่อน แล้วจึงกดเชื่อมต่อกล่องควบคุม',
+                'Connect your phone to the control box Wi-Fi first, then connect the controller.',
               ),
             ),
             const SizedBox(height: 14),
@@ -235,16 +235,16 @@ class _StandaloneSetupCard extends StatelessWidget {
                 icon: const Icon(Icons.format_list_numbered_rounded),
                 label: Text(
                   context.l10n.text(
-                    'เริ่มตั้งค่า Controller และ Wi-Fi',
-                    'Start controller and Wi-Fi setup',
+                    'เริ่มตั้งค่ากล่องควบคุม และ Wi-Fi',
+                    'Start control box and Wi-Fi setup',
                   ),
                 ),
               ),
             const SizedBox(height: 12),
             Text(
               context.l10n.text(
-                'Controller เคยตั้งค่า Wi-Fi แล้ว',
-                'Controller was already configured',
+                'กล่องควบคุมเคยตั้งค่า Wi-Fi แล้ว',
+                'Control box was already configured',
               ),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
@@ -255,8 +255,8 @@ class _StandaloneSetupCard extends StatelessWidget {
               icon: const Icon(Icons.link_rounded),
               label: Text(
                 context.l10n.text(
-                  'เชื่อมต่อ Controller ที่บันทึกไว้',
-                  'Connect saved controller',
+                  'เชื่อมต่อกล่องควบคุม ที่บันทึกไว้',
+                  'Connect saved control box',
                 ),
               ),
             ),
@@ -292,7 +292,7 @@ class _DeviceInfoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              context.l10n.text('ข้อมูล Controller', 'Controller information'),
+              context.l10n.text('ข้อมูลกล่องควบคุม', 'Control box information'),
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
@@ -340,13 +340,13 @@ class _NetworkSetupEntry extends StatelessWidget {
         leading: const Icon(Icons.router_rounded),
         title: Text(
           context.l10n.text(
-            'ตั้งค่า Controller และ Wi-Fi',
-            'Controller and Wi-Fi setup',
+            'ตั้งค่ากล่องควบคุม และ Wi-Fi',
+            'Control box and Wi-Fi setup',
           ),
         ),
         subtitle: Text(
           context.l10n.text(
-            'เปลี่ยน Wi-Fi บ้านหรือฟาร์มได้ตลอด แม้ Controller เชื่อมต่ออยู่',
+            'เปลี่ยน Wi-Fi บ้านหรือฟาร์มได้ตลอด แม้กล่องควบคุมเชื่อมต่ออยู่',
             'Change the home or farm Wi-Fi at any time, even while connected.',
           ),
         ),
@@ -446,7 +446,7 @@ class _ControllerAdvancedPageState extends State<_ControllerAdvancedPage> {
                             !widget.controller.requestInProgress,
                         keyboardType: TextInputType.url,
                         decoration: const InputDecoration(
-                          labelText: 'ESP32 Base URL',
+                          labelText: 'ที่อยู่กล่องควบคุม (URL)',
                           hintText: 'http://192.168.4.1',
                           border: OutlineInputBorder(),
                         ),
@@ -564,13 +564,13 @@ class _ControllerAdvancedPageState extends State<_ControllerAdvancedPage> {
                   title: Text(
                     context.l10n.text(
                       'การเชื่อมต่อของกล่องควบคุม',
-                      'Controller connectivity',
+                      'Control box connectivity',
                     ),
                   ),
                   subtitle: Text(
                     context.l10n.text(
-                      'เวอร์ชันนี้ควบคุมผ่านเครือข่ายภายใน โดย ESP32 เป็นผู้ตัดสินใจและทำงานอัตโนมัติได้แม้แอปไม่ได้เชื่อมต่อ ส่วนการควบคุมผ่านอินเทอร์เน็ตจะเพิ่มผ่านเราเตอร์และบริการที่ปลอดภัยในเวอร์ชันอนาคต',
-                      'This version uses local-network control. ESP32 remains authoritative and continues automation when the app is disconnected. Secure internet access through the farm router and a remote service is planned for a future release.',
+                      'เวอร์ชันนี้ควบคุมผ่านเครือข่ายภายใน โดยกล่องควบคุมเป็นผู้ตัดสินใจและทำงานอัตโนมัติได้แม้แอปไม่ได้เชื่อมต่อ ส่วนการควบคุมผ่านอินเทอร์เน็ตจะเพิ่มผ่านเราเตอร์และบริการที่ปลอดภัยในเวอร์ชันอนาคต',
+                      'This version uses local-network control. The control box remains authoritative and continues automation when the app is disconnected. Secure internet access through the farm router and a remote service is planned for a future release.',
                     ),
                   ),
                   isThreeLine: true,

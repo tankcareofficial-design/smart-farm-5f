@@ -73,7 +73,6 @@ class SmartFarmController extends ChangeNotifier {
   bool _disposed = false;
   bool _pollingEnabled = false;
   int _connectionGeneration = 0;
-  bool _clockRecoveryAttempted = false;
 
   bool connected = false;
   String status = '';
@@ -91,6 +90,9 @@ class SmartFarmController extends ChangeNotifier {
   int? freeHeap;
   int? lastResponseMs;
   int consecutiveFailures = 0;
+  int stateFailures = 0;
+  int clockFailures = 0;
+  int snapshotFailures = 0;
   bool emergencyLatched = false;
   DateTime? lastUpdated;
 
@@ -198,10 +200,12 @@ class SmartFarmController extends ChangeNotifier {
     }
 
     final int generation = ++_connectionGeneration;
-    _clockRecoveryAttempted = false;
     _pollTimer?.cancel();
     _pollingEnabled = true;
     _requestInProgress = true;
+    stateFailures = 0;
+    clockFailures = 0;
+    snapshotFailures = 0;
     status = _text(
       'กำลังตรวจสอบกล่องควบคุมที่ ${_http.baseUrl}...',
       'Checking control box at ${_http.baseUrl}...',
@@ -215,31 +219,31 @@ class SmartFarmController extends ChangeNotifier {
       if (!_isCurrent(generation)) return;
       _applyDevice(device);
 
-      // /api/device is the reachability contract. Secondary endpoints are
-      // loaded independently so one slow clock/snapshot response does not turn
-      // a reachable controller into "not found".
+      // /api/device is the reachability contract. State, clock and snapshot
+      // are independent health domains and may recover without disconnecting.
+      connected = true;
+      consecutiveFailures = 0;
+
       try {
         final state = await _http.getState();
         if (!_isCurrent(generation)) return;
         _applyState(state);
+        stateFailures = 0;
       } catch (error) {
+        stateFailures++;
         _addLog('CONNECT STATE DEGRADED $error');
       }
 
       try {
-        var clockData = await _http.getClock();
+        final clockData = await _http.getClock();
         if (!_isCurrent(generation)) return;
         _applyClockPayload(clockData);
-        if (clock.available && !clock.valid) {
-          _clockRecoveryAttempted = true;
-          _addLog('RTC invalid (${clock.quality}); syncing from phone');
-          await _http.syncClock();
-          if (!_isCurrent(generation)) return;
-          clockData = await _http.getClock();
-          if (!_isCurrent(generation)) return;
-          _applyClockPayload(clockData);
+        clockFailures = 0;
+        if (!clock.valid) {
+          _addLog('RTC NOT READY quality=${clock.quality}; manual sync required');
         }
       } catch (error) {
+        clockFailures++;
         _addLog('CONNECT CLOCK DEGRADED $error');
       }
 
@@ -250,20 +254,27 @@ class SmartFarmController extends ChangeNotifier {
         automationRules = snapshot.rules;
         deviceRuntime = snapshot.runtime;
         snapshotRevision = snapshot.revision;
+        snapshotFailures = 0;
         await _snapshotCache.save(snapshotData);
       } catch (error) {
+        snapshotFailures++;
         _addLog('CONNECT SNAPSHOT DEGRADED $error');
       }
 
       stopwatch.stop();
       lastResponseMs = stopwatch.elapsedMilliseconds;
-      connected = true;
-      consecutiveFailures = 0;
       lastUpdated = DateTime.now();
-      status = _text(
-        'เชื่อมต่อกล่องควบคุมสำเร็จ',
-        'Control box connected successfully',
-      );
+      final degraded =
+          stateFailures > 0 || clockFailures > 0 || snapshotFailures > 0;
+      status = degraded
+          ? _text(
+              'เชื่อมต่อแล้ว แต่ข้อมูลบางส่วนกำลังฟื้นตัว',
+              'Connected; some data is recovering',
+            )
+          : _text(
+              'เชื่อมต่อกล่องควบคุมสำเร็จ',
+              'Control box connected successfully',
+            );
       _addLog(
         'CONNECTED deviceId=${deviceId ?? "-"} '
         'ssid=${accessPointSsid ?? "-"} ${lastResponseMs}ms',
@@ -292,6 +303,9 @@ class SmartFarmController extends ChangeNotifier {
     _requestInProgress = false;
     connected = false;
     consecutiveFailures = 0;
+    stateFailures = 0;
+    clockFailures = 0;
+    snapshotFailures = 0;
     lastResponseMs = null;
     status = _text('ตัดการเชื่อมต่อแล้ว', 'Disconnected');
     _addLog('DISCONNECTED');
@@ -308,65 +322,94 @@ class SmartFarmController extends ChangeNotifier {
     final stopwatch = Stopwatch()..start();
 
     try {
-      if (!connected || !hasDeviceData) {
-        final device = await _http.getDevice();
+      var reachable = false;
+      Object? reachabilityError;
+
+      try {
+        final state = await _http.getState();
         if (!_isCurrent(generation)) return;
-        _applyDevice(device);
+        _applyState(state);
+        stateFailures = 0;
+        reachable = true;
+      } catch (error) {
+        stateFailures++;
+        _addLog('STATE DEGRADED $error');
+
+        // State can be temporarily busy while the lightweight identity route
+        // is still reachable. Probe /api/device before counting link loss.
+        try {
+          final device = await _http.getDevice();
+          if (!_isCurrent(generation)) return;
+          _applyDevice(device);
+          reachable = true;
+        } catch (probeError) {
+          reachabilityError = probeError;
+        }
       }
 
-      final state = await _http.getState();
-      if (!_isCurrent(generation)) return;
-      _applyState(state);
-
-      var clockData = await _http.getClock();
-      if (!_isCurrent(generation)) return;
-      _applyClockPayload(clockData);
-      if (clock.available && !clock.valid && !_clockRecoveryAttempted) {
-        _clockRecoveryAttempted = true;
-        _addLog('RTC recovery: syncing from phone');
-        await _http.syncClock();
-        if (!_isCurrent(generation)) return;
-        clockData = await _http.getClock();
-        if (!_isCurrent(generation)) return;
-        _applyClockPayload(clockData);
+      if (!reachable) {
+        lastResponseMs = null;
+        consecutiveFailures++;
+        if (consecutiveFailures >= 3) {
+          connected = false;
+          status = _text(
+            'ขาดการเชื่อมต่อ กำลังลองใหม่ ($consecutiveFailures)',
+            'Connection lost. Retrying ($consecutiveFailures)',
+          );
+        } else {
+          status = _text(
+            'สัญญาณไม่เสถียร กำลังตรวจสอบ ($consecutiveFailures/3)',
+            'Connection degraded; checking ($consecutiveFailures/3)',
+          );
+        }
+        _addLog('POLL REACHABILITY ERROR $reachabilityError');
+        return;
       }
 
-      final snapshotData = await _http.getSnapshot();
-      if (!_isCurrent(generation)) return;
-      final snapshot = ControllerSnapshot.fromJson(snapshotData);
-      automationRules = snapshot.rules;
-      deviceRuntime = snapshot.runtime;
-      snapshotRevision = snapshot.revision;
-      await _snapshotCache.save(snapshotData);
-
-      stopwatch.stop();
-      lastResponseMs = stopwatch.elapsedMilliseconds;
       connected = true;
       consecutiveFailures = 0;
       lastUpdated = DateTime.now();
-      status = _text(
-        'ข้อมูลจริงล่าสุด ${_formatTime(lastUpdated!)}',
-        'Live data updated ${_formatTime(lastUpdated!)}',
-      );
-    } catch (error) {
-      if (!_isCurrent(generation)) return;
-      lastResponseMs = null;
-      consecutiveFailures++;
-      // A single endpoint timeout is degradation, not proof that the Wi-Fi
-      // controller disappeared. Require three consecutive failed poll cycles.
-      if (consecutiveFailures >= 3) {
-        connected = false;
-        status = _text(
-          'ขาดการเชื่อมต่อ กำลังลองใหม่ ($consecutiveFailures)',
-          'Connection lost. Retrying ($consecutiveFailures)',
-        );
-      } else {
-        status = _text(
-          'สัญญาณไม่เสถียร กำลังตรวจสอบ ($consecutiveFailures/3)',
-          'Connection degraded; checking ($consecutiveFailures/3)',
-        );
+
+      try {
+        final clockData = await _http.getClock();
+        if (!_isCurrent(generation)) return;
+        _applyClockPayload(clockData);
+        clockFailures = 0;
+        if (!clock.valid) {
+          _addLog('RTC DEGRADED quality=${clock.quality}; no automatic write');
+        }
+      } catch (error) {
+        clockFailures++;
+        _addLog('CLOCK DEGRADED $error');
       }
-      _addLog('POLL ERROR $error');
+
+      try {
+        final snapshotData = await _http.getSnapshot();
+        if (!_isCurrent(generation)) return;
+        final snapshot = ControllerSnapshot.fromJson(snapshotData);
+        automationRules = snapshot.rules;
+        deviceRuntime = snapshot.runtime;
+        snapshotRevision = snapshot.revision;
+        snapshotFailures = 0;
+        await _snapshotCache.save(snapshotData);
+      } catch (error) {
+        snapshotFailures++;
+        _addLog('SNAPSHOT DEGRADED $error');
+      }
+
+      stopwatch.stop();
+      lastResponseMs = stopwatch.elapsedMilliseconds;
+      final degraded =
+          stateFailures > 0 || clockFailures > 0 || snapshotFailures > 0;
+      status = degraded
+          ? _text(
+              'ออนไลน์ • ข้อมูลบางส่วนกำลังฟื้นตัว',
+              'Online • some data is recovering',
+            )
+          : _text(
+              'ข้อมูลจริงล่าสุด ${_formatTime(lastUpdated!)}',
+              'Live data updated ${_formatTime(lastUpdated!)}',
+            );
     } finally {
       if (_isCurrent(generation)) {
         _requestInProgress = false;
@@ -388,8 +431,10 @@ class SmartFarmController extends ChangeNotifier {
     try {
       final data = await _http.getClock();
       _applyClockPayload(data);
+      clockFailures = 0;
       _notify();
     } catch (error) {
+      clockFailures++;
       _addLog('CLOCK ERROR $error');
     }
   }
@@ -399,7 +444,7 @@ class SmartFarmController extends ChangeNotifier {
     try {
       final data = await _http.syncClock();
       _applyClockPayload(data);
-      _clockRecoveryAttempted = true;
+      clockFailures = 0;
       status = clock.valid
           ? _text('ตั้งเวลา DS3231 สำเร็จ', 'DS3231 time synchronized')
           : _text('DS3231 ยังไม่ยืนยันเวลา', 'DS3231 time is still invalid');
@@ -422,9 +467,11 @@ class SmartFarmController extends ChangeNotifier {
       automationRules = snapshot.rules;
       deviceRuntime = snapshot.runtime;
       snapshotRevision = snapshot.revision;
+      snapshotFailures = 0;
       await _snapshotCache.save(data);
       _notify();
     } catch (error) {
+      snapshotFailures++;
       _addLog('SNAPSHOT ERROR $error');
     }
   }
@@ -574,8 +621,6 @@ class SmartFarmController extends ChangeNotifier {
       return true;
     } catch (error) {
       if (!_isCurrent(generation)) return false;
-      connected = false;
-      consecutiveFailures++;
       status = _text(
         'ปิดฉุกเฉินไม่สำเร็จ: $error',
         'Emergency stop failed: $error',
@@ -674,8 +719,6 @@ class SmartFarmController extends ChangeNotifier {
     } catch (error) {
       if (!_isCurrent(generation)) return false;
       relays[channel] = previous;
-      connected = false;
-      consecutiveFailures++;
       status = _text(
         'สั่งรีเลย์ไม่สำเร็จ: $error',
         'Relay command failed: $error',

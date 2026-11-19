@@ -20,8 +20,20 @@ class DevicesScreen extends StatelessWidget {
     required this.sensorStore,
   });
 
-  Future<void> _showDeviceDialog(BuildContext context, {OutputDevice? device}) {
-    return showModalBottomSheet<void>(
+  Future<void> _showDeviceDialog(BuildContext context, {OutputDevice? device}) async {
+    if (!store.controllerConnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('controller-offline-action-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่าก่อน',
+            'Controller offline: connect the control box in Settings before adding or editing devices.',
+          )),
+        ),
+      );
+      return;
+    }
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -37,6 +49,17 @@ class DevicesScreen extends StatelessWidget {
   }
 
   Future<void> _confirmDelete(BuildContext context, OutputDevice device) async {
+    if (!store.controllerConnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังลบอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมแล้วลองใหม่',
+            'Controller offline: cannot delete a device. Connect the control box and retry.',
+          )),
+        ),
+      );
+      return;
+    }
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -99,8 +122,8 @@ class DevicesScreen extends StatelessWidget {
                   ),
                   Text(
                     context.l10n.text(
-                      'จัดการรีเลย์ ปั๊ม วาล์ว และอุปกรณ์',
-                      'Manage relays, pumps, valves and devices',
+                      'หลอดไฟ พัดลม ปั๊ม และอุปกรณ์ทั่วไป · ไม่บังคับพรีเซ็ต',
+                      'Lights, fans, pumps and general devices · presets optional',
                     ),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
@@ -114,8 +137,23 @@ class DevicesScreen extends StatelessWidget {
               ],
             ),
             body: devices.isEmpty
-                ? _EmptyDeviceView(
-                    onAddPressed: () => _showDeviceDialog(context),
+                ? Column(
+                    children: <Widget>[
+                      if (!store.controllerConnected ||
+                          store.lastCommandError != null)
+                        _ControllerStatusBanner(
+                          connected: store.controllerConnected,
+                          message: store.lastCommandError,
+                          onDismiss: store.lastCommandError == null
+                              ? null
+                              : store.clearCommandError,
+                        ),
+                      Expanded(
+                        child: _EmptyDeviceView(
+                          onAddPressed: () => _showDeviceDialog(context),
+                        ),
+                      ),
+                    ],
                   )
                 : Column(
                     children: [
@@ -141,6 +179,7 @@ class DevicesScreen extends StatelessWidget {
                               device: device,
                               controllerConnected: store.controllerConnected,
                               commandPending: store.isCommandPending(device.id),
+                              emergencyLocked: store.emergencyLatched,
                               onStateChanged: (value) async {
                                 final success = await store.setOutputState(
                                   device.id,
@@ -233,7 +272,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
     final connected = widget.store.controllerConnected;
     final clockValid = widget.store.controllerClockValid;
     final hasClockValue = dateTime != null;
-    final online = hasClockValue && clockValid;
+    final online = connected;
     final time = hasClockValue
         ? '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}:${dateTime.second.toString().padLeft(2, '0')}'
         : connected
@@ -255,7 +294,7 @@ class _Esp32ClockState extends State<_Esp32Clock> {
           );
 
     return Semantics(
-      label: context.l10n.text('เวลาและวันที่จาก ESP32', 'ESP32 date and time'),
+      label: context.l10n.text('เวลาและวันที่จากกล่องควบคุม', 'Control box date and time'),
       child: Container(
         constraints: const BoxConstraints(minWidth: 88),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -271,9 +310,9 @@ class _Esp32ClockState extends State<_Esp32Clock> {
           children: [
             Text(
               !hasClockValue
-                  ? context.l10n.text('เวลาจากคอนโทรลเลอร์', 'Controller time')
+                  ? context.l10n.text('เวลาจากกล่องควบคุม', 'Controller time')
                   : clockValid
-                  ? context.l10n.text('เวลาจากคอนโทรลเลอร์', 'Controller time')
+                  ? context.l10n.text('เวลาจากกล่องควบคุม', 'Controller time')
                   : context.l10n.text(
                       'เวลา DS3231 ยังไม่ยืนยัน',
                       'DS3231 time is unverified',
@@ -352,8 +391,8 @@ class _EmptyDeviceView extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.text(
-                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smart Farm Pro',
-                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smart Farm Pro',
+                'เพิ่มปั๊ม วาล์ว พัดลม ไฟ หรืออุปกรณ์อื่น\nเพื่อเริ่มควบคุมผ่าน Smartfarm+',
+                'Add a pump, valve, fan, light, or another device\nto start controlling it with Smartfarm+',
               ),
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -412,11 +451,15 @@ class _ControllerStatusBanner extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              message ??
-                  context.l10n.text(
-                    'กล่องควบคุมไม่ได้เชื่อมต่อ กรุณาตรวจสอบการเชื่อมต่อก่อนใช้งาน',
-                    'Controller is offline. Connect ESP32 in Settings before control.',
-                  ),
+              !connected
+                  ? context.l10n.text(
+                      'กล่องควบคุมออฟไลน์ · ยังเพิ่ม แก้ไข หรือสั่งงานอุปกรณ์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่า (ยังดูชุดค่าแนะนำออฟไลน์ได้)',
+                      'Controller offline: device changes and commands unavailable. Connect the control box in Settings. Crop guides still work offline.',
+                    )
+                  : message ?? context.l10n.text(
+                      'ไม่สามารถดำเนินการล่าสุดได้ กรุณาตรวจสอบสถานะกล่องควบคุม',
+                      'The last operation failed. Check controller status.',
+                    ),
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),

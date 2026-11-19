@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/localization/app_localizations.dart';
+import '../controllers/smart_farm_controller.dart';
 import '../models/sensor_config.dart';
 import '../models/sensor_model.dart';
 import '../stores/sensor_store.dart';
@@ -8,20 +9,52 @@ import '../widgets/sensor_card.dart';
 import '../widgets/sensor_setup_dialog.dart';
 
 class SensorScreen extends StatelessWidget {
-  const SensorScreen({super.key, required this.store});
+  const SensorScreen({
+    super.key,
+    required this.store,
+    this.controller,
+  });
 
   final SensorStore store;
+  final SmartFarmController? controller;
 
   void _openSetup(BuildContext context, {SensorConfig? existing}) {
+    if (controller != null && !controller!.connected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          key: const Key('sensor-controller-offline-warning'),
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังเพิ่มหรือแก้ไขเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมในหน้าตั้งค่า',
+            'Controller offline: connect the control box before adding or editing sensors.',
+          )),
+        ),
+      );
+      return;
+    }
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (_) => SensorSetupDialog(store: store, existing: existing),
+      builder: (_) => SensorSetupDialog(
+        store: store,
+        existing: existing,
+        canSave: () => controller?.connected ?? true,
+      ),
     );
   }
 
   Future<void> _delete(BuildContext context, SensorConfig config) async {
+    if (controller != null && !controller!.connected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.text(
+            'กล่องควบคุมออฟไลน์: ยังลบเซ็นเซอร์ไม่ได้ กรุณาเชื่อมต่อกล่องควบคุมก่อน',
+            'Controller offline: reconnect the control box before deleting a sensor.',
+          )),
+        ),
+      );
+      return;
+    }
     final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) => AlertDialog(
@@ -47,7 +80,10 @@ class SensorScreen extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     return SafeArea(
       child: AnimatedBuilder(
-        animation: store,
+        animation: Listenable.merge(<Listenable>[
+          store,
+          ?controller,
+        ]),
         builder: (BuildContext context, Widget? child) {
           return Scaffold(
             appBar: AppBar(
@@ -80,6 +116,23 @@ class SensorScreen extends StatelessWidget {
                 : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
                     children: <Widget>[
+                      if (controller != null && !controller!.connected) ...<Widget>[
+                        Card(
+                          key: const Key('sensor-controller-offline-banner'),
+                          child: ListTile(
+                            leading: const Icon(Icons.wifi_off_rounded),
+                            title: Text(context.l10n.text(
+                              'กล่องควบคุมออฟไลน์',
+                              'Controller offline',
+                            )),
+                            subtitle: Text(context.l10n.text(
+                              'เชื่อมต่อกล่องควบคุมก่อนเพิ่มหรือแก้ไขเซ็นเซอร์ · ข้อมูลที่เคยบันทึกยังเปิดดูได้',
+                              'Connect the control box before changing sensors · existing saved information remains viewable.',
+                            )),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -128,7 +181,7 @@ class SensorScreen extends StatelessWidget {
                                 Text(
                                   context.l10n.text(
                                     'กดเพิ่มเซ็นเซอร์ เลือกชนิดและช่องต่อ ระบบจะแสดงค่าเมื่อเสียบเซ็นเซอร์จริง',
-                                    'Add a sensor and map its input. No reading is shown until ESP32 sends live data.',
+                                    'Add a sensor and map its input. No reading is shown until the control box sends live data.',
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -150,7 +203,7 @@ class SensorScreen extends StatelessWidget {
                             subtitle: Text(
                               context.l10n.text(
                                 'ตั้งค่าเซ็นเซอร์แล้ว แต่กล่องควบคุมยังไม่ได้รับข้อมูล',
-                                'Sensors are configured, but ESP32 has not reported readings yet.',
+                                'Sensors are configured, but the control box has not reported readings yet.',
                               ),
                             ),
                           ),
@@ -178,8 +231,11 @@ class SensorScreen extends StatelessWidget {
                                 ),
                                 trailing: Switch(
                                   value: config.enabled,
-                                  onChanged: (bool value) =>
-                                      store.setSensorEnabled(config.id, value),
+                                  onChanged: controller != null &&
+                                          !controller!.connected
+                                      ? null
+                                      : (bool value) =>
+                                          store.setSensorEnabled(config.id, value),
                                 ),
                               ),
                               Padding(

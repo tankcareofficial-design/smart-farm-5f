@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
-static constexpr char FW_VERSION[] = "0.8.0-5f-r8.13-rebase-3";
+static constexpr char FW_VERSION[] = "0.8.0-5f-r8.14-stability-1";
 static constexpr uint16_t PROTOCOL_VERSION = 1;
 static constexpr char HARDWARE_PROFILE[] = "smart_farm_8ch_v1";
 static constexpr uint8_t ACCESSORY_SCHEMA_VERSION = 2;
