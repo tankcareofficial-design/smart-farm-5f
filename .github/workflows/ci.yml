@@ -7,6 +7,7 @@ on:
     branches:
       - candidate/r8.15-crop-profile-preview-20261110
       - candidate/r8.16-irrigation-zone-preview-20261110
+      - candidate/r8.17-app-zone-simulator-20261121
   workflow_dispatch:
 
 permissions:
