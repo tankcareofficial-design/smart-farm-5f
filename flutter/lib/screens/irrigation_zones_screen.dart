@@ -281,11 +281,13 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
               },
             ),
             const SizedBox(height: 6),
-            if (CropProfileCatalog.byId(zone.cropId) case final profile?)
+            if (CropProfileCatalog.byId(zone.cropId) != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  profile.waterNote(isThai: context.l10n.isThai),
+                  CropProfileCatalog.byId(zone.cropId)!.waterNote(
+                    isThai: context.l10n.isThai,
+                  ),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
