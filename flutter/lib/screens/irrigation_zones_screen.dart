@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../core/localization/app_localizations.dart';
 import '../data/crop_profile_catalog.dart';
 import '../models/irrigation_zone_plan.dart';
+import '../models/crop_profile_draft.dart';
+import '../services/crop_draft_repository.dart';
+import 'irrigation_simulation_screen.dart';
 import '../services/irrigation_zone_repository.dart';
 
 /// Phone-local zone planning only. Never sends commands to the control box.
@@ -20,6 +23,7 @@ class IrrigationZonesScreen extends StatefulWidget {
 class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
   final _repository = IrrigationZoneRepository();
   IrrigationPlan _plan = IrrigationPlan.firstUse();
+  Map<String, CropProfileDraft> _cropDrafts = <String, CropProfileDraft>{};
   bool _loading = true;
   Future<void> _writeQueue = Future<void>.value();
 
@@ -31,9 +35,11 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
 
   Future<void> _load() async {
     final draft = await _repository.load();
+    final cropDrafts = await CropDraftRepository().load();
     if (mounted) {
       setState(() {
         _plan = draft;
+        _cropDrafts = cropDrafts;
         _loading = false;
       });
     }
@@ -91,6 +97,40 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
         ))),
       );
     }
+  }
+
+  Future<void> _renameZone(IrrigationZone zone) async {
+    final input = TextEditingController(text: zone.name);
+    final updated = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.text('ตั้งชื่อโซน', 'Name this zone')),
+        content: TextField(
+          key: const Key('zone-name-input'),
+          controller: input,
+          maxLength: 36,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: context.l10n.text('ชื่อที่เรียกง่าย', 'Zone name'),
+            hintText: context.l10n.text('เช่น แปลงผักบุ้ง', 'e.g. My water spinach'),
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(context.l10n.text('ยกเลิก', 'Cancel')),
+          ),
+          FilledButton(
+            key: const Key('zone-rename-save'),
+            onPressed: () => Navigator.pop(dialogContext, input.text.trim()),
+            child: Text(context.l10n.text('บันทึกชื่อ', 'Save name')),
+          ),
+        ],
+      ),
+    );
+    input.dispose();
+    if (!mounted || updated == null || updated.isEmpty) return;
+    _editZone(zone.copyWith(name: updated));
   }
 
   String _deliveryLabel(WaterDelivery value) => switch (value) {
@@ -195,6 +235,12 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
                         ?.copyWith(fontWeight: FontWeight.w800),
                   ),
                 ),
+                IconButton(
+                  key: Key('zone-rename-${zone.id}'),
+                  tooltip: context.l10n.text('เปลี่ยนชื่อโซน', 'Rename zone'),
+                  icon: const Icon(Icons.edit_outlined),
+                  onPressed: () => _renameZone(zone),
+                ),
                 if (_plan.zones.length > 1)
                   IconButton(
                     key: Key('zone-remove-${zone.id}'),
@@ -221,13 +267,30 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
               items: CropProfileCatalog.profiles.map((crop) =>
                   DropdownMenuItem<String>(
                     value: crop.id,
-                    child: Text(crop.name(isThai: context.l10n.isThai)),
+                    child: Text(
+                      _cropDrafts[crop.id]?.displayName(
+                            crop, isThai: context.l10n.isThai,
+                          ) ??
+                          crop.name(isThai: context.l10n.isThai),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
               ).toList(growable: false),
               onChanged: (value) {
                 if (value != null) _editZone(zone.copyWith(cropId: value));
               },
             ),
+            const SizedBox(height: 6),
+            if (CropProfileCatalog.byId(zone.cropId) != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  CropProfileCatalog.byId(zone.cropId)!.waterNote(
+                    isThai: context.l10n.isThai,
+                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
             const SizedBox(height: 12),
             DropdownButtonFormField<ZoneControl>(
               key: Key('zone-mode-${zone.id}'),
@@ -386,6 +449,20 @@ class _IrrigationZonesScreenState extends State<IrrigationZonesScreen> {
                 title: Text(_issueText(issue)),
               ),
           const SizedBox(height: 12),
+          OutlinedButton.icon(
+            key: const Key('open-irrigation-simulator'),
+            onPressed: () => Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (_) => IrrigationSimulationScreen(plan: _plan),
+              ),
+            ),
+            icon: const Icon(Icons.science_outlined),
+            label: Text(context.l10n.text(
+              'ทดลองให้สมองเลือกโซน (ไม่สั่งงานจริง)',
+              'Simulate zone decisions (no real commands)',
+            )),
+          ),
+          const SizedBox(height: 8),
           FilledButton.icon(
             key: const Key('irrigation-controller-apply-disabled'),
             onPressed: null,
